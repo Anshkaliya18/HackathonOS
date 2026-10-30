@@ -8,13 +8,15 @@ Use with `rules/ux-rules.md` as the authority. Lifecycle UX Review is Phase 12; 
 2. Read `.hackathon/project-state.md`. If absent, selected idea/readiness is unknown; do not invent state or create a replacement state schema.
 3. Read the Phase 3 project plan, Phase 4 implementation plan and relevant task records, and Phase 5 test results/security review/findings. Record missing artifacts as UNKNOWN.
 4. Verify implementation is READY/COMPLETE (or an evidenced equivalent) and relevant Phase 5 validation has completed. If implementation is NOT_STARTED/incomplete, Phase 5 has blocking failures, or readiness cannot be established, set UX status BLOCKED or IN_PROGRESS as supported, gate BLOCKED/NOT_READY, say **UX review BLOCKED**, and stop substantive UX conclusions. Do not claim the application was reviewed. A static inventory can be recorded separately with dynamic behavior UNKNOWN.
-5. Preserve selected idea and approved architecture. Never modify source or run/delegate Phase 5 tests as part of this workflow.
+5. Preserve selected idea and approved architecture. Never modify source or run/delegate Phase 5 tests as part of this workflow. Phase 12 does not own score optimization (Phase 15) or post-mortem (Phase 20); those responsibilities remain with their respective phases.
 
 ## 2. Inspect the UX baseline
 
 Inspect the actual app and record repository root/revision; frontend/framework; backend relationship; routing/entry points/page structure/components; styles/design system/UI libraries; responsive rules/breakpoints; forms/validation; loading/error/empty/success/disabled/retry/progress/confirmation; navigation/authentication where applicable; accessibility semantics; test infrastructure; screenshots/evidence; existing issues and limitations. Cite paths/lines or observed route/state. Label claims FACT/INFERENCE/ASSUMPTION/UNKNOWN. If no UI exists, record `UI = NOT PRESENT / UNKNOWN`; explain any remaining review scope. If no browser/runtime is available, perform static inspection only and dynamic behavior is UNKNOWN.
 
 Record the environment, revision, browser/runtime, viewports actually used, and accessibility tools/methods. Do not install dependencies or change the app to enable inspection. If access is unavailable, mark the relevant behavior UNKNOWN/BLOCKED.
+
+If conflicting UX evidence is found between sources (e.g., source code suggests one behavior but observed runtime shows another), record the contradiction as a separate finding; do not silently reconcile it.
 
 ## 3. Identify and analyze critical flows
 

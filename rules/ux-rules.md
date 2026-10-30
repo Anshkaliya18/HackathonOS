@@ -18,11 +18,22 @@ Use the selected idea as context only. Never change it. Consume existing Phase 5
 
 Every claim is labeled FACT, INFERENCE, ASSUMPTION, or UNKNOWN. FACT identifies inspected source, UI, state, test, or direct observation. INFERENCE states its evidence and reasoning. ASSUMPTION is an explicit provisional premise. UNKNOWN includes what is missing and why. Every finding cites reproducible evidence: path/line, route/screen, viewport/device, steps, result, or evidence artifact. Never claim an interaction, viewport, assistive technology, or state was tested when it was not.
 
-Finding observation status is OBSERVED, REPRODUCED, NOT_REPRODUCED, BLOCKED, or UNKNOWN. Finding workflow status is OPEN, IN_PROGRESS, FIXED, ACCEPTED_RISK, BLOCKED, or UNKNOWN. Do not confuse these status sets. A proposed change is not a fix. FIXED requires focused verification evidence and relevant regression consideration. Missing browser/runtime means static-only review and dynamic behavior UNKNOWN. Missing mobile environment means responsive behavior UNKNOWN for untested sizes. Missing accessibility tooling does not by itself mean failure: manual/static evaluation can be recorded with explicit scope and limitations.
+Never convert UNKNOWN into FACT. If evidence is unavailable, record UNKNOWN and explain what is missing and why.
+
+Finding observation status is one of: OBSERVED, SUPPORTED, INFERRED, UNKNOWN, NOT_TESTED.
+- OBSERVED: Directly visible or reproducible UX behavior.
+- SUPPORTED: Strongly supported by available evidence such as screenshots, tests, source inspection, or runtime evidence.
+- INFERRED: Reasonable conclusion based on available evidence but not directly verified.
+- UNKNOWN: Insufficient evidence.
+- NOT_TESTED: The relevant interaction or condition was not actually exercised.
+
+Do not collapse these states. Finding workflow status is OPEN, IN_PROGRESS, FIXED, ACCEPTED_RISK, BLOCKED, or UNKNOWN. Do not confuse these status sets. A proposed change is not a fix. FIXED requires focused verification evidence and relevant regression consideration.
 
 ## Baseline and flow review
 
 Inspect the actual project and record root/revision, frontend and backend relationship, routes/entry points, page/component structure, styles/design system/UI libraries, responsive CSS/breakpoints, forms/validation, loading/error/empty/success/disabled/retry/progress/confirmation states, navigation, authentication where applicable, accessibility semantics, test infrastructure, existing screenshots/evidence, known UX issues, and limitations. Mark absent or unavailable details UNKNOWN. If there is no frontend, record **UI = NOT PRESENT / UNKNOWN** and state the limited UX scope.
+
+Review information architecture: content organization, page structure, grouping, terminology, discoverability, information density, and logical sequencing. Evaluate whether users can understand what belongs together, whether important information is easy to find, whether labels are meaningful, and whether the structure is predictable.
 
 Identify and review relevant journeys in this order: first entry; primary value proposition; critical MVP action; result/output; error recovery; return/repeat use; demo/judge flow. For each flow record goal, target user, entry, preconditions, ordered steps, expected/observed outcome, friction, severity, evidence, observation status, and recommended action. A flow can be UNKNOWN or BLOCKED; never fabricate observed behavior.
 
@@ -38,7 +49,19 @@ For responsive behavior record tested viewports and examine overflow/clipping, n
 
 Each finding includes a stable ID, title, category, severity, affected flow and component, concrete observation, evidence, user impact, reproduction steps, remediation, architecture impact, verification method, workflow status, and verification evidence. Categories: USABILITY, NAVIGATION, ACCESSIBILITY, RESPONSIVE, VISUAL_HIERARCHY, FORM, FEEDBACK, ERROR_HANDLING, ONBOARDING, CONTENT, CONSISTENCY, DEMO_FLOW, OTHER.
 
-Severity considers flow criticality, frequency, blockage/confusion, accessibility and demo impact, recovery cost, and evidence confidence. CRITICAL blocks the primary journey or makes the demo fundamentally unusable; HIGH is major friction in a critical MVP flow; MEDIUM is meaningful with a workaround; LOW is minor friction/polish; INFO is an opportunity; UNKNOWN means evidence is insufficient. Do not inflate severity. Prioritize critical MVP blockers, demo-breaking issues, accessibility blockers, navigation/discoverability, forms, error recovery, responsive breakage, consistency, then visual polish.
+Confidence is recorded separately from severity as HIGH, MEDIUM, LOW, or UNKNOWN.
+
+Severity considers flow criticality, frequency, blockage/confusion, accessibility and demo impact, recovery cost, and evidence confidence. CRITICAL blocks the primary journey or makes the demo fundamentally unusable; HIGH is major friction in a critical MVP flow; MEDIUM is meaningful with a workaround; LOW is minor friction/polish; INFO is an opportunity; UNKNOWN means evidence is insufficient. Do not inflate severity.
+
+Priority uses P0, P1, P2, P3:
+- P0: Critical UX blocker that prevents the primary task or demo; must be fixed or explicitly accepted.
+- P1: High user/demo impact; fix before submission if time permits.
+- P2: Meaningful UX weakness; fix after P0/P1 if time remains.
+- P3: Minor polish; only if all higher priorities are complete.
+
+Do not confuse severity and priority. HIGH severity does not automatically mean P0 if the fix cannot be safely completed within remaining time.
+
+Conflicting UX evidence is recorded as a separate finding; do not silently reconcile contradictions between observations.
 
 ## Remediation, regression, and human authority
 

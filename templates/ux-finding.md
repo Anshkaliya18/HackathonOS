@@ -12,6 +12,10 @@
 
 `CRITICAL | HIGH | MEDIUM | LOW | INFO | UNKNOWN`
 
+## Confidence
+
+`HIGH | MEDIUM | LOW | UNKNOWN`
+
 ## Affected Flow
 
 ## Affected Component
