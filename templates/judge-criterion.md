@@ -6,7 +6,7 @@
 
 ## Source
 
-OFFICIAL | USER_PROVIDED | UNKNOWN
+OFFICIAL | USER_PROVIDED | UNKNOWN | SIMULATION CRITERION (NOT OFFICIAL RUBRIC)
 
 ## Official Weight
 
@@ -16,9 +16,9 @@ OFFICIAL | USER_PROVIDED | UNKNOWN
 
 ## Evidence
 
-| Evidence Item | Evidence Type | Source | Confidence |
-|---------------|---------------|--------|------------|
-| | | | |
+| Evidence Item | Evidence Type | Source | Confidence | Mapping Status |
+|---------------|---------------|--------|------------|----------------|
+| | | | | SUPPORTED / PARTIALLY_SUPPORTED / UNKNOWN / CONTRADICTED / NOT_APPLICABLE |
 
 ## Observed Strengths
 

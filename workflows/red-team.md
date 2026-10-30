@@ -136,6 +136,8 @@ Rules:
 - Seeing a test file does NOT mean tests pass.
 - Generated HackathonOS artifacts are not independent evidence.
 
+If conflicting evidence is found between sources (e.g., source code suggests one behavior but observed runtime shows another), record the contradiction as a separate finding; do not silently reconcile it.
+
 ### Stage 9: Identify Critical Claims
 
 Identify important project claims. Each claim:

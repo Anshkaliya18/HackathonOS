@@ -111,11 +111,13 @@ Store detailed questions in `.hackathon/judge/question-NNN.md`.
 
 ## Expected Answer Quality
 
-| Question ID | Quality | Reasoning | Evidence |
-|-------------|---------|-----------|----------|
-| | | | |
+| Question ID | Quality | Readiness | Reasoning | Evidence |
+|-------------|---------|-----------|-----------|----------|
+| | | | | |
 
 STRONG | ADEQUATE | WEAK | UNKNOWN | UNSUPPORTED
+
+READY | PARTIALLY_READY | WEAK | UNKNOWN | NOT_APPLICABLE
 
 ---
 

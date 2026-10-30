@@ -1,7 +1,7 @@
 # HackathonOS — Score Optimization Rules
 
-**Lifecycle Phase:** Phase 10 — Score Optimization Intelligence  
-**Purpose:** Authoritative rules for score optimization. Phase 10 reviews and recommends; it does not implement, replace prior phases, or modify locked artifacts.
+**Lifecycle Phase:** Phase 15 — Score Optimization Intelligence  
+**Purpose:** Authoritative rules for score optimization. Phase 15 reviews and recommends; it does not implement, replace prior phases, or modify locked artifacts.
 
 ---
 
@@ -11,7 +11,7 @@ Phase 10 answers: "Given the official judging criteria, actual project evidence,
 
 Phase 10 optimizes **score**, not feature count.
 
-### Phase 10 MAY:
+### Phase 15 MAY:
 
 - Inspect official judging criteria
 - Inspect Phase 2 evaluation evidence
@@ -34,7 +34,7 @@ Phase 10 optimizes **score**, not feature count.
 - Recommend what to implement next
 - Update Phase 10 artifacts and project state
 
-### Phase 10 MUST NOT:
+### Phase 15 MUST NOT:
 
 - Redesign the idea
 - Re-run idea generation
@@ -325,8 +325,9 @@ Rules:
 | Architecture change required | Record ARCHITECTURE CHANGE REQUIRED; route to HUMAN ARCHITECTURE APPROVAL; stop that remediation |
 | Idea change attempt | Blocked; route back to Phase 2 / human |
 | Unknown deadline | Do not assume one; mark TIME STRATEGY = UNKNOWN |
+| Already-mitigated finding | If finding is VERIFIED_MITIGATED, do not optimize against the resolved issue; record as resolved |
 
-Phase 10 MUST NOT:
+Phase 15 MUST NOT:
 
 - Write application code
 - Modify application source files

@@ -52,6 +52,8 @@
 
 **Judge Visibility:** LOW | MEDIUM | HIGH | VERY HIGH | UNKNOWN
 
+**Evidence Mapping Status:** SUPPORTED | PARTIALLY_SUPPORTED | UNKNOWN | CONTRADICTED | NOT_APPLICABLE
+
 ---
 
 ## Separate Findings

@@ -41,6 +41,8 @@ Never:
 
 unless actual judge evidence exists.
 
+Never transform UNKNOWN, INFERENCE, or ASSUMPTION into FACT without new evidence.
+
 ## Judge personas
 
 Simulate multiple reasonable judge perspectives as simulation personas only:
@@ -149,6 +151,14 @@ UNSUPPORTED — claim without evidence
 
 An unsupported claim must remain unsupported.
 
+If a question category does not apply to the project (e.g., AI questions for a non-AI project):
+
+```text
+NOT_APPLICABLE
+```
+
+Do not invent AI behavior or AI claims.
+
 ## Claim consistency
 
 Cross-check claims against Phase 2–8 evidence, repository, demo, documentation, and PPT. Flag contradictions:
@@ -208,7 +218,7 @@ Judge opens project
 
 Record steps, time, visible output, confusion points, failure points, recovery, missing context, judge-visible value.
 
-Do not claim a demo was executed unless it was actually executed. If dynamic execution is unavailable:
+Do not claim a demo was executed unless it was actually executed. If dynamic execution, browser, or runtime is unavailable:
 
 ```text
 Demo execution = NOT_TESTED
@@ -349,6 +359,47 @@ If evidence is missing:
 ```text
 UNKNOWN
 ```
+
+## Score Separation
+
+Do not perform Phase 15 score optimization.
+
+If a simulated score is useful for demonstrating judge behavior, label it:
+
+```
+SIMULATED JUDGE ASSESSMENT
+NOT OFFICIAL SCORE
+NOT SCORE OPTIMIZATION
+```
+
+Do not use the Phase 15 optimization heuristic.
+
+Do not recommend optimization rankings.
+
+Phase 14 asks: "What would a judge likely think?"
+
+Phase 15 asks: "What should we change to improve the score?"
+
+Keep those responsibilities separate.
+
+## Skeptical Follow-Up Engine
+
+For important questions, generate skeptical follow-ups that test whether claims survive deeper questioning. Each follow-up:
+
+- Targets a specific claim or answer
+- Challenges assumptions behind the answer
+- Probes for evidence gaps
+- Identifies potential traps in the team's response
+
+Example:
+
+```text
+Judge: Why is AI necessary?
+Team: AI generates personalized recommendations.
+Judge: What measurable improvement does AI provide compared with a deterministic baseline?
+```
+
+Follow-ups must be grounded in available evidence and must not fabricate judge behavior.
 
 ## Determinism
 

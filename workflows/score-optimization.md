@@ -1,8 +1,8 @@
 # HackathonOS — Score Optimization Workflow
 
 **Operation:** SCORE-OPTIMIZE  
-**Lifecycle Phase:** Phase 10 — Score Optimization Intelligence  
-**Purpose:** Answer "Given the official judging criteria, actual project evidence, judge simulation results, current implementation state, and remaining time, what changes provide the highest expected increase in judging score?" Produce a prioritized optimization plan. Phase 10 optimizes score, not feature count.
+**Lifecycle Phase:** Phase 15 — Score Optimization Intelligence  
+**Purpose:** Answer "Given the official judging criteria, actual project evidence, judge simulation results, current implementation state, and remaining time, what changes provide the highest expected increase in judging score?" Produce a prioritized optimization plan. Phase 15 optimizes score, not feature count.
 
 ## Prerequisites
 
@@ -251,7 +251,7 @@ Rule: Exactly one primary next action. Do not produce competing alternatives.
 After SCORE-OPTIMIZE completes:
 
 - [ ] Project state read and verified
-- [ ] Phase 2–9 evidence consumed (not duplicated)
+- [ ] Phase 2–4, 11–14 evidence consumed (not duplicated)
 - [ ] Repository inspected for evidence
 - [ ] Score model built with official or explicitly provisional weights
 - [ ] Every score labeled OFFICIAL / ESTIMATED / PROVISIONAL / UNKNOWN

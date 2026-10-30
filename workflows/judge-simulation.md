@@ -401,6 +401,7 @@ After JUDGE-SIM completes:
 - [ ] No Phase 1–8 files modified
 - [ ] No Phase 5/7/8 engines duplicated
 - [ ] No score optimization performed
+- [ ] No simulated score presented as official score
 - [ ] No idea silently changed
 - [ ] No architecture silently redesigned
 - [ ] project-state.md remains compact

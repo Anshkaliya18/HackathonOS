@@ -1,4 +1,4 @@
-# Score Optimization Plan — Phase 10
+# Score Optimization Plan — Phase 15
 
 **Project:** <project name or UNKNOWN>  
 **Repository:** <repository root or UNKNOWN>  
@@ -19,10 +19,10 @@
 | Phase 2 | `.hackathon/decisions.md`, idea evaluation | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
 | Phase 3 | `.hackathon/evidence/project-plan-*.md` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
 | Phase 4 | `.hackathon/evidence/` implementation artifacts | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 5 | `.hackathon/evidence/` testing/security artifacts | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 7 | `.hackathon/ux-review.md`, `.hackathon/ux/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 8 | `.hackathon/red-team.md`, `.hackathon/red-team/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 9 | `.hackathon/judge-simulation.md` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 11 | `.hackathon/evidence/` testing/security artifacts | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 12 | `.hackathon/ux-review.md`, `.hackathon/ux/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 13 | `.hackathon/red-team.md`, `.hackathon/red-team/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 14 | `.hackathon/judge-simulation.md` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
 | Repository | Direct repository inspection | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
 
 **Rule:** Do not claim evidence was consumed unless the artifact was actually read.
@@ -189,7 +189,7 @@ Expected Value = Score Impact × Confidence × Judge Visibility ÷ Implementatio
 - [ ] Smallest set of high-impact actions identified
 - [ ] What NOT to change identified
 - [ ] Time-aware filtering applied
-- [ ] No Phase 1–9 artifacts modified
+- [ ] No Phase 1–4, 11–14 artifacts modified
 - [ ] No application source code modified
 - [ ] No PPT created
 - [ ] No final submission performed

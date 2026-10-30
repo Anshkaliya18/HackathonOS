@@ -28,6 +28,27 @@ Inspect applicable attack surfaces: Product, Differentiation, Technical, Reliabi
 
 Challenge every important project claim. Distinguish "the application performs the algorithm" from "the algorithm produces high-quality outcomes." Challenge unsupported statistics, unsupported performance claims, unsupported user claims, unsupported AI claims, "production-ready" claims, "secure" claims, "scalable" claims, "real-time" claims, and "zero vulnerabilities" claims.
 
+Functional abuse scenarios include invalid input, missing input, duplicate actions, repeated submissions, unexpected navigation, invalid sequences, and unsupported actions.
+
+## Adversarial actors
+
+The system considers applicable perspectives:
+
+| Actor | Perspective |
+|-------|-------------|
+| Malicious User | Attempts to abuse the product |
+| Careless User | Makes realistic mistakes |
+| Curious User | Explores unsupported behavior |
+| Skeptical Judge | Challenges claims and asks difficult questions |
+| Unlucky Runtime | Produces timing, network, storage, or dependency failures |
+| Invalid Input | Provides malformed or unexpected data |
+| Empty Environment | Removes expected data/resources |
+| Partial Failure | Breaks one component while others remain operational |
+| Repeated Action | Performs the same action multiple times |
+| Boundary Condition | Uses minimum, maximum, zero, empty, unusually large, or unusual values |
+
+Every applicable actor must be considered at least once. Actors not applicable to the project are marked NOT_APPLICABLE with justification.
+
 ## Adversarial scenarios
 
 Each scenario contains: Scenario ID, Attack Surface, Attacker/Skeptical Judge Perspective, Preconditions, Attack, Expected Failure, Actual Result, Evidence, Severity, Confidence, Finding, Mitigation, Verification Method, Status.
@@ -44,9 +65,32 @@ Severity: CRITICAL / HIGH / MEDIUM / LOW / INFO / UNKNOWN. CRITICAL blocks the p
 
 Confidence: HIGH / MEDIUM / LOW / UNKNOWN. Depends on evidence quality. Do not give HIGH confidence to speculation.
 
+## Likelihood
+
+Use: VERY_HIGH / HIGH / MEDIUM / LOW / VERY_LOW / UNKNOWN. Never fabricate likelihood. If evidence is insufficient, record UNKNOWN.
+
+## Recoverability
+
+Use: AUTOMATIC / EASY / MANUAL / DIFFICULT / NONE / UNKNOWN. Evaluate whether the user/system can recover from the failure.
+
+## Red Team Scoring
+
+Do NOT create a fake official hackathon score. Red Team may calculate a risk-priority indicator for internal ordering. If used, explicitly label it:
+
+```
+INTERNAL RED TEAM PRIORITIZATION
+NOT OFFICIAL JUDGING SCORE
+```
+
+Never mix it with Phase 10 score optimization.
+
+## Critical Finding Rule
+
+A CRITICAL finding must prevent unconditional RED_TEAM_QUALITY_GATE = READY unless it is VERIFIED_MITIGATED or explicitly ACCEPTED_RISK with human authority. Do not silently downgrade a CRITICAL finding.
+
 ## Findings and status
 
-Finding status: OPEN / IN_PROGRESS / MITIGATED / VERIFIED / ACCEPTED_RISK / BLOCKED / UNKNOWN / NOT_APPLICABLE. A finding may only become VERIFIED after actual verification evidence exists. Never mark a mitigation verified merely because a recommendation was written.
+Finding status: OPEN / IN_PROGRESS / MITIGATED / VERIFIED / ACCEPTED_RISK / BLOCKED / UNKNOWN / NOT_APPLICABLE / WONT_FIX. A finding may only become VERIFIED after actual verification evidence exists. Never mark a mitigation verified merely because a recommendation was written.
 
 ## Mitigation routing
 
