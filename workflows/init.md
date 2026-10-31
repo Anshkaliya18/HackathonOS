@@ -32,7 +32,13 @@ Ask the user for the following. If the user does not know a value, record it as 
 5. **Target users** — Who is the product for?
 6. **Submission requirements** — What must be submitted (repo link, demo video, PPT, etc.)?
 
-### Step 3: Create `.hackathon/` Directory
+### Step 3: Create Configuration Templates Safely
+
+From the verified target project root, run `core/configuration/manager.py init` with `--project-root` set to that root. This creates missing configuration templates, adds minimal `.gitignore` protections, records the known project path, and preserves every existing file. Do not run INIT against the HackathonOS framework repository.
+
+Create `.env` only when local overrides or credentials are needed. If created, derive it from `.env.example` after confirming it is ignored by Git. Never write credentials into JSON, Markdown, command output, or evidence.
+
+### Step 4: Create `.hackathon/` Directory
 
 Create `.hackathon/` in the project repository root:
 
@@ -41,7 +47,7 @@ Create `.hackathon/` in the project repository root:
 └── project-state.md
 ```
 
-### Step 4: Write `project-state.md`
+### Step 5: Write `project-state.md`
 
 Copy `templates/project-state.md` into `.hackathon/project-state.md` and fill in the known values from Step 2. All unknown values remain `UNKNOWN`.
 
@@ -51,7 +57,7 @@ Set:
 - All collected hackathon information
 - All unknown fields = `UNKNOWN`
 
-### Step 5: Confirm Initialization
+### Step 6: Confirm Initialization
 
 Report back to the user:
 - Confirmation that `.hackathon/project-state.md` was created
@@ -90,3 +96,5 @@ After INIT completes:
 - [ ] All unknown values are marked `UNKNOWN` (not invented)
 - [ ] `Phase` is set to "Understand Rules"
 - [ ] State was NOT written into the skill installation directory
+- [ ] Existing files and values were preserved
+- [ ] `.env` remains ignored by Git and contains no committed credentials
