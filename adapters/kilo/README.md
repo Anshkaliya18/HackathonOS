@@ -11,9 +11,11 @@ Entrypoints:
 - `/hackathonos-init`
 - `/hackathonos-phase`
 
-These Stage 1 aliases are retained. Stage 2 CONFIG and CONFIG CHECK use the single `/hackathonos` root entrypoint and shared resolver; no separate Kilo config aliases or nested slash command discovery are assumed. The official workflow guide documents filename-derived command names but does not document argument substitution. The root prompt tells the model to use the trailing invocation text, but whether `/hackathonos config check` is delivered as trailing text is UNKNOWN until a host invocation verifies it. Root `SKILL.md` is canonical; `core/commands/router.py` defines exact argument resolution.
+These Stage 1 aliases are retained. At the original Stage 2 routing implementation, CONFIG and CONFIG CHECK used the root `/hackathonos` entrypoint; the current hyphenated system also registers explicit config aliases from `commands/manifest.json`. The official workflow guide documents filename-derived command names but does not document argument substitution. The aliases do not require trailing arguments. Root `SKILL.md` is canonical; `core/commands/router.py` defines exact command resolution.
 
 Official discovery convention: Kilo reads Markdown workflow commands from `.kilo/commands/`, with the filename used as the slash-command name ([official docs](https://kilo.ai/docs/customize/workflows)).
+
+Hyphenated aliases are registered as `.kilo/commands/hackathonos-<action>.md`. No trailing-argument placeholder is assumed. Runtime attempt from an isolated temporary project: `kilo run --pure --command hackathonos-status` resolved the global adapter and read the global skill, manifest, router, and status workflow; the permission gate auto-rejected a read-only `Test-Path` call before a report was produced. Global command discovery and dispatch were observed for STATUS; completed runtime behavior is **NOT VERIFIED**. No auto-approval was enabled.
 
 Stage 1 runtime discovery: **NOT VERIFIED**. The earlier inspection reported Kilo 7.8.8. A CLI session was opened, but its slash-command picker was not readable through the available terminal output; no command was invoked in that Stage 1 session.
 

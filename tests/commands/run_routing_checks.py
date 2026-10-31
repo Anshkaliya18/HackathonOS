@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
+MANIFEST = json.loads((ROOT / "commands/manifest.json").read_text(encoding="utf-8-sig"))
 SPEC = importlib.util.spec_from_file_location("hackathonos_command_router", ROOT / "core/commands/router.py")
 router = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = router
@@ -23,8 +25,8 @@ def main() -> int:
         "init": ("INIT", "workflows/init.md"),
         "phase": ("PHASE", "SKILL.md#phase"),
         "suggest": ("SUGGEST", "workflows/idea-intelligence.md"),
+        "verify": ("TESTING-SECURITY", "workflows/testing-security.md"),
     }
-    assert set(router.ROUTES) == set(cases), f"unexpected route (possible out-of-scope command): {set(router.ROUTES) ^ set(cases)}"
     for args, expected in cases.items():
         route = router.resolve(args)
         assert route is not None and (route.operation, route.workflow) == expected, (args, route)
@@ -52,6 +54,16 @@ def main() -> int:
         assert f"**{route.operation}**" in skill_text, f"operation not listed in SKILL.md: {route.operation}"
     assert router.resolve("config next") is None
 
+    for item in MANIFEST["implemented"]:
+        expected = (item["operation"], item["workflow"])
+        route = router.resolve("/" + item["command"])
+        assert route is not None and (route.operation, route.workflow) == expected, item["command"]
+        route = router.resolve(item["command"])
+        assert route is not None and (route.operation, route.workflow) == expected, item["command"]
+        for alias in item["legacy_aliases"]:
+            route = router.resolve(alias)
+            assert route is not None and (route.operation, route.workflow) == expected, alias
+
     adapters = {
         ROOT / ".claude/skills/hackathonos/SKILL.md": "$ARGUMENTS",
         ROOT / ".kilo/commands/hackathonos.md": "text following `/hackathonos`",
@@ -63,7 +75,9 @@ def main() -> int:
         assert "core/commands/router.py" in text, f"canonical router missing: {path}"
         assert "full invocation" in text, f"full command invocation handling missing: {path}"
         assert "never STATUS" in text, f"explicit operation fallback guard missing: {path}"
-    print(f"PASS: {len(cases)} explicit routes, normalization, unknown handling, and 3 adapter forwarding contracts")
+    assert router.resolve("/hackathonos-suggest for agents") == router.resolve("suggest")
+    assert router.resolve("/hackathonos-not-real") is None
+    print(f"PASS: {len(cases)} legacy routes, {len(MANIFEST['implemented'])} native routes, aliases, unknown handling, and 3 adapter contracts")
     return 0
 
 

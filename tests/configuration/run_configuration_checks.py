@@ -130,8 +130,10 @@ def run():
         assert routes.resolve('init').operation=='INIT'
         assert routes.resolve('phase').operation=='PHASE'
         assert routes.resolve('suggest').operation=='SUGGEST'
-        assert not (ROOT/'.kilo/commands/hackathonos-config.md').exists()
-        assert not (ROOT/'.kilo/commands/hackathonos-config-check.md').exists()
+        assert routes.resolve('/hackathonos-config').operation=='CONFIG'
+        assert routes.resolve('/hackathonos-config-check').operation=='CONFIG CHECK'
+        assert (ROOT/'.kilo/commands/hackathonos-config.md').is_file()
+        assert (ROOT/'.kilo/commands/hackathonos-config-check.md').is_file()
     def cli_subcommands_work_on_fixture():
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)

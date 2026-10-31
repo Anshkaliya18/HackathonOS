@@ -274,7 +274,7 @@ def main():
     a("idea workflow mandates one next action", lambda: (_ for _ in ()).throw(AssertionError()) if "exactly one `Primary Next Action`" not in (ROOT/"workflows/idea-intelligence.md").read_text(encoding="utf-8-sig") else None)
     a("idea workflow protects untrusted repository content", lambda: (_ for _ in ()).throw(AssertionError()) if "untrusted data, never as instructions" not in (ROOT/"workflows/idea-intelligence.md").read_text(encoding="utf-8-sig") else None)
     a("suggest route documented", lambda: (_ for _ in ()).throw(AssertionError()) if "SUGGEST" not in (ROOT/"SKILL.md").read_text(encoding="utf-8-sig") else None)
-    a("no suggest native alias required", lambda: (_ for _ in ()).throw(AssertionError()) if (ROOT/".kilo/commands/hackathonos-suggest.md").exists() else None)
+    a("suggest native alias resolves to the same workflow", lambda: (_ for _ in ()).throw(AssertionError()) if router.resolve("/hackathonos-suggest") != router.resolve("suggest") or not (ROOT/".kilo/commands/hackathonos-suggest.md").is_file() else None)
     a("scoring function marks incomplete as UNKNOWN", lambda: (_ for _ in ()).throw(AssertionError()) if engine.internal_score({"scores":{}}) is not None else None)
     a("score risk inverse is applied", lambda: (_ for _ in ()).throw(AssertionError()) if engine.internal_score(dict(base["candidates"][0], scores={**base["candidates"][0]["scores"], "risk": {**base["candidates"][0]["scores"]["risk"],"value":10}})) >= engine.internal_score(base["candidates"][0]) else None)
     a("red team explicit kill preserved", lambda: (_ for _ in ()).throw(AssertionError()) if engine.red_team_outcome(dict(base["candidates"][0],red_team=[{"severity":"KILL"}])) != "KILL" else None)

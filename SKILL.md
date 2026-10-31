@@ -17,8 +17,10 @@ Never invent missing information. Use `UNKNOWN` when information is unavailable.
 
 ## Router
 
-For explicit command arguments, normalize whitespace and resolve using
-`core/commands/router.py` before intent matching. `config check` and `config`
+For a native hyphenated invocation, resolve the registered command through
+`commands/manifest.json` and `core/commands/router.py` before intent matching.
+For the master router's explicit arguments, normalize whitespace first.
+`config check` and `config`
 are distinct exact routes; `suggest` accepts a topic suffix such as `ideas`,
 `problems`, `for agents`, `for automation`, or `for llm apps`.
 Some hosts may forward the full invocation rather than only its arguments;
@@ -92,7 +94,7 @@ When invoked, HackathonOS:
 
 ## HELP
 
-Read `commands/README.md` and list the implemented operations with each platform's command syntax (Claude Code and OpenCode: `/hackathonos <operation>`; Kilo Code: `/hackathonos-status`, `/hackathonos-next`, `/hackathonos-help`, `/hackathonos-init`, `/hackathonos-phase`, plus `/hackathonos config` and `/hackathonos config check`). Native discovery uses the forward slash; a backslash prefix works only when the host passes the text through unchanged. Do not claim roadmap-only features are implemented. Do not modify project state.
+Read `commands/manifest.json` and `docs/commands/README.md`. List only entries whose manifest status is implemented, grouped by the manifest group names. Omit empty groups. Include the native hyphenated commands and the backward-compatible `/hackathonos <operation>` router. Planned commands must not be advertised as available. State host runtime status exactly as recorded in the manifest; repository files alone do not prove runtime discovery. Do not modify project state.
 
 ## PHASE
 
@@ -130,7 +132,7 @@ See `rules/mentor-rules.md` for the core operating principles the skill always f
 
 ## How to Invoke
 
-This is an intent-driven skill with explicit native aliases for supported commands. Invoke `/hackathonos` and describe what you need, use `/hackathonos suggest` for idea intelligence, or use `/hackathonos config` and `/hackathonos config check` for configuration operations. The router determines the correct operation from your intent and the current project state.
+The preferred interface is the registered hyphenated command system in `commands/manifest.json`, for example `/hackathonos-status`, `/hackathonos-config-check`, `/hackathonos-suggest`, and `/hackathonos-verify`. The `/hackathonos` master router and existing nested forms remain backward-compatible and resolve to the same workflows. `/hackathonos-help` lists only implemented commands; planned names are not available. Native file presence does not establish host runtime support, which is recorded per host in the manifest.
 
 ## Human Confirmation Requirement
 
