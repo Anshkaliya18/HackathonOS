@@ -28,9 +28,26 @@ def main() -> int:
         route = router.resolve(args)
         assert route is not None and (route.operation, route.workflow) == expected, (args, route)
     assert router.resolve("  CONFIG   CHECK ") == router.resolve("config check")
+    for invocation in ("/hackathonos config", "\\hackathonos config", "hackathonos config"):
+        assert router.resolve(invocation) == router.resolve("config"), invocation
+    for invocation in ("/hackathonos config check", "\\hackathonos config check", "hackathonos config check"):
+        assert router.resolve(invocation) == router.resolve("config check"), invocation
+    assert router.resolve("/hackathonos") is None
     assert router.resolve("suggest") is None
+    assert router.resolve("/hackathonos suggest") is None
     assert router.resolve("config status") is None
     assert router.resolve("") is None
+
+    skill_text = (ROOT / "SKILL.md").read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+    for route in router.ROUTES.values():
+        if "#" in route.workflow:
+            path, anchor = route.workflow.split("#", 1)
+            body = (ROOT / path).read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+            assert f"\n## {anchor.upper()}\n" in "\n" + body, f"route target missing: {route.workflow}"
+        else:
+            assert (ROOT / route.workflow).is_file(), f"route workflow missing: {route.workflow}"
+        assert f"**{route.operation}**" in skill_text, f"operation not listed in SKILL.md: {route.operation}"
+    assert router.resolve("config next") is None
 
     adapters = {
         ROOT / ".claude/skills/hackathonos/SKILL.md": "$ARGUMENTS",
@@ -41,6 +58,8 @@ def main() -> int:
         text = path.read_text(encoding="utf-8-sig")
         assert forwarding in text, f"argument forwarding missing: {path}"
         assert "core/commands/router.py" in text, f"canonical router missing: {path}"
+        assert "full invocation" in text, f"full command invocation handling missing: {path}"
+        assert "never STATUS" in text, f"explicit operation fallback guard missing: {path}"
     print(f"PASS: {len(cases)} explicit routes, normalization, unknown handling, and 3 adapter forwarding contracts")
     return 0
 

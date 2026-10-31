@@ -20,15 +20,18 @@ Never invent missing information. Use `UNKNOWN` when information is unavailable.
 For explicit command arguments, normalize whitespace and match the complete
 argument string against `core/commands/router.py` before using intent matching.
 This makes `config check` a distinct, more specific route than `config`.
-The adapter forwards the text after `/hackathonos` unchanged. A blank argument
-uses the normal intent router below. An unknown explicit command is unavailable;
-do not reinterpret it as a feature request or another operation.
+Some hosts may forward the full invocation rather than only its arguments;
+remove one leading `/hackathonos`, `\hackathonos`, or `hackathonos` token before
+matching. A blank argument uses the normal intent router below. An explicit
+`config` or `config check` request must use the configuration workflow and must
+never route to STATUS. An unknown explicit command is unavailable; do not
+reinterpret it as a feature request or another operation.
 
 When invoked, HackathonOS:
 
 1. Checks whether `.hackathon/` exists in the current project repository.
 2. Reads the current project state from `.hackathon/project-state.md`.
-3. Determines which operation the user needs: **INIT**, **CONFIG**, **CONFIG CHECK**, **STATUS**, **NEXT**, **IDEA-EVALUATE**, **PROJECT-PLAN**, **IMPLEMENT**, **TESTING-SECURITY**, **UX-REVIEW**, **RED-TEAM**, **JUDGE-SIM**, **SCORE-OPTIMIZE**, **DEMO-PREPARE**, **PRESENTATION-PREPARE**, **FINAL-AUDIT**, **SUBMISSION-PREPARE**, or **POSTMORTEM**.
+3. Determines which operation the user needs: **INIT**, **CONFIG**, **CONFIG CHECK**, **HELP**, **PHASE**, **STATUS**, **NEXT**, **IDEA-EVALUATE**, **PROJECT-PLAN**, **IMPLEMENT**, **TESTING-SECURITY**, **UX-REVIEW**, **RED-TEAM**, **JUDGE-SIM**, **SCORE-OPTIMIZE**, **DEMO-PREPARE**, **PRESENTATION-PREPARE**, **FINAL-AUDIT**, **SUBMISSION-PREPARE**, or **POSTMORTEM**.
 4. Loads the corresponding workflow and executes it. For IDEA-EVALUATE, the engine recommends but never auto-confirms a selected idea. For PROJECT-PLAN, it creates an engineering plan but never auto-approves architecture or writes application code. IMPLEMENT consumes the approved Phase 3 plan and follows `workflows/implementation.md`. TESTING-SECURITY consumes the Phase 3 plan and Phase 4 implementation state, then follows `workflows/testing-security.md`. UX-REVIEW consumes Phase 3–5 evidence, follows `workflows/ux-review.md`, and cannot change the selected idea, architecture, or application source unless the human separately authorizes implementation through the existing process. RED-TEAM consumes Phase 2–7 evidence, follows `workflows/red-team.md`, actively attempts to disprove project readiness, and cannot change the selected idea, silently redesign architecture, or replace Phase 5/Phase 7 engines. JUDGE-SIM consumes Phase 2–8 evidence, follows `workflows/judge-simulation.md`, simulates how judges would perceive the project, and cannot change the selected idea, silently redesign architecture, or replace Phase 5/7/8 engines. SCORE-OPTIMIZE consumes Phase 2–9 evidence, follows `workflows/score-optimization.md`, produces a prioritized score optimization plan based on judging criteria gaps, and cannot change the selected idea, silently redesign architecture, silently modify application code, silently modify Phase 1–9 artifacts, replace Phase 5/7/8/9 engines, create PPT, perform final submission, or perform postmortem. DEMO-PREPARE consumes Phase 11–15 evidence, follows `workflows/demo-preparation.md`, produces a reliable judge-oriented demo preparation plan based on validated evidence, and cannot change the selected idea, silently redesign architecture, silently modify application code, silently modify Phase 1–15 artifacts, replace Phase 11/12/13/14/15 engines, create PPT, perform final submission, or perform postmortem.
 
 ## Operations
@@ -38,6 +41,8 @@ When invoked, HackathonOS:
 | **INIT** | Starting a new hackathon project; no `.hackathon/` state exists yet | `workflows/init.md` |
 | **CONFIG** | View project configuration without exposing secrets | `workflows/configuration.md` |
 | **CONFIG CHECK** | Validate project configuration, Git secret protections, and scanned secret indicators | `workflows/configuration.md` |
+| **HELP** | You want the list of implemented operations and native command syntax | `SKILL.md#help` |
+| **PHASE** | You want only the current lifecycle phase, its status, and the evidence for it | `SKILL.md#phase` |
 | **STATUS** | You want to know where you are, what's complete, what's broken, what the risks are | `workflows/status.md` |
 | **NEXT** | You need to know the single highest-priority action to take right now | `workflows/next.md` |
 | **IDEA-EVALUATE** | You have candidate ideas to evaluate and need a recommendation | `workflows/idea-evaluation.md` |
@@ -57,6 +62,8 @@ When invoked, HackathonOS:
 ### Routing priority
 
 - Explicit **CONFIG CHECK**, **CONFIG-CHECK**, or **CHECK CONFIG** routes to `workflows/configuration.md` before matching CONFIG. Explicit **CONFIG** or **SHOW CONFIG** routes to the same workflow. These read-only operations do not change lifecycle phase or project configuration.
+
+- Explicit **HELP** routes to the [HELP](#help) section and explicit **PHASE** routes to the [PHASE](#phase) section of this file. Both are read-only, never route to STATUS, and never change project state. Only the operations in `core/commands/router.py` are explicit commands; any other explicit argument (for example `config next`) is unavailable, so say so and list the supported commands instead of guessing.
 
 - Explicit implementation intent (**IMPLEMENT**, **BUILD**, **DEVELOP**, **START IMPLEMENTATION**, **CONTINUE IMPLEMENTATION**, **IMPLEMENT NEXT TASK**) routes to `workflows/implementation.md`.
 - A general “what next?” request remains **NEXT** and routes to `workflows/next.md`. Phase 4 does not add or replace a NEXT engine.
@@ -79,6 +86,20 @@ When invoked, HackathonOS:
 - Explicit **FINAL AUDIT**, **FINAL-AUDIT**, **FINAL AUDIT REVIEW**, **AUDIT READINESS**, or **PRE-SUBMISSION AUDIT** intent routes to `workflows/final-audit.md` only after verifying the Phase 17 lock. FINAL-AUDIT consumes prior evidence without replacing earlier engines, changing scope/idea/architecture, modifying locked artifacts, or executing Phase 19 submission or Phase 20 post-mortem. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 - Explicit **SUBMISSION PREPARE**, **SUBMISSION-PREPARE**, **SUBMISSION READINESS**, **PREPARE SUBMISSION**, or **SUBMISSION PACKAGE** intent routes to `workflows/submission.md` only after verifying the Phase 18 `COMPLETE & LOCKED` report and the 20-phase lifecycle. SUBMISSION-PREPARE verifies evidence, prepares and freezes the package, and preserves human authority; it never submits, uploads, publishes private information, or changes repository visibility. It does not implement Phase 20. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 - Explicit **POSTMORTEM**, **POST-MORTEM**, **POST MORTEM**, **HACKATHON RETROSPECTIVE**, or **RETROSPECTIVE REVIEW** intent routes to `workflows/postmortem.md` only after verifying Phase 19 is COMPLETE & LOCKED and the lifecycle contains exactly 20 phases. POSTMORTEM preserves historical evidence, labels uncertainty, and distinguishes framework validation from live project history. It is the final lifecycle operation; no Phase 21 route exists. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
+
+## HELP
+
+Read `commands/README.md` and list the implemented operations with each platform's command syntax (Claude Code and OpenCode: `/hackathonos <operation>`; Kilo Code: `/hackathonos-status`, `/hackathonos-next`, `/hackathonos-help`, `/hackathonos-init`, `/hackathonos-phase`, plus `/hackathonos config` and `/hackathonos config check`). Native discovery uses the forward slash; a backslash prefix works only when the host passes the text through unchanged. Do not claim roadmap-only features are implemented. Do not modify project state.
+
+## PHASE
+
+Read `.hackathon/project-state.md` in the current project repository and report only:
+
+1. **Current phase** — the recorded phase number and name.
+2. **Phase status** — for example IN PROGRESS, COMPLETE, or COMPLETE & LOCKED.
+3. **Evidence** — the file or artifact the values came from.
+
+If `.hackathon/` or `project-state.md` is absent, report `UNKNOWN` for each value and recommend INIT; do not infer a phase from the command name, from audit reports in the framework repository, or from other files. PHASE is read-only: it does not run STATUS, does not recommend an action (that is NEXT), and never changes lifecycle state.
 
 ## Project State
 
