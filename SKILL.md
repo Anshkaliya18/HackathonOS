@@ -17,9 +17,10 @@ Never invent missing information. Use `UNKNOWN` when information is unavailable.
 
 ## Router
 
-For explicit command arguments, normalize whitespace and match the complete
-argument string against `core/commands/router.py` before using intent matching.
-This makes `config check` a distinct, more specific route than `config`.
+For explicit command arguments, normalize whitespace and resolve using
+`core/commands/router.py` before intent matching. `config check` and `config`
+are distinct exact routes; `suggest` accepts a topic suffix such as `ideas`,
+`problems`, `for agents`, `for automation`, or `for llm apps`.
 Some hosts may forward the full invocation rather than only its arguments;
 remove one leading `/hackathonos`, `\hackathonos`, or `hackathonos` token before
 matching. A blank argument uses the normal intent router below. An explicit
@@ -31,7 +32,7 @@ When invoked, HackathonOS:
 
 1. Checks whether `.hackathon/` exists in the current project repository.
 2. Reads the current project state from `.hackathon/project-state.md`.
-3. Determines which operation the user needs: **INIT**, **CONFIG**, **CONFIG CHECK**, **HELP**, **PHASE**, **STATUS**, **NEXT**, **IDEA-EVALUATE**, **PROJECT-PLAN**, **IMPLEMENT**, **TESTING-SECURITY**, **UX-REVIEW**, **RED-TEAM**, **JUDGE-SIM**, **SCORE-OPTIMIZE**, **DEMO-PREPARE**, **PRESENTATION-PREPARE**, **FINAL-AUDIT**, **SUBMISSION-PREPARE**, or **POSTMORTEM**.
+3. Determines which operation the user needs: **INIT**, **CONFIG**, **CONFIG CHECK**, **HELP**, **PHASE**, **STATUS**, **NEXT**, **SUGGEST**, **IDEA-EVALUATE**, **PROJECT-PLAN**, **IMPLEMENT**, **TESTING-SECURITY**, **UX-REVIEW**, **RED-TEAM**, **JUDGE-SIM**, **SCORE-OPTIMIZE**, **DEMO-PREPARE**, **PRESENTATION-PREPARE**, **FINAL-AUDIT**, **SUBMISSION-PREPARE**, or **POSTMORTEM**.
 4. Loads the corresponding workflow and executes it. For IDEA-EVALUATE, the engine recommends but never auto-confirms a selected idea. For PROJECT-PLAN, it creates an engineering plan but never auto-approves architecture or writes application code. IMPLEMENT consumes the approved Phase 3 plan and follows `workflows/implementation.md`. TESTING-SECURITY consumes the Phase 3 plan and Phase 4 implementation state, then follows `workflows/testing-security.md`. UX-REVIEW consumes Phase 3–5 evidence, follows `workflows/ux-review.md`, and cannot change the selected idea, architecture, or application source unless the human separately authorizes implementation through the existing process. RED-TEAM consumes Phase 2–7 evidence, follows `workflows/red-team.md`, actively attempts to disprove project readiness, and cannot change the selected idea, silently redesign architecture, or replace Phase 5/Phase 7 engines. JUDGE-SIM consumes Phase 2–8 evidence, follows `workflows/judge-simulation.md`, simulates how judges would perceive the project, and cannot change the selected idea, silently redesign architecture, or replace Phase 5/7/8 engines. SCORE-OPTIMIZE consumes Phase 2–9 evidence, follows `workflows/score-optimization.md`, produces a prioritized score optimization plan based on judging criteria gaps, and cannot change the selected idea, silently redesign architecture, silently modify application code, silently modify Phase 1–9 artifacts, replace Phase 5/7/8/9 engines, create PPT, perform final submission, or perform postmortem. DEMO-PREPARE consumes Phase 11–15 evidence, follows `workflows/demo-preparation.md`, produces a reliable judge-oriented demo preparation plan based on validated evidence, and cannot change the selected idea, silently redesign architecture, silently modify application code, silently modify Phase 1–15 artifacts, replace Phase 11/12/13/14/15 engines, create PPT, perform final submission, or perform postmortem.
 
 ## Operations
@@ -45,6 +46,7 @@ When invoked, HackathonOS:
 | **PHASE** | You want only the current lifecycle phase, its status, and the evidence for it | `SKILL.md#phase` |
 | **STATUS** | You want to know where you are, what's complete, what's broken, what the risks are | `workflows/status.md` |
 | **NEXT** | You need to know the single highest-priority action to take right now | `workflows/next.md` |
+| **SUGGEST** | Discover, generate, evaluate, compare, and red-team hackathon ideas without selecting one | `workflows/idea-intelligence.md` |
 | **IDEA-EVALUATE** | You have candidate ideas to evaluate and need a recommendation | `workflows/idea-evaluation.md` |
 | **PROJECT-PLAN** | You have a selected idea and need an implementation-ready engineering plan | `workflows/project-planning.md` |
 | **IMPLEMENT** | You explicitly ask to implement, build, develop, start/continue implementation, or implement the next task | `workflows/implementation.md` |
@@ -61,6 +63,7 @@ When invoked, HackathonOS:
 
 ### Routing priority
 
+- Explicit **SUGGEST** with an optional topic suffix routes to `workflows/idea-intelligence.md`. The suffix is focus context, not a new command; unknown root commands remain unavailable.
 - Explicit **CONFIG CHECK**, **CONFIG-CHECK**, or **CHECK CONFIG** routes to `workflows/configuration.md` before matching CONFIG. Explicit **CONFIG** or **SHOW CONFIG** routes to the same workflow. These read-only operations do not change lifecycle phase or project configuration.
 
 - Explicit **HELP** routes to the [HELP](#help) section and explicit **PHASE** routes to the [PHASE](#phase) section of this file. Both are read-only, never route to STATUS, and never change project state. Only the operations in `core/commands/router.py` are explicit commands; any other explicit argument (for example `config next`) is unavailable, so say so and list the supported commands instead of guessing.
@@ -127,7 +130,7 @@ See `rules/mentor-rules.md` for the core operating principles the skill always f
 
 ## How to Invoke
 
-This is an intent-driven skill with explicit native aliases for supported commands. Invoke `/hackathonos` and describe what you need, or use `/hackathonos config` and `/hackathonos config check` for configuration operations. The router determines the correct operation from your intent and the current project state.
+This is an intent-driven skill with explicit native aliases for supported commands. Invoke `/hackathonos` and describe what you need, use `/hackathonos suggest` for idea intelligence, or use `/hackathonos config` and `/hackathonos config check` for configuration operations. The router determines the correct operation from your intent and the current project state.
 
 ## Human Confirmation Requirement
 

@@ -122,13 +122,14 @@ def run():
         assert routes.resolve('config').workflow=='workflows/configuration.md'
         assert routes.resolve('config check').operation=='CONFIG CHECK'
         assert routes.resolve('config check').workflow=='workflows/configuration.md'
-        assert routes.resolve('suggest') is None
+        assert routes.resolve('config').workflow=='workflows/configuration.md'
+        assert routes.resolve('config check').workflow=='workflows/configuration.md'
         assert routes.resolve('status').operation=='STATUS'
         assert routes.resolve('next').operation=='NEXT'
         assert routes.resolve('help').operation=='HELP'
         assert routes.resolve('init').operation=='INIT'
         assert routes.resolve('phase').operation=='PHASE'
-        assert not routes.resolve('suggest')
+        assert routes.resolve('suggest').operation=='SUGGEST'
         assert not (ROOT/'.kilo/commands/hackathonos-config.md').exists()
         assert not (ROOT/'.kilo/commands/hackathonos-config-check.md').exists()
     def cli_subcommands_work_on_fixture():

@@ -18,6 +18,7 @@ ROUTES = {
     "phase": Route("PHASE", "SKILL.md#phase"),
     "config": Route("CONFIG", "workflows/configuration.md"),
     "config check": Route("CONFIG CHECK", "workflows/configuration.md"),
+    "suggest": Route("SUGGEST", "workflows/idea-intelligence.md"),
 }
 
 
@@ -35,4 +36,9 @@ def resolve(arguments: str) -> Route | None:
         if normalized.startswith(command + " "):
             normalized = normalized[len(command):].strip()
             break
-    return ROUTES.get(normalized)
+    route = ROUTES.get(normalized)
+    if route:
+        return route
+    if normalized.startswith("suggest "):
+        return Route("SUGGEST", "workflows/idea-intelligence.md")
+    return None

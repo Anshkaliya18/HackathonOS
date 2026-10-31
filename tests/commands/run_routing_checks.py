@@ -22,6 +22,7 @@ def main() -> int:
         "help": ("HELP", "SKILL.md#help"),
         "init": ("INIT", "workflows/init.md"),
         "phase": ("PHASE", "SKILL.md#phase"),
+        "suggest": ("SUGGEST", "workflows/idea-intelligence.md"),
     }
     assert set(router.ROUTES) == set(cases), f"unexpected route (possible out-of-scope command): {set(router.ROUTES) ^ set(cases)}"
     for args, expected in cases.items():
@@ -33,8 +34,10 @@ def main() -> int:
     for invocation in ("/hackathonos config check", "\\hackathonos config check", "hackathonos config check"):
         assert router.resolve(invocation) == router.resolve("config check"), invocation
     assert router.resolve("/hackathonos") is None
-    assert router.resolve("suggest") is None
-    assert router.resolve("/hackathonos suggest") is None
+    assert router.resolve("suggest") == router.resolve("/hackathonos suggest")
+    for focus in ("ideas", "problems", "for agents", "for automation", "for llm apps"):
+        assert router.resolve("/hackathonos suggest " + focus) == router.resolve("suggest")
+    assert router.resolve("/hackathonos suggestxyz") is None
     assert router.resolve("config status") is None
     assert router.resolve("") is None
 
