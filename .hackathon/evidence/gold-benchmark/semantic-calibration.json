@@ -1,0 +1,973 @@
+{
+  "benchmark_version": "1.0.0",
+  "calibration_claims": 36,
+  "held_out_claims": 36,
+  "baseline": {
+    "config": {
+      "semantic_support_threshold": 0.68,
+      "semantic_partial_threshold": 0.45,
+      "coverage_support_threshold": 0.75,
+      "coverage_partial_threshold": 0.3
+    },
+    "metrics": {
+      "accuracy": 0.4444,
+      "correct": 16,
+      "total": 36,
+      "per_class": {
+        "SUPPORTED": {
+          "tp": 4,
+          "fp": 3,
+          "fn": 8,
+          "precision": 0.5714,
+          "recall": 0.3333,
+          "f1": 0.4211
+        },
+        "PARTIALLY_SUPPORTED": {
+          "tp": 1,
+          "fp": 11,
+          "fn": 2,
+          "precision": 0.0833,
+          "recall": 0.3333,
+          "f1": 0.1333
+        },
+        "UNSUPPORTED": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 5,
+          "precision": 0.6667,
+          "recall": 0.2857,
+          "f1": 0.4
+        },
+        "CONTRADICTED": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        }
+      },
+      "support": {
+        "precision": 0.5714,
+        "recall": 0.3333,
+        "f1": 0.4211
+      },
+      "unsupported": {
+        "precision": 0.0952,
+        "recall": 0.2857,
+        "f1": 0.1429
+      },
+      "contradiction": {
+        "precision": 0.375,
+        "recall": 0.6429,
+        "f1": 0.4737
+      },
+      "results": [
+        {
+          "claim_id": "claim-002",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "SUPPORTED",
+          "correct": true,
+          "confidence": 0.901
+        },
+        {
+          "claim_id": "claim-004",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": false,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-006",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "SUPPORTED",
+          "correct": true,
+          "confidence": 0.9245
+        },
+        {
+          "claim_id": "claim-008",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "SUPPORTED",
+          "correct": true,
+          "confidence": 0.913
+        },
+        {
+          "claim_id": "claim-010",
+          "gold_label": "UNSUPPORTED",
+          "predicted_label": "SUPPORTED",
+          "correct": false,
+          "confidence": 0.8767
+        },
+        {
+          "claim_id": "claim-012",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "SUPPORTED",
+          "correct": false,
+          "confidence": 0.9236
+        },
+        {
+          "claim_id": "claim-014",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-016",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-018",
+          "gold_label": "PARTIALLY_SUPPORTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": false,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-020",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "SUPPORTED",
+          "correct": true,
+          "confidence": 0.8915
+        },
+        {
+          "claim_id": "claim-022",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.585
+        },
+        {
+          "claim_id": "claim-024",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        },
+        {
+          "claim_id": "claim-026",
+          "gold_label": "UNSUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        },
+        {
+          "claim_id": "claim-028",
+          "gold_label": "UNSUPPORTED",
+          "predicted_label": "UNSUPPORTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-030",
+          "gold_label": "UNSUPPORTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": false,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-032",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        },
+        {
+          "claim_id": "claim-034",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-036",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "UNSUPPORTED",
+          "correct": false,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-038",
+          "gold_label": "UNSUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        },
+        {
+          "claim_id": "claim-040",
+          "gold_label": "UNSUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        },
+        {
+          "claim_id": "claim-042",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "SUPPORTED",
+          "correct": false,
+          "confidence": 0.8994
+        },
+        {
+          "claim_id": "claim-044",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-046",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        },
+        {
+          "claim_id": "claim-048",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-050",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-052",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5801
+        },
+        {
+          "claim_id": "claim-054",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-056",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5595
+        },
+        {
+          "claim_id": "claim-058",
+          "gold_label": "PARTIALLY_SUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": true,
+          "confidence": 0.5744
+        },
+        {
+          "claim_id": "claim-060",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-062",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": false,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-064",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-066",
+          "gold_label": "PARTIALLY_SUPPORTED",
+          "predicted_label": "CONTRADICTED",
+          "correct": false,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-068",
+          "gold_label": "UNSUPPORTED",
+          "predicted_label": "UNSUPPORTED",
+          "correct": true,
+          "confidence": 0.0
+        },
+        {
+          "claim_id": "claim-070",
+          "gold_label": "CONTRADICTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        },
+        {
+          "claim_id": "claim-072",
+          "gold_label": "SUPPORTED",
+          "predicted_label": "PARTIALLY_SUPPORTED",
+          "correct": false,
+          "confidence": 0.5
+        }
+      ]
+    }
+  },
+  "best_config": {
+    "config": {
+      "semantic_support_threshold": 0.72,
+      "semantic_partial_threshold": 0.55,
+      "coverage_support_threshold": 0.7,
+      "coverage_partial_threshold": 0.25
+    },
+    "metrics": {
+      "accuracy": 0.5,
+      "supported": {
+        "tp": 4,
+        "fp": 2,
+        "fn": 8,
+        "precision": 0.6667,
+        "recall": 0.3333,
+        "f1": 0.4444
+      },
+      "partial": {
+        "tp": 1,
+        "fp": 9,
+        "fn": 2,
+        "precision": 0.1,
+        "recall": 0.3333,
+        "f1": 0.1538
+      },
+      "unsupported": {
+        "tp": 4,
+        "fp": 2,
+        "fn": 3,
+        "precision": 0.6667,
+        "recall": 0.5714,
+        "f1": 0.6154
+      },
+      "contradicted": {
+        "tp": 9,
+        "fp": 5,
+        "fn": 5,
+        "precision": 0.6429,
+        "recall": 0.6429,
+        "f1": 0.6429
+      },
+      "support_detection": {
+        "precision": 0.6667,
+        "recall": 0.3333,
+        "f1": 0.4444
+      },
+      "unsupported_detection": {
+        "precision": 0.2,
+        "recall": 0.5714,
+        "f1": 0.2963
+      },
+      "contradiction_detection": {
+        "precision": 0.4091,
+        "recall": 0.6429,
+        "f1": 0.5
+      }
+    },
+    "score": 0.5665
+  },
+  "all_configs": [
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.7,
+        "coverage_partial_threshold": 0.25
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.7,
+        "coverage_partial_threshold": 0.3
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.7,
+        "coverage_partial_threshold": 0.4
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.75,
+        "coverage_partial_threshold": 0.25
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.75,
+        "coverage_partial_threshold": 0.3
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.75,
+        "coverage_partial_threshold": 0.4
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.8,
+        "coverage_partial_threshold": 0.25
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.8,
+        "coverage_partial_threshold": 0.3
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.72,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.8,
+        "coverage_partial_threshold": 0.4
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    },
+    {
+      "config": {
+        "semantic_support_threshold": 0.75,
+        "semantic_partial_threshold": 0.55,
+        "coverage_support_threshold": 0.7,
+        "coverage_partial_threshold": 0.25
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "supported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 8,
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "partial": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 2,
+          "precision": 0.1,
+          "recall": 0.3333,
+          "f1": 0.1538
+        },
+        "unsupported": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6667,
+          "recall": 0.5714,
+          "f1": 0.6154
+        },
+        "contradicted": {
+          "tp": 9,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.6429,
+          "recall": 0.6429,
+          "f1": 0.6429
+        },
+        "support_detection": {
+          "precision": 0.6667,
+          "recall": 0.3333,
+          "f1": 0.4444
+        },
+        "unsupported_detection": {
+          "precision": 0.2,
+          "recall": 0.5714,
+          "f1": 0.2963
+        },
+        "contradiction_detection": {
+          "precision": 0.4091,
+          "recall": 0.6429,
+          "f1": 0.5
+        }
+      },
+      "score": 0.5665
+    }
+  ],
+  "note": "Calibration performed on calibration split only. Held-out set was not used."
+}

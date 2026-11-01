@@ -1,0 +1,35 @@
+{
+  "labels": [
+    "SUPPORTED",
+    "PARTIALLY_SUPPORTED",
+    "UNSUPPORTED",
+    "CONTRADICTED"
+  ],
+  "matrix": {
+    "SUPPORTED": {
+      "SUPPORTED": 7,
+      "PARTIALLY_SUPPORTED": 8,
+      "UNSUPPORTED": 1,
+      "CONTRADICTED": 1
+    },
+    "PARTIALLY_SUPPORTED": {
+      "SUPPORTED": 0,
+      "PARTIALLY_SUPPORTED": 2,
+      "UNSUPPORTED": 1,
+      "CONTRADICTED": 1
+    },
+    "UNSUPPORTED": {
+      "SUPPORTED": 0,
+      "PARTIALLY_SUPPORTED": 0,
+      "UNSUPPORTED": 6,
+      "CONTRADICTED": 1
+    },
+    "CONTRADICTED": {
+      "SUPPORTED": 0,
+      "PARTIALLY_SUPPORTED": 0,
+      "UNSUPPORTED": 2,
+      "CONTRADICTED": 6
+    }
+  },
+  "total": 36
+}

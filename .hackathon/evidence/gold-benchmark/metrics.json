@@ -1,0 +1,107 @@
+{
+  "benchmark_version": "1.0.0",
+  "dataset_info": {
+    "total_claims": 72,
+    "calibration_count": 36,
+    "held_out_count": 36,
+    "evaluated_count": 36,
+    "annotators": "single-annotator"
+  },
+  "overall": {
+    "accuracy": 0.5833,
+    "correct": 21,
+    "total": 36
+  },
+  "per_class": {
+    "SUPPORTED": {
+      "true_positives": 7,
+      "false_positives": 0,
+      "false_negatives": 10,
+      "precision": 1.0,
+      "recall": 0.4118,
+      "f1": 0.5833,
+      "support": 17
+    },
+    "PARTIALLY_SUPPORTED": {
+      "true_positives": 2,
+      "false_positives": 8,
+      "false_negatives": 2,
+      "precision": 0.2,
+      "recall": 0.5,
+      "f1": 0.2857,
+      "support": 4
+    },
+    "UNSUPPORTED": {
+      "true_positives": 6,
+      "false_positives": 4,
+      "false_negatives": 1,
+      "precision": 0.6,
+      "recall": 0.8571,
+      "f1": 0.7059,
+      "support": 7
+    },
+    "CONTRADICTED": {
+      "true_positives": 6,
+      "false_positives": 3,
+      "false_negatives": 2,
+      "precision": 0.6667,
+      "recall": 0.75,
+      "f1": 0.7059,
+      "support": 8
+    }
+  },
+  "support_detection": {
+    "true_positives": 7,
+    "false_positives": 0,
+    "false_negatives": 10,
+    "precision": 1.0,
+    "recall": 0.4118,
+    "f1": 0.5833
+  },
+  "unsupported_detection": {
+    "true_positives": 6,
+    "false_positives": 4,
+    "false_negatives": 1,
+    "precision": 0.6,
+    "recall": 0.8571,
+    "f1": 0.7059
+  },
+  "contradiction_detection": {
+    "true_positives": 6,
+    "false_positives": 3,
+    "false_negatives": 2,
+    "precision": 0.6667,
+    "recall": 0.75,
+    "f1": 0.7059
+  },
+  "confidence_calibration": {
+    "high (>=0.80)": {
+      "count": 7,
+      "correct": 7,
+      "accuracy": 1.0,
+      "avg_confidence": 0.9207
+    },
+    "low (<0.60)": {
+      "count": 29,
+      "correct": 14,
+      "accuracy": 0.4828,
+      "avg_confidence": 0.1797
+    }
+  },
+  "calibration_assessment": "GOOD",
+  "citation_evaluation": {
+    "claim_to_source_mapping": "UNKNOWN",
+    "reason": "Inline citation marker-to-source mapping is unavailable to the verification endpoint. Citation IDs exist in the dataset but no structural mapping from answer claim → citation marker → source document → source chunk is represented in the codebase.",
+    "citation_precision": "UNKNOWN",
+    "citation_recall": "UNKNOWN",
+    "citation_coverage": "UNKNOWN"
+  },
+  "hallucination": {
+    "unsupported_claim_rate": 0.1944,
+    "contradicted_claim_rate": 0.2222,
+    "unsupported_count": 7,
+    "contradicted_count": 8,
+    "actual_hallucination_estimate": "UNKNOWN",
+    "note": "UNSUPPORTED and CONTRADICTED are reported separately. The verifier's inverse support percentage is NOT called a hallucination rate."
+  }
+}

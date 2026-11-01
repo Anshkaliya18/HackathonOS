@@ -1,0 +1,11 @@
+{
+  "benchmark_version": "1.0.0",
+  "claim_to_source_mapping": "UNKNOWN",
+  "reason": "Inline citation marker-to-source mapping is unavailable to the verification endpoint. The codebase has no structural representation of answer claim → citation marker → source document → source chunk. Citation IDs exist as string fields in the dataset but are not resolved to actual source documents or chunks by the verification endpoint. The verifier operates on claim text and evidence text directly, with no knowledge of which citation marker in an answer points to which source document.",
+  "citation_precision": "UNKNOWN",
+  "citation_recall": "UNKNOWN",
+  "citation_coverage": "UNKNOWN",
+  "documented_limitation": "The previous report identified that inline citation marker-to-source mapping is unavailable to the verification endpoint. This benchmark confirms the limitation: citation IDs are present in claim records but the verification system has no mechanism to resolve them to source documents or chunks. Exact claim-to-source citation evaluation is therefore impossible without a code change to establish the mapping.",
+  "smallest_safe_change_required": "Add a citation resolution layer that maps each citation marker in a generated answer to a specific source document ID and source chunk ID, then pass that resolved evidence (not just text) to the verification endpoint. This requires: (1) a citation marker → source document mapping data structure, (2) source chunk indexing, (3) passing resolved source chunks to verify_claim() instead of raw evidence text.",
+  "status": "NOT IMPLEMENTED - mapping change deferred; limitation documented"
+}

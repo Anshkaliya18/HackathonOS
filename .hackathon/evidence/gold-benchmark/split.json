@@ -1,0 +1,41 @@
+{
+  "benchmark_version": "1.0.0",
+  "split_method": "deterministic even/odd by claim_id",
+  "split_note": "Calibration/development set and held-out test set are separated. The held-out set is evaluation-only and must never be used to choose thresholds, top-k, support threshold, confidence threshold, or claim compatibility rules.",
+  "calibration_development": [
+    "claim-002", "claim-004", "claim-006", "claim-008", "claim-010", "claim-012",
+    "claim-014", "claim-016", "claim-018", "claim-020", "claim-022", "claim-024",
+    "claim-026", "claim-028", "claim-030", "claim-032", "claim-034", "claim-036",
+    "claim-038", "claim-040", "claim-042", "claim-044", "claim-046", "claim-048",
+    "claim-050", "claim-052", "claim-054", "claim-056", "claim-058", "claim-060",
+    "claim-062", "claim-064", "claim-066", "claim-068", "claim-070", "claim-072"
+  ],
+  "held_out_test": [
+    "claim-001", "claim-003", "claim-005", "claim-007", "claim-009", "claim-011",
+    "claim-013", "claim-015", "claim-017", "claim-019", "claim-021", "claim-023",
+    "claim-025", "claim-027", "claim-029", "claim-031", "claim-033", "claim-035",
+    "claim-037", "claim-039", "claim-041", "claim-043", "claim-045", "claim-047",
+    "claim-049", "claim-051", "claim-053", "claim-055", "claim-057", "claim-059",
+    "claim-061", "claim-063", "claim-065", "claim-067", "claim-069", "claim-071"
+  ],
+  "counts": {
+    "total": 72,
+    "calibration_development": 36,
+    "held_out_test": 36
+  },
+  "label_distribution": {
+    "calibration_development": {
+      "SUPPORTED": 12,
+      "PARTIALLY_SUPPORTED": 3,
+      "UNSUPPORTED": 7,
+      "CONTRADICTED": 14
+    },
+    "held_out_test": {
+      "SUPPORTED": 17,
+      "PARTIALLY_SUPPORTED": 4,
+      "UNSUPPORTED": 7,
+      "CONTRADICTED": 8
+    }
+  },
+  "reproducibility": "Split is deterministic: even-numbered claim IDs → calibration/development, odd-numbered claim IDs → held-out test. Re-running the split produces identical results."
+}
