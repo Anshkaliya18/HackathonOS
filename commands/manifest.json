@@ -501,16 +501,32 @@
         "kilo"
       ],
       "status": "implemented"
+    },
+    {
+      "command": "hackathonos-research",
+      "description": "Research competitors, markets, technologies, and evidence with verifiable sources.",
+      "operation": "RESEARCH",
+      "workflow": "workflows/research.md",
+      "router_key": "research",
+      "focus_hint": null,
+      "legacy_aliases": [
+        "/hackathonos research"
+      ],
+      "group": "INTELLIGENCE",
+      "adapters": [
+        "claude",
+        "opencode",
+        "kilo"
+      ],
+      "status": "implemented"
     }
   ],
   "planned": [
     {
-      "command": "hackathonos-research",
-      "status": "planned",
-      "reason": "No standalone research workflow exists; research is conditional within idea intelligence."
-    },
-    {
       "command": "hackathonos-improve",
+      "status": "planned",
+      "reason": "No general improvement workflow exists; score optimization is narrower."
+    },
       "status": "planned",
       "reason": "No general improvement workflow exists; score optimization is narrower."
     },
