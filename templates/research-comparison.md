@@ -1,4 +1,4 @@
-# Research Comparison — <idea-name>
+# Research Comparison — <research-query-id>
 
 **Evaluation date:** <UTC date/time>  
 **Hackathon:** <name or UNKNOWN>  
@@ -20,7 +20,7 @@
 
 ---
 
-## 2. Final Score Comparison
+## 2. Research Evidence Comparison
 
 | Dimension Category | Idea 1 | Idea 2 | Idea 3 | Idea 4 |
 |-------------------|--------|--------|--------|--------|
@@ -55,16 +55,16 @@
 2. <advantage 2 with category and score>
 3. <advantage 3 with category and score>
 
-**Biggest risks:**  
+**Biggest risks:**
 <red-team findings that survived but remain concerns>
 
-**What must be true for this idea to succeed:**  
+**What must be true for this idea to succeed:**
 <assumptions that must hold>
 
-**Minimum viable version:**  
+**Minimum viable version:**
 <scope that can be built in remaining time>
 
-**Highest-value differentiator:**  
+**Highest-value differentiator:**
 <the one thing that makes this win>
 
 **Estimated implementation difficulty:** <low | medium | high>
@@ -84,12 +84,12 @@
 
 ## 6. REVISE Loop (if outcome is REVISE)
 
-**Weaknesses identified:**  
-1. <weakness from red-team>  
+**Weaknesses identified:**
+1. <weakness from red-team>
 2. <weakness from red-team>
 
-**Proposed changes:**  
-1. <change 1>  
+**Proposed changes:**
+1. <change 1>
 2. <change 2>
 
 **Re-evaluation required:** <yes / no>  

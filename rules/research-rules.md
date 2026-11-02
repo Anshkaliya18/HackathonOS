@@ -38,9 +38,8 @@ the appropriate phase but do not replace that phase's engine.
 
 ### Time Awareness
 
-Research should be time-bounded. Do not spend unlimited time searching. If
-remaining time is UNKNOWN, record `TIME STRATEGY = UNKNOWN` and give a
-time-neutral research order.
+Research should be time-bounded. Do not spend unlimited time searching. If remaining time is
+UNKNOWN, record `TIME STRATEGY = UNKNOWN` and give a time-neutral research order.
 
 ## 3. Research Pipeline Stages
 
@@ -59,20 +58,20 @@ time-neutral research order.
 
 **If no research question provided:**
 - Report "No research question provided."
-- Ask user to supply a research question before research can run.
+- Ask user to supply a research question before evaluation can run.
 - Stop.
 
-### Step 2: Research Plan
+### Stage 2: Research Plan
 
 Define:
 - What needs to be found
-- Where to look (repository files, web search, documentation, team input)
+- Where to look (repository, web, documentation, tests)
 - Evidence quality threshold
 - Time budget
 
-Record the plan in `.hackathon/evidence/research/<research-query>.md`.
+Record the research plan in `.hackathon/evidence/research/<research-query>.md`.
 
-### Step 3: Retrieve
+### Stage 3: Retrieve
 
 Retrieve candidate evidence from:
 - Repository source code, config, tests, docs
@@ -82,20 +81,24 @@ Retrieve candidate evidence from:
 
 Save raw retrieval results to `.hackathon/evidence/research/`.
 
-### Step 4: Verify
+### Stage 4: Verify
 
 For each candidate evidence item:
 - Verify the source is real and accessible
 - Check the claim against the source text
 - Verify numbers, dates, entity names match exactly
-- Check polarity/negation
+- Check polarity/negation (does the source say the opposite?)
 - Check temporal consistency (dates, versions)
 
-### Step 5: Analyze
+### Stage 5: Analyze
 
 Classify each claim as FACT, INFERENCE, ASSUMPTION, or UNKNOWN.
+- FACT: directly verified from source
+- INFERENCE: logical conclusion from facts
+- ASSUMPTION: provisional premise not yet verified
+- UNKNOWN: no information available
 
-### Step 6: Synthesize
+### Stage 6: Synthesize
 
 Combine evidence into a coherent answer. Address:
 - What is known
@@ -103,7 +106,7 @@ Combine evidence into a coherent answer. Address:
 - What assumptions must hold
 - What the evidence does and does not support
 
-### Step 7: Decide
+### Stage 7: Decide
 
 Determine what the research means for the project decision:
 - Does it support proceeding?
@@ -111,7 +114,7 @@ Determine what the research means for the project decision:
 - What assumptions must hold?
 - What is the recommended next action?
 
-### Step 8: Persist
+### Stage 8: Persist
 
 Save the research record to `.hackathon/evidence/research/<research-query>.md`.
 Include all evidence, gates, decisions, and unknowns.
@@ -132,7 +135,7 @@ Rules:
 - UNKNOWN means no information available
 - Never claim research was performed unless evidence was actually retrieved
 
-## 5. Source Priority
+## 5. Source Priorities
 
 Priority order for evidence:
 1. Official documentation / official repository / official specification
@@ -146,14 +149,14 @@ Priority order for evidence:
 When multiple sources conflict:
 - Record each claim separately with its source
 - Do not silently reconcile contradictions
-- Flag contradictory claims explicitly
+- Flag the contradiction explicitly
 - Mark conflicting claims as UNKNOWN until resolved
 
 ## 7. Time Awareness
 
-- If remaining time is UNKNOWN, record `TIME STRATEGY = UNKNOWN`
+- If remaining time is UNKNOWN, record TIME STRATEGY = UNKNOWN
 - Do not spend unlimited time on research
-- If time is limited, prefer repository evidence over web search
+- If time is limited, prefer direct repository evidence over web search
 - Record time spent on research if it exceeds a reasonable threshold
 
 ## 8. Human Authority

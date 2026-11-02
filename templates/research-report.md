@@ -1,4 +1,4 @@
-# Research Report — <idea-name>
+# Research Report — <research-query-id>
 
 **Evaluation date:** <UTC date/time>  
 **Hackathon:** <name or UNKNOWN>  

@@ -55,7 +55,6 @@ When invoked, HackathonOS:
 | **TESTING-SECURITY** | You ask to test, run tests, verify implementation, review/audit security, or check project quality | `workflows/testing-security.md` |
 | **UX-REVIEW** | You ask for UX, usability, accessibility, responsive, user-flow, UI, or interaction review | `workflows/ux-review.md` |
 | **RED-TEAM** | You want to actively attack the project, find weaknesses, and test readiness before judging | `workflows/red-team.md` |
-| **RESEARCH** | You want to research candidates, markets, technologies, or rules with evidence | `workflows/research.md` |
 | **JUDGE-SIM** | You want to simulate how judges would perceive your project before submission | `workflows/judge-simulation.md` |
 | **SCORE-OPTIMIZE** | You want a prioritized plan for what changes would most increase your judging score | `workflows/score-optimization.md` |
 | **DEMO-PREPARE** | You want a reliable judge-oriented demo preparation plan based on validated evidence | `workflows/demo-preparation.md` |
@@ -63,6 +62,7 @@ When invoked, HackathonOS:
 | **FINAL-AUDIT** | You want an evidence-based cross-phase consistency, claim, repository, risk, and submission-prerequisite audit before submission | `workflows/final-audit.md` |
 | **SUBMISSION-PREPARE** | You want to verify and freeze submission materials without submitting them | `workflows/submission.md` |
 | **POSTMORTEM** | You want an evidence-based retrospective of a completed hackathon cycle | `workflows/postmortem.md` |
+| **RESEARCH** | You have a research question that needs evidence-based answers (competitors, markets, technologies, rules, etc.) | `workflows/research.md` |
 
 ### Routing priority
 
@@ -81,8 +81,6 @@ When invoked, HackathonOS:
 - UX-REVIEW consumes existing Phase 3 project-plan, Phase 4 implementation, and Phase 5 test/security evidence. It does not replace those workflows, duplicate test/security execution, change the selected idea, silently change architecture, or mark an unverified fix as fixed. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 - Explicit **RED TEAM**, **RED-TEAM**, **REDTEAM**, **RED TEAM REVIEW**, **ADVERSARIAL REVIEW**, **ATTACK PROJECT**, **BREAK PROJECT**, **FIND WEAKNESSES**, **RED TEAM PROJECT**, **ADVERSARIAL TEST**, or **PROJECT RED TEAM** intent routes to `workflows/red-team.md`.
 - RED-TEAM consumes Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, and Phase 7 UX evidence. It does not replace those workflows, duplicate test/security or UX execution, change the selected idea, silently change architecture, or mark an unverified mitigation as verified. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
-- Explicit **RESEARCH**, **RESEARCH-MARKET**, **RESEARCH-TECHNOLOGY**, **RESEARCH-COMPETITORS**, **RESEARCH-MARKET**, or **RESEARCH-MARKETPLACE** intent routes to `workflows/research.md`.
-- RESEARCH consumes Phase 1 problem & idea, Phase 2 idea evaluation, and any relevant Phase 3 architecture data. It does not replace Phase 2 evaluation, Phase 3 project planning, or Phase 4 implementation. It provides evidence-based recommendations but does not change the selected idea, silently change architecture, or replace Phase 4 implementation. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 - Explicit **JUDGE SIM**, **JUDGE-SIM**, **JUDGESIM**, **JUDGE SIMULATION**, **SIMULATE JUDGE**, **JUDGE REVIEW**, **JUDGE PERSPECTIVE**, **SIMULATE JUDGING**, or **JUDGE EVALUATION** intent routes to `workflows/judge-simulation.md`.
 - JUDGE-SIM consumes Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, Phase 7 UX evidence, and Phase 8 Red Team evidence. It does not replace those workflows, duplicate test/security/UX/red-team execution, change the selected idea, silently change architecture, or perform score optimization. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 - Explicit **SCORE OPTIMIZE**, **SCORE-OPTIMIZE**, **SCOREOPTIMIZE**, **SCORE OPTIMIZATION**, **OPTIMIZE SCORE**, **OPTIMIZATION**, or **SCORE OPTIMIZATION PLAN** intent routes to `workflows/score-optimization.md`.
@@ -94,6 +92,9 @@ When invoked, HackathonOS:
 - Explicit **FINAL AUDIT**, **FINAL-AUDIT**, **FINAL AUDIT REVIEW**, **AUDIT READINESS**, or **PRE-SUBMISSION AUDIT** intent routes to `workflows/final-audit.md` only after verifying the Phase 17 lock. FINAL-AUDIT consumes prior evidence without replacing earlier engines, changing scope/idea/architecture, modifying locked artifacts, or executing Phase 19 submission or Phase 20 post-mortem. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 - Explicit **SUBMISSION PREPARE**, **SUBMISSION-PREPARE**, **SUBMISSION READINESS**, **PREPARE SUBMISSION**, or **SUBMISSION PACKAGE** intent routes to `workflows/submission.md` only after verifying the Phase 18 `COMPLETE & LOCKED` report and the 20-phase lifecycle. SUBMISSION-PREPARE verifies evidence, prepares and freezes the package, and preserves human authority; it never submits, uploads, publishes private information, or changes repository visibility. It does not implement Phase 20. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 - Explicit **POSTMORTEM**, **POST-MORTEM**, **POST MORTEM**, **HACKATHON RETROSPECTIVE**, or **RETROSPECTIVE REVIEW** intent routes to `workflows/postmortem.md` only after verifying Phase 19 is COMPLETE & LOCKED and the lifecycle contains exactly 20 phases. POSTMORTEM preserves historical evidence, labels uncertainty, and distinguishes framework validation from live project history. It is the final lifecycle operation; no Phase 21 route exists. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
+
+- Explicit **RESEARCH**, **RESEARCH MARKET**, **RESEARCH COMPETITORS**, **RESEARCH TECHNOLOGY**, **RESEARCH MARKETPLACE**, **RESEARCH REGULATIONS**, **RESEARCH COMPETITION**, **RESEARCH MARKET PLACEMENT**, **RESEARCH MARKET POSITION**, **RESEARCH MARKET POSITIONING**, **RESEARCH MARKETING**, **RESEARCH FINDINGS**, **RESEARCH FINDINGS REPORT**, **RESEARCH FINDINGS REPORT**, **RESEARCH FINDINGS REPORT** intent routes to `workflows/research.md`.
+- RESEARCH consumes Phase 1 problem & idea, Phase 2 idea evaluation, and any relevant Phase 3 architecture data. It does not replace Phase 2 evaluation, Phase 3 planning, or Phase 4 implementation. It provides evidence for decisions but does not change the selected idea, silently change architecture, or replace Phase 4 implementation. A general "what next?" request remains **NEXT** and routes to `workflows/next.md`.
 
 ## HELP
 

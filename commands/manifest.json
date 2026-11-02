@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
   "master_command": "/hackathonos",
-  "host_runtime_status": {
+  "hub_runtime_status": {
     "claude": {
       "status": "NOT VERIFIED",
-      "evidence": "`claude --print --permission-mode plan /hackathonos-status` from an isolated temporary project stopped before dispatch because Claude Code rejected the configured model as unrecognized."
+      "evidence": "claude --print --permission-mode plan /hackathonos-status from an isolated temporary project stopped before dispatch because Claude Code rejected the configured model as unrecognized."
     },
     "opencode": {
       "status": "NOT VERIFIED",
-      "evidence": "`opencode run --pure --log-level DEBUG --command hackathonos-status` from an isolated temporary project produced no output after 15 seconds and was interrupted; the earlier project-root attempt also waited without workflow output."
+      "evidence": "opencode run --pure --log-level DEBUG --command hackathonos-status from an isolated temporary project produced no output after 15 seconds and was interrupted; the earlier project-root attempt also waited without workflow output."
     },
     "kilo": {
       "status": "NOT VERIFIED",
-      "evidence": "`kilo run --pure --command hackathonos-status` from an isolated temporary project resolved the global adapter and read the global SKILL.md, manifest, router, and status workflow; the permission gate auto-rejected a read-only Test-Path call before a report was produced."
+      "evidence": "kilo run --pure --command hackathonos-status from an isolated temporary project resolved the global adapter and read the global SKILL.md, manifest, router, and status workflow; the permission gate auto-rejected a read-only Test-Path call before a report was produced."
     }
   },
   "implemented": [
@@ -527,9 +527,6 @@
       "status": "planned",
       "reason": "No general improvement workflow exists; score optimization is narrower."
     },
-      "status": "planned",
-      "reason": "No general improvement workflow exists; score optimization is narrower."
-    },
     {
       "command": "hackathonos-polish",
       "status": "planned",
@@ -564,11 +561,6 @@
       "command": "hackathonos-reality-check",
       "status": "planned",
       "reason": "No dedicated reality-check workflow exists."
-    },
-    {
-      "command": "hackathonos-health",
-      "status": "planned",
-      "reason": "No standalone health workflow exists."
     }
   ],
   "groups": [

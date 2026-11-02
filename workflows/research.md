@@ -7,52 +7,42 @@
 ## When to Use
 
 Use RESEARCH when:
-- You have a specific research question
-- You need evidence-based answers about competitors, markets, technologies, rules, etc.
+- You have a specific research question about the hackathon project
+- You need evidence to support or refute a claim
 - You want to know what is known, unknown, or assumed about a topic
+- You need to research competitors, technologies, rules, or best practices
 
 ## Workflow Steps
 
-### Step 1: Confirm Project Location
+### Step 1: Define the Research Question
 
-Verify the current working directory is the hackathon project's repository root. Look for signs of a project:
-- `package.json`, `requirements.txt`, `pyproject.toml`, or similar
-- Source code directories
-- README or documentation
-
-If no project repository is detected, ask the user to confirm the project root before proceeding.
-
-### Step 2: Read Project State
-
-Read `.hackathon/project-state.md` and capture:
+Read from `.hackathon/project-state.md`:
 - Hackathon name, deadline, time remaining
 - Judging criteria and weights (or UNKNOWN)
 - Problem statement
 - Target users (if known)
 
-### Step 3: Accept from User
-
-**Accept from user:**
+Accept from user:
 - Research question (one sentence)
 - Scope (what is in scope, what is out of scope)
 - Depth (calibration, standard, deep)
 
-**If no research question provided:**
+If no research question provided:
 - Report "No research question provided."
 - Ask user to supply a research question before research can run.
 - Stop.
 
-### Step 4: Research Plan
+### Step 2: Research Plan
 
 Define:
-- What needs to be found
-- Where to look (repository files, web search, documentation, team input)
+- What evidence is needed
+- Where to look (repository files, web search, team input, docs)
 - Evidence quality threshold
 - Time budget
 
 Record the plan in `.hackathon/evidence/research/<research-query>.md`.
 
-### Step 5: Retrieve
+### Step 3: Retrieve
 
 Retrieve candidate evidence from:
 - Repository source code, config, tests, docs
@@ -62,7 +52,7 @@ Retrieve candidate evidence from:
 
 Save raw retrieval results to `.hackathon/evidence/research/`.
 
-### Step 6: Verify
+### Step 4: Verify
 
 For each candidate evidence item:
 - Verify the source is real and accessible
@@ -71,11 +61,11 @@ For each candidate evidence item:
 - Check polarity/negation
 - Check temporal consistency (dates, versions)
 
-### Step 7: Analyze
+### Step 5: Analyze
 
 Classify each claim as FACT, INFERENCE, ASSUMPTION, or UNKNOWN.
 
-### Step 8: Synthesize
+### Step 6: Synthesize
 
 Combine evidence into a coherent answer. Address:
 - What is known
@@ -83,7 +73,7 @@ Combine evidence into a coherent answer. Address:
 - What assumptions must hold
 - What the evidence does and does not support
 
-### Step 9: Decide
+### Step 7: Decide
 
 Determine what the research means for the project decision:
 - Does it support proceeding?
@@ -91,12 +81,12 @@ Determine what the research means for the project decision:
 - What assumptions must hold?
 - What is the recommended next action?
 
-### Step 10: Persist
+### Step 8: Persist
 
 Save the research record to `.hackathon/evidence/research/<research-query>.md`.
 Include all evidence, gates, decisions, and unknowns.
 
-## 4. Evidence Model
+## 5. Evidence Model
 
 | Field | Values |
 |-------|--------|
@@ -112,7 +102,7 @@ Rules:
 - UNKNOWN means no information available
 - Never claim research was performed unless evidence was actually retrieved
 
-## 5. Source Priority
+## 6. Source Priority
 
 Priority order for evidence:
 1. Official documentation / official repository / official specification
@@ -121,20 +111,11 @@ Priority order for evidence:
 4. Secondary sources (blog posts, tutorials, secondary docs)
 5. General web search results (lowest confidence)
 
-## 6. Source Consistency
-
-When multiple sources conflict:
-- Record each claim separately with its source
-- Do not silently reconcile contradictions
-- Flag contradictory claims explicitly
-- Mark conflicting claims as UNKNOWN until resolved
-
 ## 7. Time Awareness
 
-- If remaining time is UNKNOWN, record `TIME STRATEGY = UNKNOWN`
+- If remaining time is UNKNOWN, record TIME STRATEGY = UNKNOWN
 - Do not spend unlimited time on research
 - If time is limited, prefer repository evidence over web search
-- Record time spent on research if it exceeds a reasonable threshold
 
 ## 8. Human Authority
 
