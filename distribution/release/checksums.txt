@@ -1,0 +1,10 @@
+# HackathonOS Release Checksums (SHA-256)
+# RELEASE TEMPLATE - populate with real checksums after publishing a GitHub Release.
+# Format: <sha256>  <filename>
+#
+# Example:
+#   e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  hackathonos-1.0.0-linux-amd64.tar.gz
+#
+# Do not fabricate checksums. Generate with:
+#   sha256sum hackathonos-*.tar.gz hackathonos-*.zip > distribution/release/checksums.txt
+#

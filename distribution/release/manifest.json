@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "project": "HackathonOS",
+  "description": "AI Hackathon Mentor/Co-Pilot skill for Claude Code and OpenCode",
+  "latest": {
+    "version": "1.0.0",
+    "channel": "stable"
+  },
+  "archives": [
+    {
+      "os": "linux",
+      "arch": "amd64",
+      "format": "tar.gz",
+      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-linux-amd64.tar.gz",
+      "size": 0
+    },
+    {
+      "os": "darwin",
+      "arch": "amd64",
+      "format": "tar.gz",
+      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-darwin-amd64.tar.gz",
+      "size": 0
+    },
+    {
+      "os": "darwin",
+      "arch": "arm64",
+      "format": "tar.gz",
+      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-darwin-arm64.tar.gz",
+      "size": 0
+    },
+    {
+      "os": "windows",
+      "arch": "amd64",
+      "format": "zip",
+      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-windows-amd64.zip",
+      "size": 0
+    }
+  ],
+  "cli": {
+    "name": "hackathonos",
+    "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-cli-1.0.0.zip",
+    "checksum": ""
+  },
+  "notes": "RELEASE TEMPLATE. Replace URLs, sizes, and checksums with values from a real published GitHub Release before distribution. Do not fabricate checksums.",
+  "published_at": null
+}
