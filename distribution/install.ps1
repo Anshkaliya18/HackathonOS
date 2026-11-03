@@ -1,4 +1,4 @@
-# HackathonOS Installer — Windows PowerShell (5.1+ / 7+)
+# HackathonOS Installer - Windows PowerShell (5.1+ / 7+)
 #
 # Installs the HackathonOS AI Hackathon Mentor skill for Claude Code and
 # OpenCode from a versioned GitHub Releases archive, verifies its SHA-256
@@ -49,11 +49,11 @@ $script:BACKUP_DIRS = @()
 ###############################################################################
 function Write-Err {
     param([string] $Message)
-    Write-Host ("  ✗ " + $Message) -ForegroundColor Red
+    Write-Host ("  x " + $Message) -ForegroundColor Red
 }
 function Write-Ok {
     param([string] $Message)
-    Write-Host ("  ✓ " + $Message) -ForegroundColor Green
+    Write-Host ("  + " + $Message) -ForegroundColor Green
 }
 function Write-Info {
     param([string] $Message)
@@ -216,7 +216,7 @@ function Download-And-Verify {
     Write-Ok "Download complete"
 
     if ([string]::IsNullOrWhiteSpace($script:ARCHIVE_CHECKSUM)) {
-        Write-Info "No checksum in manifest — skipping verification (not recommended)."
+        Write-Info "No checksum in manifest - skipping verification (not recommended)."
     } else {
         $actual = Get-Sha256 $archive
         if ($actual -ne $script:ARCHIVE_CHECKSUM) {
@@ -358,7 +358,7 @@ function Ensure-Path {
     try {
         [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
         Write-Ok ("Added {0} to user PATH" -f $CLI_BIN_DIR)
-        Write-Info "Restart your shell or run: $env:PATH = \"$newPath;${env:PATH}\""
+        Write-Info "Restart your shell or run: `$env:PATH = `"$newPath;${env:PATH}`""
     } catch {
         Write-Info "Add $CLI_BIN_DIR to your PATH manually."
     }
@@ -386,17 +386,17 @@ function Validate-Installation {
 ###############################################################################
 function Print-Banner {
     Write-Host ""
-    Write-Host "╔═══════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║          HACKATHONOS                 ║" -ForegroundColor Cyan
-    Write-Host "║       AI HACKATHON MENTOR             ║" -ForegroundColor Cyan
-    Write-Host "╚═══════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host "=========================================" -ForegroundColor Cyan
+    Write-Host "|          HACKATHONOS                 |" -ForegroundColor Cyan
+    Write-Host "|       AI HACKATHON MENTOR             |" -ForegroundColor Cyan
+    Write-Host "=========================================" -ForegroundColor Cyan
     Write-Host ""
 }
 function Print-Success {
     Write-Host ""
-    Write-Host "╔═══════════════════════════════════════╗" -ForegroundColor Green
-    Write-Host "║  Installation completed successfully! ║" -ForegroundColor Green
-    Write-Host "╚═══════════════════════════════════════╝" -ForegroundColor Green
+    Write-Host "=========================================" -ForegroundColor Green
+    Write-Host "|  Installation completed successfully! |" -ForegroundColor Green
+    Write-Host "=========================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "HackathonOS is installed:"
     foreach ($target in $script:TARGETS) {
@@ -404,10 +404,10 @@ function Print-Success {
             "claude"   { $dir = $CLAUDE_SKILL_DIR }
             "opencode" { $dir = $OPENCODE_SKILL_DIR }
         }
-        Write-Host ("  • {0}: {1}" -f $target, $dir) -ForegroundColor Green
+        Write-Host ("  * {0}: {1}" -f $target, $dir) -ForegroundColor Green
     }
     if (-not $NoCli) {
-        Write-Host ("  • CLI: {0}\{1}" -f $CLI_BIN_DIR, $CLI_NAME) -ForegroundColor Green
+        Write-Host ("  * CLI: {0}\{1}" -f $CLI_BIN_DIR, $CLI_NAME) -ForegroundColor Green
     }
     Write-Host ""
     Write-Host "Try it in your AI coding agent:"

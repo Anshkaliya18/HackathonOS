@@ -1,4 +1,4 @@
-# HackathonOS Uninstaller — Windows PowerShell (5.1+ / 7+)
+# HackathonOS Uninstaller - Windows PowerShell (5.1+ / 7+)
 #
 # Removes only HackathonOS installation files. User project data and
 # `.hackathon/` directories are never touched.
@@ -19,26 +19,26 @@ $CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
 $CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\hackathonos"
 $OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\hackathonos"
 
-function Write-Ok { param([string] $M) Write-Host ("  ✓ " + $M) -ForegroundColor Green }
+function Write-Ok { param([string] $M) Write-Host ("  + " + $M) -ForegroundColor Green }
 function Write-Info { param([string] $M) Write-Host ("  > " + $M) }
-function Write-Err { param([string] $M) Write-Host ("  ✗ " + $M) -ForegroundColor Red }
+function Write-Err { param([string] $M) Write-Host ("  x " + $M) -ForegroundColor Red }
 
 Write-Host "HackathonOS uninstaller"
 Write-Host ""
 Write-Host "The following will be removed:"
 $removed = 0
 if (Test-Path (Join-Path $CLAUDE_SKILL_DIR "SKILL.md")) {
-    Write-Host ("  • Claude Code skill: {0}" -f $CLAUDE_SKILL_DIR) -ForegroundColor Green
+    Write-Host ("  * Claude Code skill: {0}" -f $CLAUDE_SKILL_DIR) -ForegroundColor Green
     $removed++
 }
 if (Test-Path (Join-Path $OPENCODE_SKILL_DIR "SKILL.md")) {
-    Write-Host ("  • OpenCode skill: {0}" -f $OPENCODE_SKILL_DIR) -ForegroundColor Green
+    Write-Host ("  * OpenCode skill: {0}" -f $OPENCODE_SKILL_DIR) -ForegroundColor Green
     $removed++
 }
 $cliExe = Join-Path $CLI_BIN_DIR $CLI_NAME
 $cliBat = Join-Path $CLI_BIN_DIR "${CLI_NAME}.bat"
 if (Test-Path $cliExe -or Test-Path $cliBat) {
-    Write-Host ("  • CLI: {0}" -f $CLI_BIN_DIR) -ForegroundColor Green
+    Write-Host ("  * CLI: {0}" -f $CLI_BIN_DIR) -ForegroundColor Green
     $removed++
 }
 Write-Host ""
