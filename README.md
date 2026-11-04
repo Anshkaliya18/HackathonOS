@@ -16,7 +16,19 @@ Integration files exist for Claude Code, OpenCode, and Kilo Code. The global ins
 
 ## Install status
 
-The project has PowerShell and Bash installer scripts, but the checked-in release manifest is a template and release artifacts/checksums are not published. Therefore public one-command installation is not live yet. Do not use the placeholder `YOUR-DOMAIN` commands. See [INSTALLATION.md](INSTALLATION.md) for accurate current options and release publishing steps.
+Install the latest published release from PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.ps1 | iex
+```
+
+Or from Linux/macOS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.sh | bash
+```
+
+These install the Claude Code and OpenCode integrations. Runtime loading is not yet verified; see [AGENT-COMPATIBILITY.md](AGENT-COMPATIBILITY.md).
 
 ## Quick use from this repository
 

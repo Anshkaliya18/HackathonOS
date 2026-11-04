@@ -1,14 +1,26 @@
 # Installation
 
-## Release availability
+## One-command installation
 
-The repository is `Anshkaliya18/HackathonOS`, but no real release package and verified checksums are present in the current manifest. The manifest labels itself a template. The `YOUR-DOMAIN` installer examples are placeholders. Public one-command installation and update cannot succeed until release assets are built and published according to `RELEASE.md`.
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.ps1 | iex
+```
+
+Linux/macOS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.sh | bash
+```
+
+The installers download the latest GitHub release and verify checksums before extracting. Release assets are available at `https://github.com/Anshkaliya18/HackathonOS/releases`.
 
 ## Local/source use
 
 Clone or open this repository in a compatible agent and use the repo-local integration files. This does not install the standalone `hackathonos` management CLI globally. For a project-local agent setup, use the checked-in repo files; no dedicated `hackathonos install --local` command exists yet.
 
-## Installer scripts (after release publication)
+## Installer scripts from a source checkout
 
 Linux/macOS:
 
@@ -26,9 +38,9 @@ The standard targets are Claude Code (`~/.claude/skills/hackathonos/`) and OpenC
 
 ## Options and environment
 
-Shell installer options: `--claude`, `--opencode`, `--both`, `--version VERSION`, `--manifest-url URL`, `--no-cli`, `--no-path`, `--yes`, `--help`. PowerShell parameters: `-Claude`, `-OpenCode`, `-Both`, `-ProjectDir`, `-Version`, `-ManifestUrl`, `-NoCli`, `-NoPath`, `-Yes`.
+Shell installer options: `--claude`, `--opencode`, `--both`, `--version VERSION`, `--manifest-url URL`, `--no-cli`, `--no-path`, `--yes`, `--help`. PowerShell parameters: `-Claude`, `-OpenCode`, `-Both`, `-Version`, `-ManifestUrl`, `-NoCli`, `-NoPath`, `-Yes`. The experimental project-dir switch is not supported and returns an error.
 
-Environment variables include `HACKATHONOS_RELEASE_MANIFEST_URL`, `HACKATHONOS_VERSION`, `HACKATHONOS_INSTALL_CLAUDE`, `HACKATHONOS_INSTALL_OPENCODE`, `HACKATHONOS_INSTALL_CLI`, and `HACKATHONOS_NO_PATH`. The `-ProjectDir` / `--project` interface is experimental and not a verified local installation mode.
+Environment variables include `HACKATHONOS_RELEASE_MANIFEST_URL`, `HACKATHONOS_VERSION`, `HACKATHONOS_INSTALL_CLAUDE`, `HACKATHONOS_INSTALL_OPENCODE`, `HACKATHONOS_INSTALL_CLI`, and `HACKATHONOS_NO_PATH`.
 
 ## CLI commands
 

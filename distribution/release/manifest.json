@@ -12,35 +12,40 @@
       "arch": "amd64",
       "format": "tar.gz",
       "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-linux-amd64.tar.gz",
-      "size": 0
+      "size": 189746,
+      "checksum": "0c8aa7b2f78989f6d85bea0eb5031a19af556487b41a22a8bbde8b7366ea743b"
     },
     {
       "os": "darwin",
       "arch": "amd64",
       "format": "tar.gz",
       "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-darwin-amd64.tar.gz",
-      "size": 0
+      "size": 189747,
+      "checksum": "0d1ace90761eb759109524933e8cad703f9337827fb84f767a57611cf79ffda3"
     },
     {
       "os": "darwin",
       "arch": "arm64",
       "format": "tar.gz",
       "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-darwin-arm64.tar.gz",
-      "size": 0
+      "size": 189747,
+      "checksum": "7a44ca9062088bd7d619e0f555902f580e77373eff81e80a406e29fc61e34cf6"
     },
     {
       "os": "windows",
       "arch": "amd64",
       "format": "zip",
       "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-windows-amd64.zip",
-      "size": 0
+      "size": 252782,
+      "checksum": "1786c7a019d3a4f30eadc1e7219f64de26e91754909adabc0e3eb27fa8547db1"
     }
   ],
   "cli": {
     "name": "hackathonos",
     "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-cli-1.0.0.zip",
-    "checksum": ""
+    "checksum": "432ff463cf72e99476bb4b429376db9732e452f46e4048a48c6089551fd8f5f8",
+    "size": 7527
   },
-  "notes": "RELEASE TEMPLATE. Replace URLs, sizes, and checksums with values from a real published GitHub Release before distribution. Do not fabricate checksums.",
+  "notes": "HackathonOS 1.0.0 release. See CHANGELOG.md.",
   "published_at": null
 }

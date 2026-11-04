@@ -81,6 +81,20 @@ function Test-Command {
     return (Get-Command $Name -ErrorAction SilentlyContinue) -ne $null
 }
 
+function Invoke-DownloadWithRetry {
+    param([string] $Uri, [string] $Destination, [int] $TimeoutSec)
+    for ($attempt = 0; $attempt -lt 3; $attempt++) {
+        try {
+            Invoke-WebRequest -Uri $Uri -OutFile $Destination -TimeoutSec $TimeoutSec -ErrorAction Stop | Out-Null
+            return
+        } catch {
+            if (Test-Path $Destination) { Remove-Item -LiteralPath $Destination -Force -ErrorAction SilentlyContinue }
+            if ($attempt -eq 2) { throw "Download failed after 3 attempts ($Uri): $($_.Exception.Message)" }
+            Start-Sleep -Seconds ([math]::Pow(2, $attempt))
+        }
+    }
+}
+
 function Get-Sha256 {
     param([string] $Path)
     # Prefer the built-in Get-FileHash (PowerShell 4.0+ / 5.1+).
@@ -162,11 +176,7 @@ function Fetch-Manifest {
     New-Item -ItemType Directory -Path $script:TMP_DIR -Force | Out-Null
     $manifestFile = Join-Path $script:TMP_DIR "manifest.json"
 
-    try {
-        Invoke-WebRequest -Uri $manifestUrl -OutFile $manifestFile -TimeoutSec 120 -ErrorAction Stop | Out-Null
-    } catch {
-        throw "Failed to download release manifest from $manifestUrl"
-    }
+    Invoke-DownloadWithRetry -Uri $manifestUrl -Destination $manifestFile -TimeoutSec 120
     $script:MANIFEST_FILE = $manifestFile
     Write-Ok "Manifest downloaded"
 }
@@ -225,11 +235,7 @@ function Assert-SafeZip {
 function Download-And-Verify {
     Write-Info "URL: $script:ARCHIVE_URL"
     $archive = Join-Path $script:TMP_DIR $script:ARCHIVE_NAME
-    try {
-        Invoke-WebRequest -Uri $script:ARCHIVE_URL -OutFile $archive -TimeoutSec 300 -ErrorAction Stop | Out-Null
-    } catch {
-        throw "Failed to download $($script:ARCHIVE_NAME)"
-    }
+    Invoke-DownloadWithRetry -Uri $script:ARCHIVE_URL -Destination $archive -TimeoutSec 300
     Write-Ok "Download complete"
 
     if ([string]::IsNullOrWhiteSpace($script:ARCHIVE_CHECKSUM)) {
@@ -349,9 +355,7 @@ function Install-Cli {
             throw "CLI not available with a URL and SHA-256 in this installer bundle."
         }
         $cliArchive = Join-Path $script:TMP_DIR "hackathonos-cli.zip"
-        try {
-            Invoke-WebRequest -Uri $cliUrl -OutFile $cliArchive -TimeoutSec 120 -ErrorAction Stop | Out-Null
-        } catch { throw "Failed to download CLI." }
+        Invoke-DownloadWithRetry -Uri $cliUrl -Destination $cliArchive -TimeoutSec 120
         if ((Get-Sha256 $cliArchive) -ne $cliChecksum) { throw "CLI archive SHA-256 mismatch." }
         Assert-SafeZip $cliArchive
         $cliExtract = Join-Path $script:TMP_DIR "cli"
@@ -461,6 +465,10 @@ function Print-Success {
 # Main
 ###############################################################################
 Print-Banner
+
+if (-not [string]::IsNullOrWhiteSpace($ProjectDir)) {
+    throw "Project-level installer mode is not implemented; use the repository-local agent files."
+}
 
 if (-not (Test-Command python)) {
     throw "python is required but not installed."

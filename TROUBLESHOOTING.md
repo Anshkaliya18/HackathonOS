@@ -2,7 +2,7 @@
 
 ## Download returns 404
 
-The checked-in manifest explicitly calls itself a release template. It references v1.0.0 assets, but this checkout has no published archive/checksum assets. Publishing the tagged GitHub release and matching files is required before the default release URL can work.
+Check that the release asset URL and tag are available and that the requested platform has an archive in the manifest. A 404 means the tag, manifest, or asset is absent or the release is not yet published.
 
 ## Missing or mismatched checksum
 

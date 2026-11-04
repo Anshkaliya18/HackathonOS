@@ -1,6 +1,6 @@
 # HackathonOS Changelog
 
-## Unreleased
+## [1.0.0] — 2026-11-04
 
 ### Fixed
 
@@ -12,12 +12,6 @@
 
 - `hackathonos audit` and report-only-by-default `hackathonos clean` for generated debris limited to managed skill installations.
 - Beginner and maintainer documentation for quickstart, configuration, agent compatibility, commands, workflows, architecture, troubleshooting, and contribution.
-
-### Known release blocker
-
-- The checked-in release manifest is a template and the referenced release artifacts/checksums are not published. Consequently remote one-command installs are not currently distributable.
-
-## [1.0.0] — 2026-11-04
 
 ### Added
 

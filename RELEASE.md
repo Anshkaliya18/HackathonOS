@@ -12,7 +12,7 @@ hackathonos-1.0.0-linux-amd64.tar.gz
 hackathonos-1.0.0-darwin-amd64.tar.gz
 hackathonos-1.0.0-darwin-arm64.tar.gz
 hackathonos-1.0.0-windows-amd64.zip
-hackathonos-cli-1.0.0.zip        # optional: contains cli/hackathonos + cli/hackathonos.bat
+hackathonos-cli-1.0.0.zip        # required for default CLI-enabled installs
 manifest.json
 checksums.txt
 ```
@@ -66,6 +66,7 @@ Edit `distribution/release/manifest.json`:
   `checksum` (SHA-256).
 - Update the `cli.url` and `cli.checksum`.
 - Set `published_at`.
+- Include the CLI ZIP and its checksum when using the default installer behavior; CLI installation can be disabled with `--no-cli` / `-NoCli`.
 
 Do **not** fabricate checksums — generate them from the real artifacts.
 
