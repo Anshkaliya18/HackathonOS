@@ -5,7 +5,7 @@ Contributions should preserve evidence boundaries, human approval gates, and the
 ## Set up the repository
 
 ```bash
-git clone https://github.com/Anshkaliya18/sherpa.git
+git clone https://github.com/Anshkaliya18/HackathonOS.git
 cd sherpa
 python --version
 ```
@@ -47,4 +47,4 @@ Implement only formats the host documents. Check command discovery, argument for
 
 Describe the problem, intended behavior, affected workflows/adapters/platforms, and validation run. For bugs, include minimal reproduction steps and relevant sanitized output. Keep tokens and private project data out of issues and test output.
 
-See the [repository contributor notes](https://github.com/Anshkaliya18/sherpa/blob/main/CONTRIBUTING.md), [security guidance](https://github.com/Anshkaliya18/sherpa/blob/main/SECURITY.md), and [release process](https://github.com/Anshkaliya18/sherpa/blob/main/RELEASE.md).
+See the [repository contributor notes](https://github.com/Anshkaliya18/HackathonOS/blob/main/CONTRIBUTING.md), [security guidance](https://github.com/Anshkaliya18/HackathonOS/blob/main/SECURITY.md), and [release process](https://github.com/Anshkaliya18/HackathonOS/blob/main/RELEASE.md).

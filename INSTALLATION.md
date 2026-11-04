@@ -5,30 +5,28 @@
 Windows PowerShell:
 
 ```powershell
-$env:sherpa_RELEASE_MANIFEST_URL = 'https://github.com/Anshkaliya18/sherpa/releases/download/v1.0.0/manifest.json'
-irm https://raw.githubusercontent.com/Anshkaliya18/sherpa/v1.0.0/distribution/install.ps1 | iex
-Remove-Item Env:\sherpa_RELEASE_MANIFEST_URL
+irm https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.ps1 | iex
 ```
 
 Linux/macOS:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/sherpa/v1.0.0/distribution/install.sh | sherpa_RELEASE_MANIFEST_URL=https://github.com/Anshkaliya18/sherpa/releases/download/v1.0.0/manifest.json bash
+curl -fsSL https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.sh | bash
 ```
 
-These commands pin both the installer script and release manifest to v1.0.0; the manifest selects the archive and checksum. Review the script before running it. To install a later release, update both v1.0.0 references to that release tag. Release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/sherpa/releases).
+These pinned commands become available after the Sherpa v2.0.0 release publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/HackathonOS/releases).
 
 ## npm installer
 
-The package name is `sherpa-cli`. Once it is published to npm:
+The package name is `sherpa-skill`. Once it is published to npm:
 
 ```sh
-npx sherpa-cli install
-npx sherpa-cli install --dry-run
-npx sherpa-cli install --uninstall
+npx sherpa-skill@2.0.0 install
+npx sherpa-skill@2.0.0 install --dry-run
+npx sherpa-skill@2.0.0 install --uninstall
 ```
 
-`install` reuses the platform distribution installer and targets both Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--uninstall` calls the existing uninstaller and removes managed global skill and CLI files while preserving project data. The npm package is not yet published; the npx commands become available after publication.
+`install` reuses the platform installer and targets both Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--no-cli` skips the optional Python CLI, and `--uninstall` removes managed global skill and CLI files while preserving project data. The npm package is not yet published; the npx commands become available after publication. See [npm publishing](docs/deployment/npm.md).
 
 ## Local/source use
 
@@ -45,16 +43,16 @@ bash distribution/install.sh --both
 Windows PowerShell:
 
 ```powershell
-& .\distribution\install.ps1 -Both
+& .\distribution\install.ps1 -Both -NoCli
 ```
 
-The standard targets are Claude Code (`~/.claude/skills/sherpa/`) and OpenCode (`~/.config/opencode/skills/sherpa/`). Use `--claude` / `-Claude` or `--opencode` / `-OpenCode` to select one. The installer checks the downloaded archive and skill structure, backs up prior skill folders, and validates the installed result. CLI locations are `~/.local/bin/` on Unix and `%USERPROFILE%\AppData\Local\sherpa\bin` on Windows.
+The checkout installer stages only tracked product directories and skips `.sherpa/`, tests, caches, and generated site output. The standard targets are Claude Code (`~/.claude/skills/sherpa/`) and OpenCode (`~/.config/opencode/skills/sherpa/`). Use `--claude` / `-Claude` or `--opencode` / `-OpenCode` to select one. The installer validates the skill after installation. Install the optional CLI with Python 3; its Windows launcher supports `python` or `py -3`. CLI locations are `~/.local/bin/` on Unix and `%USERPROFILE%\AppData\Local\sherpa\bin` on Windows.
 
 ## Options and environment
 
 Shell installer options: `--claude`, `--opencode`, `--both`, `--version VERSION`, `--manifest-url URL`, `--no-cli`, `--no-path`, `--yes`, `--help`. PowerShell parameters: `-Claude`, `-OpenCode`, `-Both`, `-Version`, `-ManifestUrl`, `-NoCli`, `-NoPath`, `-Yes`. The experimental project-dir switch is not supported and returns an error.
 
-Environment variables include `sherpa_RELEASE_MANIFEST_URL`, `sherpa_VERSION`, `sherpa_INSTALL_CLAUDE`, `sherpa_INSTALL_OPENCODE`, `sherpa_INSTALL_CLI`, and `sherpa_NO_PATH`.
+Environment variables include `SHERPA_RELEASE_MANIFEST_URL`, `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`.
 
 ## CLI commands
 
@@ -66,4 +64,4 @@ Use `sherpa update` to download a checksummed release and replace installed skil
 
 ## Version pinning
 
-The one-line curl and PowerShell commands pin both the installer script and manifest URL to a release tag. When running a checked-out installer directly, its default manifest points to the latest release; pass `--manifest-url` / `-ManifestUrl` to select a version-specific manifest.
+The one-line curl and PowerShell commands pin the installer script to a release tag. When running an installed online script, the default manifest points to the latest release; pass `--manifest-url` / `-ManifestUrl` to select a custom manifest. Running `distribution/install.ps1` from a full checkout uses the local source tree instead.

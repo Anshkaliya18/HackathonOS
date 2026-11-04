@@ -4,24 +4,24 @@ Before you pack, choose an install method that fits your machine. Sherpa is a gl
 
 ## Release status
 
-The v2.0.0 rename branch is prepared locally. Its release assets and npm package have not been published yet, so the commands below become usable after the first Sherpa release is created. Runtime loading by Claude Code and OpenCode remains **NOT VERIFIED**.
+Sherpa 2.0.0 is merged into `main`, but its GitHub release and npm package have not been published yet. From a checkout, the Windows PowerShell installer uses a filtered local source tree. The online installer and npm command become available after the first Sherpa release is created. Runtime loading by Claude Code and OpenCode remains **NOT VERIFIED**.
 
 ## Windows PowerShell
 
 After release, use the version-pinned installer:
 
 ```powershell
-irm https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.ps1 | iex
+irm https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.ps1 | iex
 ```
 
-From a checkout, run `./distribution/install.ps1 -Both`. Install paths are `~/.claude/skills/sherpa/`, `~/.config/opencode/skills/sherpa/`, and `%USERPROFILE%\AppData\Local\Sherpa\bin` for the CLI.
+From a checkout, run `./distribution/install.ps1 -Both`. To install the agent skill without the optional Python CLI, run `./distribution/install.ps1 -Both -NoCli` or set `$env:SHERPA_INSTALL_CLI = '0'`. The CLI requires Python 3; its Windows launcher supports either `python` or the `py` launcher. Install paths are `~/.claude/skills/sherpa/`, `~/.config/opencode/skills/sherpa/`, and `%USERPROFILE%\AppData\Local\Sherpa\bin` for the CLI.
 
 ## Linux and macOS
 
 After release:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.sh | bash
 ```
 
 From a checkout, use `bash distribution/install.sh --both`. Skill directories are `~/.claude/skills/sherpa/` and `~/.config/opencode/skills/sherpa/`; the CLI is installed under `~/.local/bin/`.
@@ -30,7 +30,7 @@ From a checkout, use `bash distribution/install.sh --both`. Skill directories ar
 
 The shell installer accepts `--claude`, `--opencode`, `--both`, `--version VERSION`, `--manifest-url URL`, `--no-cli`, `--no-path`, `--yes`, and `--help`. PowerShell uses `-Claude`, `-OpenCode`, `-Both`, `-Version`, `-ManifestUrl`, `-NoCli`, `-NoPath`, and `-Yes`.
 
-Use uppercase `SHERPA_RELEASE_MANIFEST_URL`, `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`. Former `HACKATHONOS_*` variables are accepted for one release. See [migration notes](/migration).
+Use uppercase `SHERPA_RELEASE_MANIFEST_URL`, `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`. Former `sherpa_*` variables are accepted for one release. See [migration notes](/migration).
 
 The `sherpa-skill` npm package is prepared but not yet published. Its `sherpa install --dry-run` wrapper previews target paths; the post-publication form will be `npx sherpa-skill@2.0.0 install --dry-run`.
 
@@ -47,7 +47,7 @@ Use `sherpa update` for a checksummed release update. If a project still has `.h
 
 ## Uninstall
 
-Run `sherpa uninstall` and confirm, or use `sherpa uninstall --yes`. The uninstaller removes only recognized Sherpa/HackathonOS managed skill directories, CLI files, and compatibility shims; it preserves project state.
+Run `sherpa uninstall` and confirm, or use `sherpa uninstall --yes`. The uninstaller removes only recognized Sherpa/sherpa managed skill directories, CLI files, and compatibility shims; it preserves project state.
 
 ## Troubleshooting
 
@@ -56,4 +56,4 @@ Run `sherpa uninstall` and confirm, or use `sherpa uninstall --yes`. The uninsta
 - **403/429:** retry later or configure a trusted manifest URL.
 - **CLI not found:** restart the shell and ensure its CLI directory is on `PATH`.
 
-See the [source installation notes](https://github.com/Anshkaliya18/sherpa/blob/main/INSTALLATION.md) and [troubleshooting guide](/troubleshooting/).
+See the [source installation notes](https://github.com/Anshkaliya18/HackathonOS/blob/main/INSTALLATION.md) and [troubleshooting guide](/troubleshooting/).

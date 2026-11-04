@@ -88,6 +88,27 @@ def test_install_preshell_path_traversal():
     assert "\\.\\." in text or "path traversal" in text.lower()
 
 
+def test_windows_installer_uses_live_repo_and_guards_old_release():
+    text = read(INSTALL_PS1)
+    assert "github.com/Anshkaliya18/HackathonOS/releases/latest/download/manifest.json" in text
+    assert "The configured release manifest is for" in text
+    assert "Use-LocalCheckout" in text
+    assert "Copy-LocalSkillTree" in text
+    assert "\.sherpa" in text and "__pycache__" in text
+
+
+def test_windows_installer_supports_headless_and_pythonless_skill_install():
+    text = read(INSTALL_PS1)
+    assert "Invoke-WebRequest -UseBasicParsing" in text
+    assert "Get-WindowsArchitecture" in text and "'x64'   { return 'amd64' }" in text
+    assert "$wmiArchitecture -eq 12" in text
+    assert "SHERPA_INSTALL_CLI" in text and "if ($script:INSTALL_CLI)" in text
+    assert "Test-Command py" in text
+    assert "if ($env:SHERPA_NPM_WRAPPER -eq '1') { exit 1 }" in text
+    wrapper = read(REPO / "distribution" / "cli" / "sherpa.bat")
+    assert "py -3" in wrapper and "where python" in wrapper
+
+
 def test_install_preshell_iex_manifest_and_cli_fallback():
     text = read(INSTALL_PS1)
     assert "return & ([scriptblock]::Create($ScriptBlock)) $data" in text

@@ -12,7 +12,7 @@ Before you set out, check the integration files and the host’s runtime behavio
 | Gemini CLI | No verified native adapter | No | Not supported |
 | Generic host | Root `SKILL.md`, only when manually supported | No | Host-dependent |
 
-The status values follow [`commands/manifest.json`](https://github.com/Anshkaliya18/sherpa/blob/main/commands/manifest.json). The global installer targets Claude Code and OpenCode. Kilo files are repository-local. Do not infer runtime support from adapter files or installer success.
+The status values follow [`commands/manifest.json`](https://github.com/Anshkaliya18/HackathonOS/blob/main/commands/manifest.json). The global installer targets Claude Code and OpenCode. Kilo files are repository-local. Do not infer runtime support from adapter files or installer success.
 
 ## Claude Code
 

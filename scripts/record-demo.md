@@ -1,6 +1,6 @@
 # Record the 30-second demo
 
-Save the finished GIF as `docs/public/demo.gif`, replacing the clearly labeled placeholder. Record only a real agent session; do not add scripted or invented verification output.
+Save the finished GIF as `docs/public/sherpa.gif`, replacing the clearly labeled placeholder. Record only a real agent session; do not add scripted or invented verification output.
 
 ## Before recording
 
@@ -23,4 +23,4 @@ Keep the final edit to about 30 seconds. Use a shortened wait or edit out respon
 
 ## Export
 
-Export a readable GIF at 960–1280 pixels wide, 12–18 fps, and about 30 seconds. Optimize the palette and keep the file small enough for GitHub. Save it to `docs/public/demo.gif`, then check the animation at its final display size and replace the first-screen placeholder in the README.
+Export a readable GIF at 960–1280 pixels wide, 12–18 fps, and about 30 seconds. Optimize the palette and keep the file small enough for GitHub. Save it to `docs/public/sherpa.gif`, then check the animation at its final display size and replace the first-screen placeholder in the README.

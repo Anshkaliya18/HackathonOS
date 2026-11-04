@@ -10,11 +10,11 @@
 
 ### Changed
 
-- HackathonOS is now Sherpa: command, CLI, package, installer, state, and documentation identities use the new name.
+- sherpa is now Sherpa: command, CLI, package, installer, state, and documentation identities use the new name.
 - Project state now uses `.sherpa/`. Existing `.hackathon/` data is read as a one-release fallback; `sherpa migrate` copies it without deleting or overwriting data.
 - The CLI package is named `sherpa-skill` because the `sherpa` npm package name is already taken.
 - The project version is 2.0.0 because this is a public product and command namespace rename with a new project-state path.
-- New installs verify Sherpa before retiring managed HackathonOS skill folders. The deprecated `hackathonos` launcher remains as a forwarding shim.
+- New installs verify Sherpa before retiring managed sherpa skill folders. The deprecated `sherpa` launcher remains as a forwarding shim.
 - The docs site now follows the ascent field-guide design, with a manifest-backed command explorer and explicit compatibility status.
 
 ## [1.0.0] — 2026-11-04

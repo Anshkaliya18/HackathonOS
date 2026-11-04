@@ -41,7 +41,13 @@ class NpmInstallerTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("--dry-run", result.stdout)
+        self.assertIn("--no-cli", result.stdout)
         self.assertIn("--uninstall", result.stdout)
+
+    def test_package_does_not_publish_python_caches(self):
+        package = __import__("json").loads((ROOT / "package.json").read_text(encoding="utf-8"))
+        self.assertNotIn("distribution/cli/", package["files"])
+        self.assertIn("distribution/cli/sherpa", package["files"])
 
 
 if __name__ == "__main__":

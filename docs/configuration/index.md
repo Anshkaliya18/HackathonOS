@@ -16,9 +16,9 @@ The repository has checked-in adapter files for Claude Code, OpenCode, and Kilo 
 
 ## Installer environment variables
 
-`SHERPA_RELEASE_MANIFEST_URL` overrides the release manifest URL. Installers also expose `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`. Former `HACKATHONOS_*` prefixed variables are accepted as fallbacks for one release.
+`SHERPA_RELEASE_MANIFEST_URL` overrides the release manifest URL. Installers also expose `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`. Former `sherpa_*` prefixed variables are accepted as fallbacks for one release.
 
-The manifest format does not currently resolve arbitrary historical versions, so version pinning is unsupported. For exact switches, see [installation](/installation/) and [configuration source reference](https://github.com/Anshkaliya18/sherpa/blob/main/CONFIGURATION.md).
+The manifest format does not currently resolve arbitrary historical versions, so version pinning is unsupported. For exact switches, see [installation](/installation/) and [configuration source reference](https://github.com/Anshkaliya18/HackathonOS/blob/main/CONFIGURATION.md).
 
 ## Precedence and custom paths
 

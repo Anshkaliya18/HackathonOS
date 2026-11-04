@@ -13,7 +13,10 @@
         "distribution/install.ps1",
         "distribution/uninstall.sh",
         "distribution/uninstall.ps1",
-        "distribution/cli/",
+        "distribution/cli/sherpa",
+        "distribution/cli/sherpa.bat",
+        "distribution/cli/hackathonos",
+        "distribution/cli/hackathonos.bat",
         "distribution/npm/"
     ],
     "scripts": {

@@ -32,24 +32,33 @@ export default withMermaid(defineConfig({
       { text: 'Architecture', link: '/architecture/' },
     ],
     sidebar: [
-      { text: 'Start here', items: [
-        { text: 'Overview', link: '/' }, { text: 'Introduction', link: '/getting-started/' },
-        { text: 'Your first ascent', link: '/first-ascent' }, { text: 'Quickstart', link: '/getting-started/quickstart' },
-        { text: 'Installation', link: '/installation/' }, { text: 'Migration', link: '/migration' },
-      ]},
-      { text: 'Use Sherpa', items: [
-        { text: 'Core concepts', link: '/concepts/' }, { text: 'Lifecycle', link: '/concepts/lifecycle' },
-        { text: 'Agent compatibility', link: '/agents/' }, { text: 'Configuration', link: '/configuration/' },
-        { text: 'Workflows', link: '/workflows/' }, { text: 'Project files & audits', link: '/reference/files' },
-      ]},
-      { text: 'Reference', items: [
-        { text: 'Commands', link: '/reference/commands' }, { text: 'Troubleshooting', link: '/troubleshooting/' },
-        { text: 'FAQ', link: '/faq/' }, { text: 'Glossary', link: '/glossary/' },
-      ]},
-      { text: 'Developers', items: [
-        { text: 'Architecture', link: '/architecture/' }, { text: 'Contributing', link: '/contributing/' },
-        { text: 'Deployment', link: '/deployment/' }, { text: 'Source documents', link: '/reference/source-docs' },
-      ]},
+      {
+        text: 'Start here', items: [
+          { text: 'Overview', link: '/' }, { text: 'Introduction', link: '/getting-started/' },
+          { text: 'Your first ascent', link: '/first-ascent' }, { text: 'Quickstart', link: '/getting-started/quickstart' },
+          { text: 'Installation', link: '/installation/' }, { text: 'Migration', link: '/migration' },
+        ]
+      },
+      {
+        text: 'Use Sherpa', items: [
+          { text: 'Core concepts', link: '/concepts/' }, { text: 'Lifecycle', link: '/concepts/lifecycle' },
+          { text: 'Agent compatibility', link: '/agents/' }, { text: 'Configuration', link: '/configuration/' },
+          { text: 'Workflows', link: '/workflows/' }, { text: 'Project files & audits', link: '/reference/files' },
+        ]
+      },
+      {
+        text: 'Reference', items: [
+          { text: 'Commands', link: '/reference/commands' }, { text: 'Troubleshooting', link: '/troubleshooting/' },
+          { text: 'FAQ', link: '/faq/' }, { text: 'Glossary', link: '/glossary/' },
+        ]
+      },
+      {
+        text: 'Developers', items: [
+          { text: 'Architecture', link: '/architecture/' }, { text: 'Contributing', link: '/contributing/' },
+          { text: 'Deployment', link: '/deployment/' }, { text: 'Publish on npm', link: '/deployment/npm' },
+          { text: 'Source documents', link: '/reference/source-docs' },
+        ]
+      },
     ],
     outline: { level: [2, 3] },
     editLink: { pattern: `${repositoryUrl}/edit/main/docs/:path`, text: 'Edit this page on GitHub' },

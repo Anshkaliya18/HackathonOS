@@ -42,4 +42,4 @@ PowerShell uses `-Both`, `-NoCli`, and similar named parameters. The script requ
 
 The Bash installer uses `--both` and related flags. Confirm `~/.local/bin` is on `PATH` for CLI access. On macOS, the release manifest currently lists both amd64 and arm64 archives.
 
-More detail: [source troubleshooting guide](https://github.com/Anshkaliya18/sherpa/blob/main/TROUBLESHOOTING.md).
+More detail: [source troubleshooting guide](https://github.com/Anshkaliya18/HackathonOS/blob/main/TROUBLESHOOTING.md).

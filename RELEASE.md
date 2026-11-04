@@ -1,6 +1,6 @@
 # Sherpa releases
 
-Sherpa uses semantic versioning. Version `2.0.0` is the first release under the new product name: command namespace, CLI/package identity, installer paths, and state directory changed, so the public migration is treated as a major version. Legacy state reads and the `hackathonos` shim ease this transition.
+Sherpa uses semantic versioning. Version `2.0.0` is the first release under the new product name: command namespace, CLI/package identity, installer paths, and state directory changed, so the public migration is treated as a major version. Legacy state reads and the `sherpa` shim ease this transition.
 
 ## Release artifacts
 
@@ -19,14 +19,14 @@ The repository rename and publication steps are intentionally separate; see `scr
 
 ## Installation URLs
 
-After the repository rename and release exist, pin install commands to the selected release tag:
+After the v2.0.0 release exists, pin install commands to the selected release tag. The current repository name is `HackathonOS`; a later GitHub repository rename will redirect these URLs.
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.sh | bash
 ```
 
 ```powershell
-irm https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.ps1 | iex
+irm https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.ps1 | iex
 ```
 
 Avoid `latest` in public setup snippets when reproducible installs matter.

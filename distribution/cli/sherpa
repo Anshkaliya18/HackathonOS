@@ -55,7 +55,7 @@ DEFAULT_CLI_VERSION = "2.0.0"
 # This is the real GitHub Releases pattern for the project repository; a real
 # release must be published before downloads succeed.
 DEFAULT_MANIFEST_URL = (
-    "https://github.com/Anshkaliya18/sherpa"
+    "https://github.com/Anshkaliya18/HackathonOS"
     "/releases/latest/download/manifest.json"
 )
 
@@ -123,7 +123,6 @@ def installed_version(skill_dir: Path) -> str | None:
 def manifest_url() -> str:
     return (os.environ.get("SHERPA_RELEASE_MANIFEST_URL")
             or os.environ.get("HACKATHONOS_RELEASE_MANIFEST_URL")
-            or os.environ.get("sherpa_RELEASE_MANIFEST_URL")
             or DEFAULT_MANIFEST_URL)
 
 
@@ -148,9 +147,18 @@ def fetch_json(url: str, timeout: int = 30) -> dict:
                 raise sherpaError(f"cannot reach manifest after 3 attempts: {exc}") from exc
         time.sleep(0.5 * (2 ** attempt))
     try:
-        return json.loads(data.decode("utf-8"))
+        manifest = json.loads(data.decode("utf-8"))
     except json.JSONDecodeError as exc:
         raise sherpaError(f"manifest is not valid JSON: {exc}") from exc
+    project = manifest.get("project")
+    latest = manifest.get("latest", {}).get("version", "")
+    try:
+        supported_major = int(latest.split(".", 1)[0]) >= 2
+    except (AttributeError, ValueError):
+        supported_major = False
+    if project != PROJECT or not supported_major:
+        raise sherpaError(f"release manifest is for {project!r} version {latest!r}, not Sherpa 2.0.0 or newer")
+    return manifest
 
 
 def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:

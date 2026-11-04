@@ -14,6 +14,7 @@ function help() {
 
 Usage:
   sherpa install [--dry-run]
+  sherpa install --no-cli
   sherpa migrate [--project-root PATH] [--yes]
   sherpa install --uninstall
   sherpa uninstall
@@ -31,6 +32,31 @@ function run(script, scriptArgs, env = process.env) {
   process.exit(result.status ?? 1)
 }
 
+function runPython(script, scriptArgs) {
+  const candidates = process.env.PYTHON
+    ? [[process.env.PYTHON, []]]
+    : process.platform === 'win32'
+      ? [['python', []], ['py', ['-3']]]
+      : [['python3', []], ['python', []]]
+
+  for (const [command, prefixArgs] of candidates) {
+    const result = spawnSync(command, [...prefixArgs, script, ...scriptArgs], {
+      cwd: packageRoot,
+      env: process.env,
+      stdio: 'inherit',
+    })
+    if (result.error?.code === 'ENOENT') continue
+    if (result.error) {
+      console.error(`Could not start ${command}: ${result.error.message}`)
+      process.exit(1)
+    }
+    process.exit(result.status ?? 1)
+  }
+
+  console.error('Python 3 was not found. Install Python or set the PYTHON environment variable.')
+  process.exit(1)
+}
+
 if (args.includes('--help') || args.includes('-h') || args.length === 0) {
   help()
   process.exit(0)
@@ -39,7 +65,7 @@ if (args.includes('--help') || args.includes('-h') || args.length === 0) {
 const command = args[0]
 if (command === 'migrate') {
   const script = path.join(packageRoot, 'distribution', 'cli', 'sherpa')
-  run(process.env.PYTHON || 'python', [script, 'migrate', ...args.slice(1)])
+  runPython(script, ['migrate', ...args.slice(1)])
 }
 const dryRun = args.includes('--dry-run')
 const uninstall = command === 'uninstall' || args.includes('--uninstall')
@@ -75,12 +101,17 @@ if (!existsSync(installer)) {
 }
 
 if (windows) {
+  const env = { ...process.env }
+  env.SHERPA_NPM_WRAPPER = '1'
+  if (args.includes('--no-cli')) env.SHERPA_INSTALL_CLI = '0'
   const scriptArgs = ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', installer]
   if (uninstall) scriptArgs.push('-Yes')
   else scriptArgs.push('-Both', '-Yes')
-  run(process.env.POWERSHELL_EXE || 'powershell.exe', scriptArgs)
+  if (args.includes('--no-cli')) scriptArgs.push('-NoCli')
+  run(process.env.POWERSHELL_EXE || 'powershell.exe', scriptArgs, env)
 } else {
   const env = { ...process.env }
   if (uninstall) env.SHERPA_YES = '1'
+  if (args.includes('--no-cli')) env.SHERPA_INSTALL_CLI = '0'
   run('bash', uninstall ? [installer] : [installer, '--both', '--yes'], env)
 }
