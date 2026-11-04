@@ -28,7 +28,7 @@ Windows PowerShell:
 $env:HACKATHONOS_RELEASE_MANIFEST_URL = 'https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/manifest.json'; irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/v1.0.0/distribution/install.ps1 | iex; Remove-Item Env:\HACKATHONOS_RELEASE_MANIFEST_URL
 ```
 
-The npm package command is `npx hackathonos-cli install` after the package is published to npm.
+After the npm package is published, install with `npx hackathonos-cli install`. Preview target paths without changing files with `npx hackathonos-cli install --dry-run`; remove the global installs with `npx hackathonos-cli install --uninstall`. The package is prepared in this repository but has not been published to npm yet.
 
 ## Try it now
 

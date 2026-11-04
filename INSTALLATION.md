@@ -5,16 +5,30 @@
 Windows PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.ps1 | iex
+$env:HACKATHONOS_RELEASE_MANIFEST_URL = 'https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/manifest.json'
+irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/v1.0.0/distribution/install.ps1 | iex
+Remove-Item Env:\HACKATHONOS_RELEASE_MANIFEST_URL
 ```
 
 Linux/macOS:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/v1.0.0/distribution/install.sh | HACKATHONOS_RELEASE_MANIFEST_URL=https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/manifest.json bash
 ```
 
-The installers download the latest GitHub release and verify checksums before extracting. Release assets are available at `https://github.com/Anshkaliya18/HackathonOS/releases`.
+These commands pin both the installer script and release manifest to v1.0.0; the manifest selects the archive and checksum. Review the script before running it. To install a later release, update both v1.0.0 references to that release tag. Release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/HackathonOS/releases).
+
+## npm installer
+
+The package name is `hackathonos-cli`. Once it is published to npm:
+
+```sh
+npx hackathonos-cli install
+npx hackathonos-cli install --dry-run
+npx hackathonos-cli install --uninstall
+```
+
+`install` reuses the platform distribution installer and targets both Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--uninstall` calls the existing uninstaller and removes managed global skill and CLI files while preserving project data. The npm package is not yet published; the npx commands become available after publication.
 
 ## Local/source use
 
@@ -52,4 +66,4 @@ Use `hackathonos update` to download a checksummed release and replace installed
 
 ## Version pinning
 
-`HACKATHONOS_VERSION` / `--version` is present in the shell installer interface, but the current manifest format does not resolve arbitrary historical versions. Treat pinning as unsupported until version-specific manifests/assets are implemented.
+The one-line curl and PowerShell commands pin both the installer script and manifest URL to a release tag. When running a checked-out installer directly, its default manifest points to the latest release; pass `--manifest-url` / `-ManifestUrl` to select a version-specific manifest.
