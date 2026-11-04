@@ -1,71 +1,80 @@
 # HackathonOS
 
-HackathonOS is a Markdown-first AI hackathon mentor skill. It helps teams move from idea selection through implementation, verification, demo preparation, and submission readiness while grounding advice in project evidence and preserving human approval gates.
+**Build the right thing. Prove it works. Show why it matters.**
 
-## Capabilities
+HackathonOS is a globally installed skill for Claude Code and OpenCode that mentors your work across projects; it is a tool you install once and use in every project, not a hackathon project.
 
-- Idea discovery, evaluation, comparison, and red-team review.
-- Project planning, implementation guidance, status, and next-action workflows.
-- Configuration and secret checks, testing/security reviews, demo and submission preparation.
-- Markdown templates, reusable rules, Python routing/configuration/evaluation utilities.
-- Distribution CLI for version, updates, uninstall, diagnostics, and output audit.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/Anshkaliya18/HackathonOS)](https://github.com/Anshkaliya18/HackathonOS/releases/latest)
+[![GitHub stars](https://img.shields.io/github/stars/Anshkaliya18/HackathonOS)](https://github.com/Anshkaliya18/HackathonOS/stargazers)
+[![Claude Code and OpenCode](https://img.shields.io/badge/Install%20targets-Claude%20Code%20%7C%20OpenCode-blue)](AGENT-COMPATIBILITY.md)
 
-## Agent support
+Docs: [anshkaliya18.github.io/HackathonOS](https://anshkaliya18.github.io/HackathonOS/)
 
-Integration files exist for Claude Code, OpenCode, and Kilo Code. The global installer currently targets Claude Code and OpenCode. Runtime loading is marked **NOT VERIFIED** in `commands/manifest.json`; Codex CLI, Qwen Code, and Gemini CLI have no verified adapter. See [AGENT-COMPATIBILITY.md](AGENT-COMPATIBILITY.md).
+<!-- Record the install-to-recommendation walkthrough described in scripts/record-demo.md and save it to docs/public/demo.gif. -->
+![demo](docs/public/demo.gif)
 
-## Install status
+## Install once
 
-Install the latest published release from PowerShell:
-
-```powershell
-irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.ps1 | iex
-```
-
-Or from Linux/macOS:
+Linux / macOS:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/v1.0.0/distribution/install.sh | HACKATHONOS_RELEASE_MANIFEST_URL=https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/manifest.json bash
 ```
 
-These install the Claude Code and OpenCode integrations. Runtime loading is not yet verified; see [AGENT-COMPATIBILITY.md](AGENT-COMPATIBILITY.md).
+Windows PowerShell:
 
-## Quick use from this repository
+```powershell
+$env:HACKATHONOS_RELEASE_MANIFEST_URL = 'https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/manifest.json'; irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/v1.0.0/distribution/install.ps1 | iex; Remove-Item Env:\HACKATHONOS_RELEASE_MANIFEST_URL
+```
 
-Open the repo in an agent that can load its skill files, then invoke:
+The npm package command is `npx hackathonos-cli install` after the package is published to npm.
+
+## Try it now
 
 ```text
 /hackathonos help
-/hackathonos status
+/hackathonos init
 /hackathonos suggest
 ```
 
-CLI management examples (after a valid release install):
+## Why it's different
 
-```text
-hackathonos --version
-hackathonos doctor
-hackathonos audit
-hackathonos clean --dry-run
-```
+- **Evidence-led:** recommendations distinguish project evidence from assumptions and unknowns.
+- **Human approval gates:** the skill prepares actions and submission materials while leaving consequential decisions to you.
+- **Judging impact per unit time and risk:** prioritize work that can improve judging outcomes within your remaining time and constraints.
+
+## Capabilities
+
+- Discover, compare, and red-team project ideas.
+- Turn a selected idea into an implementation plan and next actions.
+- Review configuration, testing, security, UX, demos, and submissions.
+- Prepare judge-facing explanations grounded in project evidence.
+- Manage the installed skill with the `hackathonos` CLI.
+
+## Supported agents
+
+| Agent | Status | Notes |
+|---|---|---|
+| Claude Code | Install supported, runtime check pending | Global installer targets `~/.claude/skills/hackathonos/`. |
+| OpenCode | Install supported, runtime check pending | Global installer targets `~/.config/opencode/skills/hackathonos/`. |
+| Other agents | Not currently supported by the installer | See [compatibility notes](AGENT-COMPATIBILITY.md). |
 
 ## Project structure
 
-```text
-SKILL.md             Canonical behavior and routing guidance
-commands/            Command manifest and command definitions
-core/                Router, configuration manager, idea engine
-workflows/ rules/    Lifecycle workflows and shared safety rules
-templates/           Project artifacts and configuration examples
-adapters/ .claude/ .opencode/ .kilo/  Agent integrations
-distribution/        Installers, CLI, release metadata
-tests/               Regression and installer tests
-```
+| Path | Purpose |
+|---|---|
+| `SKILL.md` | Core mentoring behavior and routing |
+| `commands/` | Command definitions and compatibility metadata |
+| `core/`, `workflows/`, `rules/` | Shared logic, lifecycle guidance, and safety rules |
+| `templates/` | Reusable project artifacts |
+| `adapters/`, `.claude/`, `.opencode/` | Agent integrations |
+| `distribution/` | Installers, CLI, and release metadata |
+| `tests/` | Workflow, command, regression, and installer coverage |
 
 ## Documentation
 
-Browse the [HackathonOS documentation source](docs/index.md) for the getting-started guide, installation, commands, workflows, configuration, architecture, and contribution guidance. To run the site locally, use the commands in [the deployment guide](docs/deployment/index.md).
-
-The source references remain available: [Quickstart](QUICKSTART.md) · [Installation](INSTALLATION.md) · [Configuration](CONFIGURATION.md) · [Agent compatibility](AGENT-COMPATIBILITY.md) · [Commands](COMMANDS.md) · [Workflows](WORKFLOWS.md) · [Architecture](ARCHITECTURE.md) · [Troubleshooting](TROUBLESHOOTING.md) · [Contributing](CONTRIBUTING.md) · [Release process](RELEASE.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md).
-
-No license file is present; no license is inferred here.
+- [Documentation site](https://anshkaliya18.github.io/HackathonOS/)
+- [Quickstart](QUICKSTART.md) · [Installation](INSTALLATION.md) · [Agent compatibility](AGENT-COMPATIBILITY.md)
+- [Commands](COMMANDS.md) · [Workflows](WORKFLOWS.md) · [Configuration](CONFIGURATION.md) · [Architecture](ARCHITECTURE.md)
+- [Troubleshooting](TROUBLESHOOTING.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md)
