@@ -15,7 +15,7 @@ from itertools import product
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BENCHMARK_DIR = ROOT / ".hackathon" / "evidence" / "gold-benchmark"
+BENCHMARK_DIR = ROOT / ".sherpa" / "evidence" / "gold-benchmark"
 
 sys.path.insert(0, str(ROOT / "src"))
 from verification import (  # noqa: E402

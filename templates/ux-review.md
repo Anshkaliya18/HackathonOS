@@ -36,7 +36,7 @@ For each baseline claim label `FACT | INFERENCE | ASSUMPTION | UNKNOWN` and cite
 
 ## Critical User Flows
 
-List flow IDs and goals. Store detailed flows in `.hackathon/ux/flow-NNN.md`.
+List flow IDs and goals. Store detailed flows in `.sherpa/ux/flow-NNN.md`.
 
 ## Usability Review
 

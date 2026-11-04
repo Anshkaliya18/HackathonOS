@@ -1,5 +1,1 @@
-0c8aa7b2f78989f6d85bea0eb5031a19af556487b41a22a8bbde8b7366ea743b  hackathonos-1.0.0-linux-amd64.tar.gz
-0d1ace90761eb759109524933e8cad703f9337827fb84f767a57611cf79ffda3  hackathonos-1.0.0-darwin-amd64.tar.gz
-7a44ca9062088bd7d619e0f555902f580e77373eff81e80a406e29fc61e34cf6  hackathonos-1.0.0-darwin-arm64.tar.gz
-1786c7a019d3a4f30eadc1e7219f64de26e91754909adabc0e3eb27fa8547db1  hackathonos-1.0.0-windows-amd64.zip
-432ff463cf72e99476bb4b429376db9732e452f46e4048a48c6089551fd8f5f8  hackathonos-cli-1.0.0.zip
+Generated from the actual release assets by scripts/build-release.py. This source template contains no release checksums.

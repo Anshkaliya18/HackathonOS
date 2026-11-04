@@ -1,4 +1,4 @@
-# HackathonOS — Research Rules
+# sherpa — Research Rules
 
 Defines authoritative behavior for the Research capability. Research is a reusable capability
 that supports multiple lifecycle phases (Understand Rules, Analyze Problem, Generate Ideas,
@@ -23,7 +23,7 @@ verification, or explicit human-provided information.
 Classify repository observations and claims as FACT, INFERENCE, ASSUMPTION, or UNKNOWN.
 Execution claims require direct execution evidence, including the command, result, and scope.
 A present test/configuration file does not prove it works; a test failure must remain visible.
-Generated HackathonOS state, plans, tasks, and recommendations are planning records, not
+Generated sherpa state, plans, tasks, and recommendations are planning records, not
 independent repository facts or execution evidence.
 
 Never invent a commit, installed dependency, test/build result, environment value, API behavior,
@@ -45,7 +45,7 @@ UNKNOWN, record `TIME STRATEGY = UNKNOWN` and give a time-neutral research order
 
 ### Stage 1: Input
 
-**Read from `.hackathon/project-state.md`:**
+**Read from `.sherpa/project-state.md`:**
 - Hackathon name, deadline, time remaining
 - Judging criteria and weights (or UNKNOWN)
 - Problem statement
@@ -69,7 +69,7 @@ Define:
 - Evidence quality threshold
 - Time budget
 
-Record the research plan in `.hackathon/evidence/research/<research-query>.md`.
+Record the research plan in `.sherpa/evidence/research/<research-query>.md`.
 
 ### Stage 3: Retrieve
 
@@ -77,9 +77,9 @@ Retrieve candidate evidence from:
 - Repository source code, config, tests, docs
 - Web search (if available and permitted)
 - Team input
-- Existing HackathonOS artifacts
+- Existing sherpa artifacts
 
-Save raw retrieval results to `.hackathon/evidence/research/`.
+Save raw retrieval results to `.sherpa/evidence/research/`.
 
 ### Stage 4: Verify
 
@@ -116,7 +116,7 @@ Determine what the research means for the project decision:
 
 ### Stage 8: Persist
 
-Save the research record to `.hackathon/evidence/research/<research-query>.md`.
+Save the research record to `.sherpa/evidence/research/<research-query>.md`.
 Include all evidence, gates, decisions, and unknowns.
 
 ## 4. Evidence Model
@@ -181,4 +181,4 @@ After each research invocation, return:
 - Decision/recommendation
 - Exactly one PRIMARY NEXT ACTION
 
-All research artifacts live in `.hackathon/evidence/research/`.
+All research artifacts live in `.sherpa/evidence/research/`.

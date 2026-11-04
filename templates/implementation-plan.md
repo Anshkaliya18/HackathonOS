@@ -2,7 +2,7 @@
 
 ## Project
 - Name: UNKNOWN
-- Source project-state: `.hackathon/project-state.md`
+- Source project-state: `.sherpa/project-state.md`
 - Plan status: NOT READY | READY | IN PROGRESS | BLOCKED | COMPLETE
 - Last reviewed: UNKNOWN
 

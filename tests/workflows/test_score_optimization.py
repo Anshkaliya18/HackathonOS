@@ -50,7 +50,7 @@ def count_occurrences(path: Path, pattern: str) -> int:
 def test_at356_prerequisite_phase14_locked() -> None:
     """Score optimization consumes the project's judge simulation report."""
     text = WORKFLOW.read_text(encoding="utf-8")
-    assert ".hackathon/judge-simulation.md" in text
+    assert ".sherpa/judge-simulation.md" in text
     assert "UNKNOWN" in text
 
 
@@ -349,7 +349,7 @@ def test_at390_primary_next_action() -> None:
 def test_adv_01_missing_phase14() -> None:
     """Missing judge evidence is not replaced with a framework report."""
     text = WORKFLOW.read_text(encoding="utf-8")
-    assert ".hackathon/judge-simulation.md" in text
+    assert ".sherpa/judge-simulation.md" in text
 
 
 def test_adv_02_partial_phase14() -> None:

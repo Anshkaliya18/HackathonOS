@@ -2,7 +2,7 @@
 .env
 .env.*
 !.env.example
-!.env.hackathon.example
+!.env.sherpa.example
 !.env.*.example
 credentials/
 credentials.json
@@ -32,6 +32,8 @@ venv/
 env/
 node_modules/
 docs/.vitepress/cache/
+docs/.vitepress/theme/command-data.generated.json
+docs/.vitepress/theme/compatibility-data.generated.json
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/

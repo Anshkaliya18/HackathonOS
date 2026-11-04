@@ -1,75 +1,59 @@
 # Installation
 
-The published installer retrieves a release manifest and checks the archive's SHA-256 checksum before extraction. By default it installs the HackathonOS skill for Claude Code and OpenCode, plus the management CLI.
+Before you pack, choose an install method that fits your machine. Sherpa is a globally installed mentor skill for use inside each project; its command-line manager updates the skill files separately from agent workflows.
 
-::: warning Runtime verification
-An installer completing does not prove an agent will load the files. The repository manifest currently records Claude, OpenCode, and Kilo runtime status as `NOT VERIFIED`.
-:::
+## Release status
 
-## Requirements
+The v2.0.0 rename branch is prepared locally. Its release assets and npm package have not been published yet, so the commands below become usable after the first Sherpa release is created. Runtime loading by Claude Code and OpenCode remains **NOT VERIFIED**.
 
-- Windows PowerShell, or Bash on Linux/macOS.
-- Python available on `PATH` (required by the installer and CLI).
-- Network access to the configured release manifest and archive host.
-- A compatible AI coding agent for skill workflows.
+## Windows PowerShell
 
-## Windows
-
-Run in PowerShell:
+After release, use the version-pinned installer:
 
 ```powershell
-irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.ps1 | iex
+irm https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.ps1 | iex
 ```
 
-To install from a source checkout instead:
-
-```powershell
-& .\distribution\install.ps1 -Both
-```
-
-The PowerShell installer pauses at the end for Enter. Installation paths include `~/.claude/skills/hackathonos/`, `~/.config/opencode/skills/hackathonos/`, and `%USERPROFILE%\AppData\Local\HackathonOS\bin` for the CLI.
+From a checkout, run `./distribution/install.ps1 -Both`. Install paths are `~/.claude/skills/sherpa/`, `~/.config/opencode/skills/sherpa/`, and `%USERPROFILE%\AppData\Local\Sherpa\bin` for the CLI.
 
 ## Linux and macOS
 
+After release:
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/main/distribution/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.sh | bash
 ```
 
-From a checkout, use `bash distribution/install.sh --both`. Skill directories are `~/.claude/skills/hackathonos/` and `~/.config/opencode/skills/hackathonos/`; the CLI is installed under `~/.local/bin/`.
+From a checkout, use `bash distribution/install.sh --both`. Skill directories are `~/.claude/skills/sherpa/` and `~/.config/opencode/skills/sherpa/`; the CLI is installed under `~/.local/bin/`.
 
-## Choose targets and options
+## Options and environment
 
 The shell installer accepts `--claude`, `--opencode`, `--both`, `--version VERSION`, `--manifest-url URL`, `--no-cli`, `--no-path`, `--yes`, and `--help`. PowerShell uses `-Claude`, `-OpenCode`, `-Both`, `-Version`, `-ManifestUrl`, `-NoCli`, `-NoPath`, and `-Yes`.
 
-The PowerShell `-ProjectDir` option is explicitly unsupported. The release manifest format does not resolve arbitrary historical versions, so version pinning should be treated as unsupported until version-specific manifests and assets exist.
+Use uppercase `SHERPA_RELEASE_MANIFEST_URL`, `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`. Former `HACKATHONOS_*` variables are accepted for one release. See [migration notes](/migration).
 
-Environment variables: `HACKATHONOS_RELEASE_MANIFEST_URL`, `HACKATHONOS_VERSION`, `HACKATHONOS_INSTALL_CLAUDE`, `HACKATHONOS_INSTALL_OPENCODE`, `HACKATHONOS_INSTALL_CLI`, and `HACKATHONOS_NO_PATH`.
+The `sherpa-skill` npm package is prepared but not yet published. Its `sherpa install --dry-run` wrapper previews target paths; the post-publication form will be `npx sherpa-skill@2.0.0 install --dry-run`.
 
-## Local or project checkout
-
-Opening the repository in an agent that can load its checked-in instruction files is the local/source path. It does not install the standalone CLI globally. There is no dedicated project-local installer command.
-
-## Verify and update
+## Verify, migrate, update
 
 ```text
-hackathonos --version
-hackathonos doctor
-hackathonos audit
-hackathonos clean --dry-run
+sherpa --version
+sherpa doctor
+sherpa audit
+sherpa clean --dry-run
 ```
 
-Use `hackathonos update` to fetch a checksummed release and replace managed skill directories with backup/rollback behavior. Restart the agent if it does not discover new files.
+Use `sherpa update` for a checksummed release update. If a project still has `.hackathon/` but not `.sherpa/`, Sherpa reads the old state with a deprecation notice. Run `sherpa migrate` to copy it without deleting or overwriting existing data.
 
 ## Uninstall
 
-Run `hackathonos uninstall` and confirm the prompt, or `hackathonos uninstall --yes`. The CLI uninstaller removes recognized managed skill and CLI files, and preserves project `.hackathon/` data. Shell and PowerShell uninstall scripts are also in `distribution/`.
+Run `sherpa uninstall` and confirm, or use `sherpa uninstall --yes`. The uninstaller removes only recognized Sherpa/HackathonOS managed skill directories, CLI files, and compatibility shims; it preserves project state.
 
-## Troubleshooting installation
+## Troubleshooting
 
-- **404:** check the published release tag, manifest, and archive names.
-- **Missing checksum:** installation/update refuses unverifiable archives; publish a correct SHA-256 in the manifest.
+- **404:** verify that the tagged release, manifest, and archive assets exist.
+- **Missing checksum:** installation refuses unverifiable archives; publish only checksums generated from the actual assets.
 - **403/429:** retry later or configure a trusted manifest URL.
-- **CLI not found:** restart the shell and ensure `~/.local/bin` or the Windows user bin directory is on `PATH`.
-- **Installer reports unsupported project mode:** use repository-local agent files instead.
+- **CLI not found:** restart the shell and ensure its CLI directory is on `PATH`.
 
-See [full source installation notes](https://github.com/Anshkaliya18/HackathonOS/blob/main/INSTALLATION.md) and [troubleshooting](/troubleshooting/).
+See the [source installation notes](https://github.com/Anshkaliya18/sherpa/blob/main/INSTALLATION.md) and [troubleshooting guide](/troubleshooting/).

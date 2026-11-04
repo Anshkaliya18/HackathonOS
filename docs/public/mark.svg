@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#0d756b"/><path d="M12 30 24 11l12 19-12 7-12-7Z" fill="none" stroke="white" stroke-width="2.7" stroke-linejoin="round"/><circle cx="24" cy="25" r="3.5" fill="white"/><path d="m17 31 7-3 7 3" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Sherpa summit mark</title>
+  <rect width="64" height="64" rx="15" fill="#244d47"/>
+  <path d="M10 49 27 20l9 15 5-8 13 22H10Z" fill="#dce9e4"/>
+  <path d="m22 49 13-21 13 21H22Z" fill="#9a4f2e"/>
+  <path d="M44 22v13m0-13 10 4-10 4" fill="none" stroke="#f4f1e8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+</svg>

@@ -1,4 +1,4 @@
-# HackathonOS — Phase 20 Post-Mortem Rules
+# sherpa — Phase 20 Post-Mortem Rules
 
 **Lifecycle Phase:** 20 — Post-Mortem Intelligence  
 **Operation:** `POSTMORTEM`  
@@ -12,7 +12,7 @@ Determine scope before analysis. LIVE POST-MORTEM requires sufficient actual pro
 
 ## Required retrospective coverage
 
-Review Phases 1–20 without changing lifecycle count/order. Compare plan vs actual and cover timeline, scope (planned/added/removed/deferred/accidental), decisions and human authority, incidents, risk outcomes, testing/security, UX, red team, judge simulation, score optimization, demo, presentation, submission, result, wins, failures, causal explanations, KEEP/CHANGE/STOP/START, lessons, reusable assets, HackathonOS effectiveness, bottlenecks, process debt, contract gaps, and internal improvement backlog.
+Review Phases 1–20 without changing lifecycle count/order. Compare plan vs actual and cover timeline, scope (planned/added/removed/deferred/accidental), decisions and human authority, incidents, risk outcomes, testing/security, UX, red team, judge simulation, score optimization, demo, presentation, submission, result, wins, failures, causal explanations, KEEP/CHANGE/STOP/START, lessons, reusable assets, sherpa effectiveness, bottlenecks, process debt, contract gaps, and internal improvement backlog.
 
 For unavailable project history, each domain is UNKNOWN; do not populate an illustrative event as if it happened. Framework validation evidence is clearly labeled and may support conclusions about the framework contract only, not about a live hackathon.
 
@@ -24,9 +24,9 @@ Risk outcomes: MATERIALIZED, PARTIALLY_MATERIALIZED, AVOIDED, MITIGATED, TRANSFE
 
 ## Learning and recommendations
 
-Keep, Change, Stop, Start, lessons, assets, bottlenecks, process debt, contract gaps, and backlog records must have evidence, rationale, benefit/impact, priority, and target as applicable. Improvement priorities P0–P3 are INTERNAL HACKATHONOS IMPROVEMENT PRIORITY — NOT OFFICIAL HACKATHON SCORING. Recommendations do not authorize edits to locked prior phases.
+Keep, Change, Stop, Start, lessons, assets, bottlenecks, process debt, contract gaps, and backlog records must have evidence, rationale, benefit/impact, priority, and target as applicable. Improvement priorities P0–P3 are INTERNAL sherpa IMPROVEMENT PRIORITY — NOT OFFICIAL HACKATHON SCORING. Recommendations do not authorize edits to locked prior phases.
 
-HackathonOS effectiveness for each Phase 1–19 is HIGH, MEDIUM, LOW, NOT_USED, or UNKNOWN and must cite evidence. Test harness success establishes only framework contract assertions. It cannot prove workflow host behavior, live project effectiveness, hackathon outcome, or user/judge impact.
+sherpa effectiveness for each Phase 1–19 is HIGH, MEDIUM, LOW, NOT_USED, or UNKNOWN and must cite evidence. Test harness success establishes only framework contract assertions. It cannot prove workflow host behavior, live project effectiveness, hackathon outcome, or user/judge impact.
 
 ## Historical integrity and scope
 
@@ -34,7 +34,7 @@ Phase 20 analyzes and preserves. It does not rewrite prior artifacts, test resul
 
 ## State and output
 
-In the actual project repository only, add the Phase 20 `postmortem` state object from the workflow. Keep unavailable keys UNKNOWN; do not fabricate defaults. Do not create project state in the HackathonOS skill repository. Produce exactly one `PRIMARY NEXT ACTION`. Phase 20 is final, so the action is preservation/archive or another evidenced closure task, never a Phase 21 action.
+In the actual project repository only, add the Phase 20 `postmortem` state object from the workflow. Keep unavailable keys UNKNOWN; do not fabricate defaults. Do not create project state in the sherpa skill repository. Produce exactly one `PRIMARY NEXT ACTION`. Phase 20 is final, so the action is preservation/archive or another evidenced closure task, never a Phase 21 action.
 
 ## Quality and lock gates
 

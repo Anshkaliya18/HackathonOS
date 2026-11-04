@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HackathonOS project configuration utility (Python standard library only).
+"""sherpa project configuration utility (Python standard library only).
 Never prints, logs, or persists secret values. Use from the target project root.
 """
 from __future__ import annotations
@@ -16,6 +16,8 @@ from urllib.parse import urlparse
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 UNKNOWN = "UNKNOWN"
+STATE_DIRECTORY = ".sherpa"
+LEGACY_STATE_DIRECTORY = ".hackathon"
 BOOLEAN_KEYS = {
     "ENABLE_WEB_RESEARCH", "ENABLE_AUTO_VERIFY", "ENABLE_RED_TEAM", "ENABLE_VIDEO_ASSIST",
     "REQUIRE_HUMAN_APPROVAL",
@@ -215,14 +217,36 @@ def env_value(key: str, dotenv: dict[str, str], process_env: dict[str, str]) -> 
     return resolve_value(None, None, process_env.get(key), dotenv.get(key))
 
 
+def project_state_dir(root: Path) -> Path:
+    """Prefer Sherpa state; read the former directory as a one-release fallback."""
+    current = root / STATE_DIRECTORY
+    legacy = root / LEGACY_STATE_DIRECTORY
+    if current.exists():
+        return current
+    if legacy.exists():
+        return legacy
+    return current
+
+
+def legacy_state_warning(root: Path) -> str | None:
+    if not (root / STATE_DIRECTORY).exists() and (root / LEGACY_STATE_DIRECTORY).exists():
+        return ("Deprecated .hackathon/ state is being read. Run `sherpa migrate` to copy it "
+                "to .sherpa/; the original directory will be preserved.")
+    return None
+
+
 def config_snapshot(root: Path, process_env: dict[str, str] | None = None) -> dict[str, Any]:
     process_env = dict(os.environ if process_env is None else process_env)
-    hackathon, h_errors = load_json(root / ".hackathon" / "hackathon.json")
-    settings, s_errors = load_json(root / ".hackathon" / "settings.json")
+    state_root = project_state_dir(root)
+    hackathon, h_errors = load_json(state_root / "hackathon.json")
+    settings, s_errors = load_json(state_root / "settings.json")
     dotenv, env_errors = parse_env_file(root / ".env")
     # Missing configuration is an expected pre-INIT state, not a malformed one.
     errors = [e for e in h_errors + s_errors + env_errors if not e.startswith("Missing ")]
     result: dict[str, Any] = {"errors": errors, "warnings": [], "fields": {}, "secret_findings": [], "secret_configured": False}
+    warning = legacy_state_warning(root)
+    if warning:
+        result["warnings"].append(warning)
 
     def value(path: tuple[str, ...], env_key: str | None = None, default: Any = None) -> Any:
         current: Any = hackathon
@@ -231,12 +255,12 @@ def config_snapshot(root: Path, process_env: dict[str, str] | None = None) -> di
         return resolve_value(None, current, process_env.get(env_key) if env_key else None,
                              dotenv.get(env_key) if env_key else None, default)
 
-    if not (root / ".hackathon" / "project-state.md").exists():
+    if not (state_root / "project-state.md").exists():
         result["warnings"].append("Missing project-state.md")
         result["fields"]["Current phase"] = UNKNOWN
     else:
         try:
-            state_text = (root / ".hackathon" / "project-state.md").read_text(encoding="utf-8-sig")
+            state_text = (state_root / "project-state.md").read_text(encoding="utf-8-sig")
             phase_match = re.search(r"(?im)^\|\s*Phase\s*\|\s*([^|]+?)\s*\|", state_text)
             result["fields"]["Current phase"] = phase_match.group(1).strip() if phase_match and phase_match.group(1).strip().upper() != UNKNOWN else UNKNOWN
         except (OSError, UnicodeError):
@@ -319,7 +343,7 @@ def config_snapshot(root: Path, process_env: dict[str, str] | None = None) -> di
         result["errors"].append(f"Secret scan found {len(result['secret_findings'])} indicator(s) in scanned files")
     if result["errors"]:
         result["status"] = "INVALID"
-    elif not (root / ".hackathon" / "hackathon.json").exists() and not (root / ".hackathon" / "settings.json").exists():
+    elif not (state_root / "hackathon.json").exists() and not (state_root / "settings.json").exists():
         result["status"] = "MISSING"
     else:
         unknowns = sum(1 for val in result["fields"].values() if val == UNKNOWN)
@@ -329,7 +353,7 @@ def config_snapshot(root: Path, process_env: dict[str, str] | None = None) -> di
 
 def print_overview(snapshot: dict[str, Any]) -> None:
     f = snapshot["fields"]
-    print("HACKATHONOS CONFIGURATION")
+    print("Sherpa CONFIGURATION")
     print(f"Status: {snapshot['status']}")
     print(f"Current phase: {f.get('Current phase', UNKNOWN)}")
     for label in ("Hackathon name", "Platform", "Edition", "Project name", "Project path"):
@@ -370,7 +394,7 @@ def print_check(snapshot: dict[str, Any], root: Path) -> None:
 def ensure_gitignore(root: Path) -> list[str]:
     path = root / ".gitignore"
     original = path.read_text(encoding="utf-8-sig") if path.exists() else ""
-    required = (".env", ".env.*", "!.env.example", "!.env.*.example", "*.key", "*.pem",
+    required = (".env", ".env.*", "!.env.sherpa.example", "!.env.*.example", "*.key", "*.pem",
                 "credentials.json", "service-account.json", "secrets.json")
     present = set(line.strip() for line in original.splitlines())
     additions = [line for line in required if line not in present]
@@ -378,25 +402,31 @@ def ensure_gitignore(root: Path) -> list[str]:
         prefix = original
         if prefix and not prefix.endswith(("\n", "\r")): prefix += "\n"
         if prefix and not prefix.endswith("\n\n"): prefix += "\n"
-        path.write_text(prefix + "# HackathonOS local environment and credentials\n" + "\n".join(additions) + "\n", encoding="utf-8")
+        path.write_text(prefix + "# sherpa local environment and credentials\n" + "\n".join(additions) + "\n", encoding="utf-8")
     return additions
 
 
 def init_project(root: Path, create_env: bool = False) -> tuple[list[str], list[str]]:
     root = root.resolve()
     if not root.is_dir(): raise ValueError("project root does not exist")
-    if (root / "SKILL.md").exists() and (root / "workflows" / "lifecycle.md").exists() and not (root / ".hackathon").exists():
-        raise ValueError("refusing to initialize the HackathonOS framework repository; run from a hackathon project root")
+    if ((root / "SKILL.md").exists() and (root / "workflows" / "lifecycle.md").exists()
+            and (root / "commands" / "manifest.json").exists()):
+        raise ValueError("refusing to initialize the sherpa framework repository; run from a hackathon project root")
     template_root = Path(__file__).resolve().parents[2]
     created: list[str] = []; preserved: list[str] = []
+    state_root = project_state_dir(root)
+    warning = legacy_state_warning(root)
+    if warning:
+        raise ValueError(warning + " Run `sherpa migrate` before initializing or writing state.")
+    state_root = root / STATE_DIRECTORY
     destinations = {
-        ".env.example": template_root / ".env.example",
-        ".hackathon/hackathon.json": template_root / "templates/configuration/hackathon.json",
-        ".hackathon/settings.json": template_root / "templates/configuration/settings.json",
-        ".hackathon/config/project.env.example": template_root / "templates/configuration/project.env.example",
-        ".hackathon/config/providers.env.example": template_root / "templates/configuration/providers.env.example",
-        ".hackathon/config/integrations.env.example": template_root / "templates/configuration/integrations.env.example",
-        ".hackathon/project-state.md": template_root / "templates/project-state.md",
+        ".env.sherpa.example": template_root / ".env.sherpa.example",
+        f"{state_root.name}/hackathon.json": template_root / "templates/configuration/hackathon.json",
+        f"{state_root.name}/settings.json": template_root / "templates/configuration/settings.json",
+        f"{state_root.name}/config/project.env.example": template_root / "templates/configuration/project.env.example",
+        f"{state_root.name}/config/providers.env.example": template_root / "templates/configuration/providers.env.example",
+        f"{state_root.name}/config/integrations.env.example": template_root / "templates/configuration/integrations.env.example",
+        f"{state_root.name}/project-state.md": template_root / "templates/project-state.md",
     }
     for relative, source in destinations.items():
         target = root / relative
@@ -405,9 +435,9 @@ def init_project(root: Path, create_env: bool = False) -> tuple[list[str], list[
             continue
         target.parent.mkdir(parents=True, exist_ok=True)
         content = source.read_text(encoding="utf-8-sig")
-        if relative == ".hackathon/hackathon.json":
+        if relative == f"{state_root.name}/hackathon.json":
             data=json.loads(content); data["project"]["path"]=str(root); content=json.dumps(data,indent=2)+"\n"
-        if relative == ".hackathon/project-state.md":
+        if relative == f"{state_root.name}/project-state.md":
             content=content.replace("| Phase | UNKNOWN |", "| Phase | Understand Rules |", 1)
             content=content.replace("| State last updated | UNKNOWN |", f"| State last updated | {dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')} |", 1)
         target.write_text(content,encoding="utf-8")
@@ -416,7 +446,7 @@ def init_project(root: Path, create_env: bool = False) -> tuple[list[str], list[
         target=root/".env"
         if target.exists(): preserved.append(".env")
         else:
-            target.write_text((template_root/".env.example").read_text(encoding="utf-8-sig"),encoding="utf-8")
+            target.write_text((template_root/".env.sherpa.example").read_text(encoding="utf-8-sig"),encoding="utf-8")
             created.append(".env")
     additions=ensure_gitignore(root)
     if additions: created.append(".gitignore rules: "+", ".join(additions))
@@ -435,7 +465,7 @@ def parse_overrides(values: list[str]) -> dict[str, str]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser=argparse.ArgumentParser(description="HackathonOS project configuration utility")
+    parser=argparse.ArgumentParser(description="Sherpa project configuration utility")
     parser.add_argument("--project-root",default=".",help="hackathon project root (default: current directory)")
     sub=parser.add_subparsers(dest="command",required=True)
     sub.add_parser("config",help="show redacted configuration overview")
@@ -449,7 +479,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command=="init":
         try:
             created,preserved=init_project(root,args.create_env)
-            print("HackathonOS configuration initialization")
+            print("Sherpa configuration initialization")
             print("Created: "+(", ".join(created) if created else "nothing; all configuration already existed"))
             print("Preserved: "+(", ".join(preserved) if preserved else "none"))
             return 0

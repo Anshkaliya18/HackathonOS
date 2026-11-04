@@ -1,4 +1,4 @@
-# HackathonOS — Configuration Workflow
+# sherpa — Configuration Workflow
 
 **Operations:** CONFIG, CONFIG CHECK  
 **Purpose:** Inspect or validate project configuration without starting another lifecycle phase.
@@ -19,5 +19,5 @@ When INIT creates a project, run the utility's `init` subcommand from the actual
 
 - This workflow does not add a lifecycle phase or change the selected idea.
 - It does not write application source, install dependencies, contact an AI provider, or deploy.
-- `.hackathon/` and `.env` belong to the consuming project, not the HackathonOS framework repository.
+- `.sherpa/` and `.env` belong to the consuming project, not the sherpa framework repository.
 - Preserve all user data; never reset or overwrite existing configuration during INIT.

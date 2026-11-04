@@ -1,4 +1,4 @@
-# HackathonOS — Scoring Rules
+# sherpa — Scoring Rules
 
 Defines the Idea Intelligence Engine scoring model. All scores are deterministic:
 - Same evidence, criteria, weights, team capability, and time → same score and recommendation.
@@ -181,11 +181,11 @@ Every research claim carries:
 
 | Outcome | Meaning | Effect on project-state.md |
 |---------|---------|---------------------------|
-| **SELECT** | One idea recommended | Writes to `.hackathon/decisions.md` only. Does NOT set `selected idea` |
-| **REVISE** | Ideas need modification | Writes revision plan to `.hackathon/decisions.md`. No change to `selected idea` |
-| **REJECT_ALL** | No candidate ideas viable | Writes rejection rationale to `.hackathon/decisions.md`. No change to `selected idea` |
+| **SELECT** | One idea recommended | Writes to `.sherpa/decisions.md` only. Does NOT set `selected idea` |
+| **REVISE** | Ideas need modification | Writes revision plan to `.sherpa/decisions.md`. No change to `selected idea` |
+| **REJECT_ALL** | No candidate ideas viable | Writes rejection rationale to `.sherpa/decisions.md`. No change to `selected idea` |
 
-**Human authority:** Only explicit human confirmation can change `selected idea` in `.hackathon/project-state.md`.
+**Human authority:** Only explicit human confirmation can change `selected idea` in `.sherpa/project-state.md`.
 
 ---
 

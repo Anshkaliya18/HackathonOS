@@ -10,7 +10,7 @@ The CLI refuses updates if an archive checksum is missing. Compute SHA-256 from 
 
 ## HTTP 403 or 429
 
-GitHub may rate-limit API endpoints. Wait and retry, use a direct release manifest URL, or set `HACKATHONOS_RELEASE_MANIFEST_URL` to a trusted host. HTTP 404 means the tag, file, or asset is absent.
+GitHub may rate-limit API endpoints. Wait and retry, use a direct release manifest URL, or set `sherpa_RELEASE_MANIFEST_URL` to a trusted host. HTTP 404 means the tag, file, or asset is absent.
 
 ## Agent does not load commands
 
@@ -18,4 +18,4 @@ Check the agent's documented skill/command directory and restart it if needed. R
 
 ## Recovery
 
-Installation validates before replacement and maintains backups for rollback. Restore the newest `.bak.*` directory beside the affected skill directory if manual recovery is needed. Installer paths do not include project `.hackathon/` state. Run `hackathonos doctor` and `hackathonos audit` for diagnostics.
+Installation validates before replacement and maintains backups for rollback. Restore the newest `.bak.*` directory beside the affected skill directory if manual recovery is needed. Installer paths do not include project `.sherpa/` state. Run `sherpa doctor` and `sherpa audit` for diagnostics.

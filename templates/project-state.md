@@ -1,6 +1,6 @@
 # Hackathon Project State
 
-This file is the persistent state for a HackathonOS-managed project. It lives in `.hackathon/project-state.md` inside the hackathon project's repository.
+This file is the persistent state for a sherpa-managed project. It lives in `.sherpa/project-state.md` inside the hackathon project's repository.
 
 Any field whose value is not known must be set to `UNKNOWN`. Never invent or guess missing information.
 

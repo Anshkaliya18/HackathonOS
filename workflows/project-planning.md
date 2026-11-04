@@ -1,4 +1,4 @@
-# HackathonOS — Project Planning Workflow
+# sherpa — Project Planning Workflow
 
 **Operation:** PROJECT-PLAN  
 **Purpose:** Turn the selected hackathon idea into an implementation-ready engineering plan. Phase 3 is an engineering analysis and planning engine, NOT a coding engine.
@@ -11,11 +11,11 @@ INPUT → Read project state → Verify selected idea → Read Phase 2 artifacts
 ## When to Use
 
 Use PROJECT-PLAN when:
-- A hackathon idea has been selected (confirmed in `.hackathon/project-state.md`)
+- A hackathon idea has been selected (confirmed in `.sherpa/project-state.md`)
 - You need an implementation-ready project plan
 - You want to analyze the repository, define architecture, scope the MVP, and plan implementation work
 
-**Prerequisite:** `.hackathon/project-state.md` must exist with `selected idea` known.
+**Prerequisite:** `.sherpa/project-state.md` must exist with `selected idea` known.
 
 ---
 
@@ -27,7 +27,7 @@ Use PROJECT-PLAN when:
 - Confirmation to proceed with project planning for the selected idea
 - Any additional context about team skills, constraints, or preferences
 
-**Read from `.hackathon/project-state.md`:**
+**Read from `.sherpa/project-state.md`:**
 - Hackathon name, deadline, time remaining
 - Judging criteria and weights
 - Problem statement, target users
@@ -36,7 +36,7 @@ Use PROJECT-PLAN when:
 
 ### Stage 2: Verify Selected Idea (Selected Idea Gate)
 
-**Check:** Is `selected idea` known in `.hackathon/project-state.md`?
+**Check:** Is `selected idea` known in `.sherpa/project-state.md`?
 
 **If UNKNOWN:**
 - STOP normal planning.
@@ -54,19 +54,19 @@ Use PROJECT-PLAN when:
 
 ### Stage 3: Read Phase 2 Artifacts
 
-**Read from `.hackathon/decisions.md`:**
+**Read from `.sherpa/decisions.md`:**
 - Selected idea name
 - Evaluation scores and reasoning
 - Red-team outcomes
 - Recommended next action from Phase 2
 
-**Read from `.hackathon/evaluations/<idea-name>.md`:**
+**Read from `.sherpa/evaluations/<idea-name>.md`:**
 - Full per-idea evaluation
 - Category scores
 - Feasibility gate result
 - Minimum viable version scope
 
-**Read from `.hackathon/evidence/`:**
+**Read from `.sherpa/evidence/`:**
 - Any existing evidence files
 
 **Rule:** Do not treat Phase 2 AI-generated recommendations as independent facts. Use them as input, but verify against repository evidence where applicable.
@@ -103,9 +103,9 @@ Use PROJECT-PLAN when:
 - Seeing package.json does NOT mean dependencies are installed.
 - Seeing deployment configuration does NOT mean deployment works.
 - Seeing an API route does NOT mean the API is operational.
-- HackathonOS-generated artifacts are NOT independent evidence.
+- sherpa-generated artifacts are NOT independent evidence.
 
-**Save repository analysis to:** `.hackathon/evidence/repo-analysis-<timestamp>.md`
+**Save repository analysis to:** `.sherpa/evidence/repo-analysis-<timestamp>.md`
 
 Use `templates/repo-analysis.md` as the record format.
 
@@ -222,7 +222,7 @@ If time remaining is UNKNOWN: produce time-neutral plan, mark UNKNOWN.
 
 Use `templates/project-plan.md` as the record format.
 
-**Save to:** `.hackathon/evidence/project-plan-<timestamp>.md` or a stable path
+**Save to:** `.sherpa/evidence/project-plan-<timestamp>.md` or a stable path
 
 Include all sections:
 - Project
@@ -255,7 +255,7 @@ Include all sections:
 
 ### Stage 12: Update Permitted Project State
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | New value |
 |-------|-----------|
@@ -311,7 +311,7 @@ After PROJECT-PLAN completes:
 - [ ] Repository analysis declared its scope
 - [ ] Evidence classification used (FACT/INFERENCE/ASSUMPTION/UNKNOWN)
 - [ ] No execution claims without execution evidence
-- [ ] HackathonOS artifacts not treated as independent evidence
+- [ ] sherpa artifacts not treated as independent evidence
 - [ ] Current architecture and proposed architecture separated
 - [ ] MVP contains MUST HAVE / SHOULD HAVE / OPTIONAL / EXCLUDED
 - [ ] Time-aware strategy applied

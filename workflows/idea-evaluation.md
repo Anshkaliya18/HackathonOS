@@ -1,4 +1,4 @@
-# HackathonOS — Idea Evaluation Workflow
+# sherpa — Idea Evaluation Workflow
 
 **Operation**: IDEA-EVALUATE  
 **Purpose**: Evaluate candidate hackathon ideas in context and recommend SELECT / REVISE / REJECT_ALL. Deterministic pipeline. Same inputs produce identical results.
@@ -12,7 +12,7 @@ Use IDEA-EVALUATE when:
 - You want to know which idea gives the strongest realistic chance of performing well in this specific hackathon
 - You need a transparent, evidence-based comparison before committing to implementation
 
-**Prerequisite:** HackathonOS must be initialized (`.hackathon/project-state.md` exists). If not, run INIT first.
+**Prerequisite:** sherpa must be initialized (`.sherpa/project-state.md` exists). If not, run INIT first.
 
 ---
 
@@ -20,7 +20,7 @@ Use IDEA-EVALUATE when:
 
 ### Stage 1: Input
 
-**Read from `.hackathon/project-state.md`:**
+**Read from `.sherpa/project-state.md`:**
 - Hackathon name, deadline, time remaining
 - Judging criteria and weights (or UNKNOWN)
 - Problem statement
@@ -60,7 +60,7 @@ Use IDEA-EVALUATE when:
 - Never claim research was performed unless evidence was actually retrieved.
 - Preserve sources (URL, file path, or "team input").
 - If no evidence exists for a claim, mark UNKNOWN.
-- Save evidence to `.hackathon/evidence/<research-query>.md`.
+- Save evidence to `.sherpa/evidence/<research-query>.md`.
 
 **If OpenCode has no research/web tool access:**
 - Mark all external claims as UNKNOWN.
@@ -104,7 +104,7 @@ Use `templates/idea-evaluation.md` as the record format.
 - No dimension score justified by UNKNOWN or ASSUMPTION without explicit flagging
 - Same inputs → same scores (deterministic)
 
-**Save to:** `.hackathon/evaluations/<idea-name>.md`
+**Save to:** `.sherpa/evaluations/<idea-name>.md`
 
 ---
 
@@ -213,13 +213,13 @@ PRIMARY NEXT ACTION: <exactly one action>
 
 **Human authority:**
 - The engine recommends. The human/team decides.
-- The engine does NOT auto-set `selected idea` in `.hackathon/project-state.md`.
+- The engine does NOT auto-set `selected idea` in `.sherpa/project-state.md`.
 - Only explicit human confirmation can change `selected idea`.
 
 **Write results:**
-- Decision log → `.hackathon/decisions.md` (append-only)
-- Per-idea evaluation → `.hackathon/evaluations/<idea-name>.md`
-- Evidence → `.hackathon/evidence/<research-query>.md`
+- Decision log → `.sherpa/decisions.md` (append-only)
+- Per-idea evaluation → `.sherpa/evaluations/<idea-name>.md`
+- Evidence → `.sherpa/evidence/<research-query>.md`
 - Phase in project-state.md → "Idea Evaluation" (only phase field updated; `selected idea` unchanged without human confirmation)
 
 ---

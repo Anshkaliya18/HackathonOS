@@ -1,4 +1,4 @@
-# HackathonOS — Presentation Rules
+# sherpa — Presentation Rules
 
 Official judging criteria define how the project will be evaluated. Use official judging criteria when available. Do not invent official judging criteria.
 
@@ -91,7 +91,7 @@ Rules:
 - Generated documentation is not proof of runtime behavior.
 - A screenshot is evidence of what the screenshot shows, not necessarily current live behavior.
 - Every observation cites reproducible evidence: path/line, route/screen, steps, result, or evidence artifact.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 
 Presentation evidence types:
 
@@ -721,7 +721,7 @@ Never silently infer.
 
 # 30. Project State Fields
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | Allowed Values |
 |-------|---------------|
@@ -739,7 +739,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 Rules:
 
 - Do NOT put detailed presentation analysis inside project-state.md.
-- Detailed material goes to `.hackathon/presentation.md` and `.hackathon/presentation/`.
+- Detailed material goes to `.sherpa/presentation.md` and `.sherpa/presentation/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Human approval required for major presentation changes.

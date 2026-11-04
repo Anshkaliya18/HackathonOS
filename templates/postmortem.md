@@ -60,16 +60,16 @@ Observed outcome and possible cause are separate. Causality: UNKNOWN absent evid
 Use `templates/lesson.md`; unsupported project lessons remain UNKNOWN.
 ## 26. Reusable Assets
 Use asset schema: asset, location, purpose, quality, reuse recommendation, required changes.
-## 27. HackathonOS Effectiveness
+## 27. sherpa Effectiveness
 Evaluate Phases 1–19 from use evidence; otherwise UNKNOWN.
 ## 28. Process Bottlenecks
 UNKNOWN absent evidence; classify owner/category where supported.
 ## 29. Process Debt
 UNKNOWN absent evidence; do not invent skipped work or workarounds.
-## 30. HackathonOS Contract Gaps
+## 30. sherpa Contract Gaps
 Record recommendations only; do not rewrite prior phases.
 ## 31. Improvement Backlog
-Label `INTERNAL HACKATHONOS IMPROVEMENT PRIORITY — NOT OFFICIAL HACKATHON SCORING`.
+Label `INTERNAL sherpa IMPROVEMENT PRIORITY — NOT OFFICIAL HACKATHON SCORING`.
 ## 32. Final Lessons
 UNKNOWN unless derived from cited evidence.
 ## 33. Human Review

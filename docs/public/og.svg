@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Sherpa — Build the right thing</title><desc id="desc">Sherpa AI mentor skill: an ascent from an evidence-backed idea to a demo that matters.</desc>
+  <rect width="1200" height="630" fill="#f4f1e8"/><circle cx="1040" cy="115" r="72" fill="#e8e2d5"/>
+  <path d="m690 630 300-365 210 245v120Z" fill="#718d81"/><path d="m820 630 235-300 255 300Z" fill="#244d47"/><path d="m974 435 40 68h-82Z" fill="#f4f1e8"/>
+  <path d="M0 0h15v630H0Z" fill="#9a4f2e"/><text x="88" y="190" fill="#244d47" font-family="Segoe UI,Arial,sans-serif" font-size="34" font-weight="700" letter-spacing="9">THE HACKATHON MENTOR SKILL</text>
+  <text x="82" y="315" fill="#242b2b" font-family="Segoe UI,Arial,sans-serif" font-size="90" font-weight="750" letter-spacing="-5">Build the right thing.</text>
+  <text x="82" y="415" fill="#242b2b" font-family="Segoe UI,Arial,sans-serif" font-size="70" font-weight="700" letter-spacing="-3">Prove it works.</text>
+  <text x="85" y="505" fill="#52605d" font-family="Segoe UI,Arial,sans-serif" font-size="31">Sherpa · Claude Code + OpenCode</text>
+</svg>

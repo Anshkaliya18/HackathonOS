@@ -1,10 +1,5 @@
 @echo off
-:: HackathonOS CLI wrapper for Windows.
-:: Locates the Python implementation next to this batch file and forwards all arguments.
+:: Deprecated HackathonOS compatibility wrapper. Use sherpa.bat.
 setlocal
-set "SCRIPT_DIR=%~dp0"
-if not exist "%SCRIPT_DIR%hackathonos" (
-    echo hackathonos: Python implementation not found next to this wrapper. >&2
-    exit /b 1
-)
-python "%SCRIPT_DIR%hackathonos" %*
+echo HackathonOS is now Sherpa. The 'hackathonos' command is deprecated; use 'sherpa'. 1>&2
+"%~dp0sherpa.bat" %*

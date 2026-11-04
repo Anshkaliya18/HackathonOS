@@ -1,4 +1,4 @@
-# HackathonOS — DEMO PREPARE Workflow
+# sherpa — DEMO PREPARE Workflow
 
 **Operation:** DEMO-PREPARE  
 **Lifecycle Phase:** Phase 16 — Demo Preparation Intelligence  
@@ -6,7 +6,7 @@
 
 ## Prerequisites
 
-- `.hackathon/project-state.md` must exist
+- `.sherpa/project-state.md` must exist
 - `selected idea` must be known (not UNKNOWN)
 - Phase 15 score optimization evidence must exist
 - Phase 14 judge simulation evidence must exist
@@ -20,7 +20,7 @@ If any prerequisite is missing, mark it UNKNOWN, report DEMO-PREPARE = BLOCKED o
 
 ### Stage 1: Read Project State
 
-Read `.hackathon/project-state.md` and capture:
+Read `.sherpa/project-state.md` and capture:
 
 - Hackathon name, deadline, time remaining
 - Phase
@@ -37,11 +37,11 @@ Consume (do not duplicate or replace) the following evidence:
 
 | Phase | Source | What to consume |
 |-------|--------|-----------------|
-| Phase 11 | `.hackathon/evidence/` testing/security artifacts | Verified tests, critical failures, security findings, quality gate, evidence |
-| Phase 12 | `.hackathon/ux-review.md`, `.hackathon/ux/` artifacts | Critical UX issues, usability findings, accessibility findings, demo flow observations |
-| Phase 13 | `.hackathon/red-team.md`, `.hackathon/red-team/` artifacts | Critical findings, adversarial failures, recoverability, unresolved risks |
-| Phase 14 | `.hackathon/judge-simulation.md` | Judge questions, skeptical follow-ups, weak claims, evidence gaps, expected judge concerns |
-| Phase 15 | `.hackathon/score-optimization.md` | P0/P1 improvements, judge-visible priorities, evidence weaknesses |
+| Phase 11 | `.sherpa/evidence/` testing/security artifacts | Verified tests, critical failures, security findings, quality gate, evidence |
+| Phase 12 | `.sherpa/ux-review.md`, `.sherpa/ux/` artifacts | Critical UX issues, usability findings, accessibility findings, demo flow observations |
+| Phase 13 | `.sherpa/red-team.md`, `.sherpa/red-team/` artifacts | Critical findings, adversarial failures, recoverability, unresolved risks |
+| Phase 14 | `.sherpa/judge-simulation.md` | Judge questions, skeptical follow-ups, weak claims, evidence gaps, expected judge concerns |
+| Phase 15 | `.sherpa/score-optimization.md` | P0/P1 improvements, judge-visible priorities, evidence weaknesses |
 
 Do not re-run Phase 11–15 engines. Consume their evidence only.
 
@@ -76,7 +76,7 @@ Rules:
 
 - Never fabricate repository facts.
 - Seeing a file does not mean it works during a demo.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 
 ### Stage 4: Build Demo Objective
 
@@ -328,7 +328,7 @@ DEMO DURATION = UNKNOWN
 
 ### Stage 20: Update Project State
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | Allowed Values |
 |-------|---------------|
@@ -342,7 +342,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 Rules:
 
 - Do NOT put detailed demo analysis inside project-state.md.
-- Detailed material goes to `.hackathon/demo-preparation.md` and `.hackathon/demo/`.
+- Detailed material goes to `.sherpa/demo-preparation.md` and `.sherpa/demo/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Human approval required for major demo scope changes.

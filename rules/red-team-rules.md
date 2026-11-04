@@ -1,4 +1,4 @@
-# HackathonOS — Red Team Rules
+# sherpa — Red Team Rules
 
 These rules are authoritative for the RED-TEAM capability. Red Team is lifecycle Phase 13; this is engineering capability Phase 8. Do not renumber or edit the 20-phase lifecycle.
 
@@ -12,7 +12,7 @@ If a proposed remediation needs database/API redesign, authentication redesign, 
 
 ## Readiness and source of truth
 
-Read `.hackathon/project-state.md`, the Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, and Phase 7 UX evidence before inspecting UX. Red Team review normally requires implementation baseline, Phase 5 evidence, and Phase 7 evidence. If implementation is incomplete or readiness cannot be established, report **RED TEAM REVIEW = BLOCKED** or **LIMITED**; do not imply a review occurred.
+Read `.sherpa/project-state.md`, the Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, and Phase 7 UX evidence before inspecting UX. Red Team review normally requires implementation baseline, Phase 5 evidence, and Phase 7 evidence. If implementation is incomplete or readiness cannot be established, report **RED TEAM REVIEW = BLOCKED** or **LIMITED**; do not imply a review occurred.
 
 Use the selected idea as context only. Never change it. Consume existing Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation state, Phase 5 test/security findings, and Phase 7 UX findings. If a red-team question requires an automated or functional test, mark **TEST REQUIRED** and route it to the Phase 5 process; do not execute or duplicate that engine.
 
@@ -20,7 +20,7 @@ Use the selected idea as context only. Never change it. Consume existing Phase 2
 
 Every claim is labeled FACT, INFERENCE, ASSUMPTION, or UNKNOWN. FACT identifies inspected source, UI, state, test, or direct observation. INFERENCE states its evidence and reasoning. ASSUMPTION is an explicit provisional premise. UNKNOWN includes what is missing and why. Every finding cites reproducible evidence: path/line, route/screen, steps, result, or evidence artifact. Never claim an interaction, state, or behavior was tested when it was not.
 
-Generated HackathonOS artifacts are not independent evidence. Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information. Do not treat previous AI-generated recommendations as facts.
+Generated sherpa artifacts are not independent evidence. Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information. Do not treat previous AI-generated recommendations as facts.
 
 ## Attack surfaces
 
@@ -154,7 +154,7 @@ A project can be RED TEAM READY while still having accepted medium/low risks. A 
 
 ## State and artifacts
 
-Keep `.hackathon/project-state.md` compact. Add only these fields:
+Keep `.sherpa/project-state.md` compact. Add only these fields:
 
 | Field | Values |
 |-------|--------|
@@ -165,7 +165,7 @@ Keep `.hackathon/project-state.md` compact. Add only these fields:
 | High Findings | UNKNOWN | PASS | FAIL | BLOCKED |
 | Red Team Quality Gate | NOT_READY | RED_TEAM_IN_PROGRESS | BLOCKED | CONDITIONAL | READY |
 
-Detailed material belongs in `.hackathon/red-team.md` and `.hackathon/red-team/{claim-NNN,scenario-NNN,finding-NNN,verification-NNN}.md`. Do not turn project-state.md into a giant report.
+Detailed material belongs in `.sherpa/red-team.md` and `.sherpa/red-team/{claim-NNN,scenario-NNN,finding-NNN,verification-NNN}.md`. Do not turn project-state.md into a giant report.
 
 ## Human control
 

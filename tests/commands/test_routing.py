@@ -9,7 +9,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = json.loads((ROOT / "commands/manifest.json").read_text(encoding="utf-8-sig"))
-SPEC = importlib.util.spec_from_file_location("hackathonos_command_router", ROOT / "core/commands/router.py")
+SPEC = importlib.util.spec_from_file_location("sherpa_command_router", ROOT / "core/commands/router.py")
 router = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = router
 SPEC.loader.exec_module(router)
@@ -31,15 +31,15 @@ def main() -> int:
         route = router.resolve(args)
         assert route is not None and (route.operation, route.workflow) == expected, (args, route)
     assert router.resolve("  CONFIG   CHECK ") == router.resolve("config check")
-    for invocation in ("/hackathonos config", "\\hackathonos config", "hackathonos config"):
+    for invocation in ("/sherpa config", "\\sherpa config", "sherpa config"):
         assert router.resolve(invocation) == router.resolve("config"), invocation
-    for invocation in ("/hackathonos config check", "\\hackathonos config check", "hackathonos config check"):
+    for invocation in ("/sherpa config check", "\\sherpa config check", "sherpa config check"):
         assert router.resolve(invocation) == router.resolve("config check"), invocation
-    assert router.resolve("/hackathonos") is None
-    assert router.resolve("suggest") == router.resolve("/hackathonos suggest")
+    assert router.resolve("/sherpa") is None
+    assert router.resolve("suggest") == router.resolve("/sherpa suggest")
     for focus in ("ideas", "problems", "for agents", "for automation", "for llm apps"):
-        assert router.resolve("/hackathonos suggest " + focus) == router.resolve("suggest")
-    assert router.resolve("/hackathonos suggestxyz") is None
+        assert router.resolve("/sherpa suggest " + focus) == router.resolve("suggest")
+    assert router.resolve("/sherpa suggestxyz") is None
     assert router.resolve("config status") is None
     assert router.resolve("") is None
 
@@ -65,9 +65,9 @@ def main() -> int:
             assert route is not None and (route.operation, route.workflow) == expected, alias
 
     adapters = {
-        ROOT / ".claude/skills/hackathonos/SKILL.md": "$ARGUMENTS",
-        ROOT / ".kilo/commands/hackathonos.md": "text following `/hackathonos`",
-        ROOT / ".opencode/commands/hackathonos.md": "$ARGUMENTS",
+        ROOT / ".claude/skills/sherpa/SKILL.md": "$ARGUMENTS",
+        ROOT / ".kilo/commands/sherpa.md": "text following `/sherpa`",
+        ROOT / ".opencode/commands/sherpa.md": "$ARGUMENTS",
     }
     for path, forwarding in adapters.items():
         text = path.read_text(encoding="utf-8-sig")
@@ -75,8 +75,8 @@ def main() -> int:
         assert "core/commands/router.py" in text, f"canonical router missing: {path}"
         assert "full invocation" in text, f"full command invocation handling missing: {path}"
         assert "never STATUS" in text, f"explicit operation fallback guard missing: {path}"
-    assert router.resolve("/hackathonos-suggest for agents") == router.resolve("suggest")
-    assert router.resolve("/hackathonos-not-real") is None
+    assert router.resolve("/sherpa-suggest for agents") == router.resolve("suggest")
+    assert router.resolve("/sherpa-not-real") is None
     print(f"PASS: {len(cases)} legacy routes, {len(MANIFEST['implemented'])} native routes, aliases, unknown handling, and 3 adapter contracts")
     return 0
 

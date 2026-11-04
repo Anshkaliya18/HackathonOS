@@ -2,7 +2,7 @@
 """Evaluate the verification system against the gold-labeled benchmark.
 
 Loads dataset.json, gold-labels.json, and split.json from
-.hackathon/evidence/gold-benchmark/, runs the verifier on held-out test claims,
+.sherpa/evidence/gold-benchmark/, runs the verifier on held-out test claims,
 and writes predictions.json, metrics.json, confusion-matrix.json,
 citation-evaluation.json to the same directory.
 
@@ -17,7 +17,7 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BENCHMARK_DIR = ROOT / ".hackathon" / "evidence" / "gold-benchmark"
+BENCHMARK_DIR = ROOT / ".sherpa" / "evidence" / "gold-benchmark"
 
 # Import the verifier from src/
 sys.path.insert(0, str(ROOT / "src"))

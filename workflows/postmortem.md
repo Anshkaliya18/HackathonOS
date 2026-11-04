@@ -1,4 +1,4 @@
-# HackathonOS — POSTMORTEM Workflow
+# sherpa — POSTMORTEM Workflow
 
 **Lifecycle Phase:** 20 — Post-Mortem Intelligence (final phase)  
 **Purpose:** Preserve evidence-based lessons from the completed hackathon cycle.
@@ -6,7 +6,7 @@
 ## Prerequisites
 
 1. Read `SKILL.md` and `workflows/lifecycle.md`; require exactly 20 phases with Phase 18 Final Audit, Phase 19 Submission, Phase 20 Post-Mortem. Never extend or renumber.
-2. Read `.hackathon/project-state.md`, `.hackathon/submission-plan.md`, and relevant files under `.hackathon/submission/` when present. If these do not establish a completed submission-readiness review, scope the result as `CONDITIONAL — FRAMEWORK VALIDATION ONLY`; do not treat framework test output as project history.
+2. Read `.sherpa/project-state.md`, `.sherpa/submission-plan.md`, and relevant files under `.sherpa/submission/` when present. If these do not establish a completed submission-readiness review, scope the result as `CONDITIONAL — FRAMEWORK VALIDATION ONLY`; do not treat framework test output as project history.
 3. Inspect Phase 19 rules, workflow, and templates alongside the available project records. Preserve prior project artifacts and behavior.
 4. If project state is absent, record that no live project state was inspected. Never write project state into this framework repository.
 
@@ -24,8 +24,8 @@
 10. Review Phases 11–19 outcomes (testing/security, UX, red team, judge simulation, score optimization, demo, presentation, submission) only against actual records. Keep simulated judging/optimization separate from actual judging results.
 11. Record official result only from official evidence. Otherwise result = UNKNOWN. Do not infer participation/result from framework status.
 12. Identify evidence-backed wins and failures without blame. Extract lessons and reusable assets without modifying prior locked assets.
-13. Evaluate HackathonOS Phases 1–19, bottlenecks, process debt, contract gaps, and proposed internal improvement backlog. Label its priorities as internal, not judging scores.
-14. Add `postmortem` state only in the actual project's `.hackathon/project-state.md`, with listed fields and UNKNOWN where evidence is absent. Preserve all existing state. Never create project state in this skill repository.
+13. Evaluate sherpa Phases 1–19, bottlenecks, process debt, contract gaps, and proposed internal improvement backlog. Label its priorities as internal, not judging scores.
+14. Add `postmortem` state only in the actual project's `.sherpa/project-state.md`, with listed fields and UNKNOWN where evidence is absent. Preserve all existing state. Never create project state in this skill repository.
 15. Run evidence-integrity and historical-integrity checks; ensure no prior evidence was edited, no unsupported causality/result/score/judge statement appears, and no Phase 21 exists.
 16. Produce the post-mortem artifact and exactly one `PRIMARY NEXT ACTION`. For framework-only validation this may be archival preservation of this completed cycle.
 
@@ -45,7 +45,7 @@ postmortem:
   reusable_assets_count: UNKNOWN
   process_bottlenecks: UNKNOWN
   process_debt: UNKNOWN
-  hackathonos_effectiveness: UNKNOWN
+  sherpa_effectiveness: UNKNOWN
   contract_gaps: UNKNOWN
   improvement_backlog: UNKNOWN
   human_review: UNKNOWN
@@ -57,7 +57,7 @@ Do not insert these values into the skill repository or overwrite prior state.
 
 ## Required report sections
 
-Use `templates/postmortem.md` and include all 35 numbered sections listed there. Keep actual project claims UNKNOWN where evidence is missing. The post-mortem artifact for a real project belongs under that project's `.hackathon/` directory. Contract harnesses report to stdout and do not create repository audit reports.
+Use `templates/postmortem.md` and include all 35 numbered sections listed there. Keep actual project claims UNKNOWN where evidence is missing. The post-mortem artifact for a real project belongs under that project's `.sherpa/` directory. Contract harnesses report to stdout and do not create repository audit reports.
 
 ## Boundaries
 

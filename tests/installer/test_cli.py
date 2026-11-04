@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for the HackathonOS distribution CLI.
+"""Tests for the sherpa distribution CLI.
 
 External downloads are mocked. Tests run in disposable directories and never
 touch the real user skill installation or any `.hackathon/` project state.
@@ -14,6 +14,7 @@ import io
 import json
 import os
 import platform
+import subprocess
 import sys
 import tarfile
 import tempfile
@@ -25,9 +26,9 @@ from unittest import mock
 import importlib.util
 from importlib.machinery import SourceFileLoader
 
-CLI_PATH = Path(__file__).resolve().parents[2] / "distribution" / "cli" / "hackathonos"
+CLI_PATH = Path(__file__).resolve().parents[2] / "distribution" / "cli" / "sherpa"
 spec = importlib.util.spec_from_file_location(
-    "hackathonos_cli", CLI_PATH, loader=SourceFileLoader("hackathonos_cli", str(CLI_PATH))
+    "sherpa_cli", CLI_PATH, loader=SourceFileLoader("sherpa_cli", str(CLI_PATH))
 )
 cli = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(cli)
@@ -37,7 +38,7 @@ def patch(obj, attr, new):
     return mock.patch.object(obj, attr, new)
 
 
-def make_skill_dir(root: Path, name: str = "hackathonos", version: str | None = "1.0.0") -> Path:
+def make_skill_dir(root: Path, name: str = "sherpa", version: str | None = "1.0.0") -> Path:
     """Build a minimal valid skill tree in a disposable directory."""
     skill = root / name
     (skill / "commands").mkdir(parents=True)
@@ -71,7 +72,43 @@ def make_zipball(path: Path, files: dict[str, bytes]) -> None:
 # ---------------------------------------------------------------------------
 
 def test_cli_version():
-    assert cli.cli_version() == "1.0.0"
+    assert cli.cli_version() == "2.0.0"
+
+
+def test_migration_copies_state_and_preserves_legacy_source():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        source = root / ".hackathon"
+        (source / "nested").mkdir(parents=True)
+        (source / "nested" / "notes.md").write_text("keep me\n")
+        rc = cli.cmd_migrate(argparse.Namespace(project_root=str(root), assume_yes=True))
+        assert rc == 0
+        assert (root / ".sherpa" / "nested" / "notes.md").read_text() == "keep me\n"
+        assert (source / "nested" / "notes.md").read_text() == "keep me\n"
+
+
+def test_migration_refuses_to_overwrite_new_state():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / ".hackathon").mkdir()
+        target = root / ".sherpa"
+        target.mkdir()
+        (target / "notes.md").write_text("new data\n")
+        try:
+            cli.cmd_migrate(argparse.Namespace(project_root=str(root), assume_yes=True))
+        except cli.sherpaError as exc:
+            assert "will not overwrite" in str(exc)
+        else:
+            raise AssertionError("migration overwrote existing Sherpa state")
+        assert (target / "notes.md").read_text() == "new data\n"
+
+
+def test_deprecated_hackathonos_shim_forwards_to_sherpa():
+    shim = Path(__file__).resolve().parents[2] / "distribution" / "cli" / "hackathonos"
+    result = subprocess.run([sys.executable, str(shim), "--version"], capture_output=True, text=True, check=False)
+    assert result.returncode == 0
+    assert "HackathonOS is now Sherpa" in result.stderr
+    assert "sherpa 2.0.0" in result.stdout.lower()
 
 
 def test_installed_version_reads_file():
@@ -94,9 +131,9 @@ def test_detect_installed():
         make_skill_dir(claude)
         make_skill_dir(opencode)
 
-        with patch(cli, "CLAUDE_SKILL_DIR", claude / "hackathonos"), \
-             patch(cli, "OPENCODE_SKILL_DIR", opencode / "hackathonos"), \
-             patch(cli, "SKILL_DIRS", {"claude": claude / "hackathonos", "opencode": opencode / "hackathonos"}):
+        with patch(cli, "CLAUDE_SKILL_DIR", claude / "sherpa"), \
+             patch(cli, "OPENCODE_SKILL_DIR", opencode / "sherpa"), \
+             patch(cli, "SKILL_DIRS", {"claude": claude / "sherpa", "opencode": opencode / "sherpa"}):
             found = cli.detect_installed()
         assert set(found) == {"claude", "opencode"}
 
@@ -116,12 +153,12 @@ def test_detect_installed_none():
 
 def test_manifest_url_default():
     with mock.patch.dict(os.environ, {}, clear=True):
-        os.environ.pop("HACKATHONOS_RELEASE_MANIFEST_URL", None)
+        os.environ.pop("sherpa_RELEASE_MANIFEST_URL", None)
         assert cli.manifest_url() == cli.DEFAULT_MANIFEST_URL
 
 
 def test_manifest_url_env():
-    with mock.patch.dict(os.environ, {"HACKATHONOS_RELEASE_MANIFEST_URL": "https://example.com/manifest.json"}):
+    with mock.patch.dict(os.environ, {"sherpa_RELEASE_MANIFEST_URL": "https://example.com/manifest.json"}):
         assert cli.manifest_url() == "https://example.com/manifest.json"
 
 
@@ -152,7 +189,7 @@ def test_safe_extract_tar_path_traversal_rejected():
         dest.mkdir()
         try:
             cli.safe_extract_tar(archive, dest)
-        except cli.HackathonOSError as exc:
+        except cli.sherpaError as exc:
             assert "path traversal" in str(exc)
         else:
             raise AssertionError("path traversal tar was not rejected")
@@ -179,7 +216,7 @@ def test_safe_extract_zip_path_traversal_rejected():
         dest.mkdir()
         try:
             cli.safe_extract_zip(archive, dest)
-        except cli.HackathonOSError as exc:
+        except cli.sherpaError as exc:
             assert "path traversal" in str(exc)
         else:
             raise AssertionError("path traversal zip was not rejected")
@@ -251,7 +288,7 @@ MANIFEST = {
     "latest": {"version": "2.0.0"},
     "archives": [
         {"os": "linux", "arch": "amd64", "format": "tar.gz",
-         "url": "https://example.com/hackathonos-2.0.0-linux-amd64.tar.gz",
+         "url": "https://example.com/sherpa-2.0.0-linux-amd64.tar.gz",
          "checksum": "0" * 64},
     ],
     "cli": {"url": "", "checksum": ""},
@@ -270,7 +307,7 @@ def fake_download_success(url, dest):
     files = {
         "SKILL.md": b"# skill\n",
         "commands/manifest.json": b"{}",
-        "commands/hackathonos-status.md": b"---\n---\n",
+        "commands/sherpa-status.md": b"---\n---\n",
         "core/commands/router.py": b"x = 1\n",
         "workflows/status.md": b"# status\n",
         "templates/project-state.md": b"# state\n",
@@ -333,7 +370,7 @@ def test_update_checksum_mismatch():
 
         try:
             cli.cmd_update(mock.MagicMock())
-        except cli.HackathonOSError as exc:
+        except cli.sherpaError as exc:
             assert "checksum" in str(exc).lower()
         else:
             raise AssertionError("checksum mismatch was not raised")
@@ -356,7 +393,7 @@ def test_update_rolls_back_on_invalid_archive():
 
         try:
             cli.cmd_update(mock.MagicMock())
-        except cli.HackathonOSError:
+        except cli.sherpaError:
             pass
         else:
             raise AssertionError("invalid archive was not rejected")
@@ -395,7 +432,7 @@ def test_uninstall_removes_skills_preserves_project_state():
 
     cli_bin = tmp / "bin"
     cli_bin.mkdir()
-    fake_cli = cli_bin / "hackathonos"
+    fake_cli = cli_bin / "sherpa"
     fake_cli.write_text("#!/usr/bin/env python3\n")
 
     with mock.patch.object(cli, "SKILL_DIRS", {"claude": claude, "opencode": opencode}), \

@@ -42,7 +42,7 @@ def ready(c: dict) -> bool:
 
 # Exact 35 acceptance assertions.
 checks = [
-("Phase 18 prerequisite", lambda: must(".hackathon/final-audit.md" in T["workflow"] and "Audit status: COMPLETE" in T["workflow"] and ".hackathon/final-audit.md" in T["final_audit_workflow"], "project audit evidence")),
+("Phase 18 prerequisite", lambda: must(".sherpa/final-audit.md" in T["workflow"] and "Audit status: COMPLETE" in T["workflow"] and ".sherpa/final-audit.md" in T["final_audit_workflow"], "project audit evidence")),
 ("Lifecycle phase count and identity", lambda: must(sum(line.startswith("| ") and line.endswith(" |") and line.split("|")[1].strip() in ("Understand Rules", "Analyze Problem", "Generate Ideas", "Validate Ideas", "Research Market", "Select Idea", "Design Product/MVP", "Architecture", "Development Plan", "Implementation", "Testing + Security", "UX Review", "Red Team", "Judge Simulation", "Score Optimization", "Demo Preparation", "PPT / Presentation", "Final Audit", "Submission", "Post-Mortem") for line in T["lifecycle"].splitlines()) == 20 and all(x in T["lifecycle"] for x in ("| Final Audit |", "| Submission |", "| Post-Mortem |")), "20 phases/order")),
 ("SUBMISSION-PREPARE router", lambda: must("SUBMISSION-PREPARE" in T["skill"] and "workflows/submission.md" in T["skill"], "route")),
 ("Phase 19 resources resolve", lambda: must(all(p.is_file() for p in FILES.values()), "resource missing")),
@@ -121,7 +121,7 @@ for i, (description, key) in enumerate(adversarial, 1):
                     "observed_result": observed, "status": status,
                     "evidence": f"Executed assertion in tests/workflows/test_submission.py:ADV-{i:02d}; fixture only"})
 
-with tempfile.TemporaryDirectory(prefix="hackathonos-phase19-") as d:
+with tempfile.TemporaryDirectory(prefix="sherpa-phase19-") as d:
     fixture = Path(d) / "candidate.json"
     fixture.write_text(json.dumps({"fabricated_ready": True}), encoding="utf-8")
     assert not ready(json.loads(fixture.read_text(encoding="utf-8")))

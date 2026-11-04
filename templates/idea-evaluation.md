@@ -248,4 +248,4 @@ feasibility_composite = avg(
 **Confirmed by:** <name or "pending">
 **Confirmed at:** <UTC date/time or "pending">
 
-**Rule:** Only explicit human confirmation can set `selected idea` in `.hackathon/project-state.md`. The engine recommends; the human decides.
+**Rule:** Only explicit human confirmation can set `selected idea` in `.sherpa/project-state.md`. The engine recommends; the human decides.

@@ -1,6 +1,6 @@
 # Configuration Troubleshooting
 
-- `MISSING`: run `/hackathonos init` from the intended project root, or add the named project configuration file.
+- `MISSING`: run `/sherpa init` from the intended project root, or add the named project configuration file.
 - `PARTIALLY_CONFIGURED`: optional fields are absent; fill only from a reliable source or keep `UNKNOWN`.
 - `INVALID`: inspect the reported field/path/line. Diagnostic output never includes secret values.
 - Invalid timezone: use a supported IANA timezone name such as `Asia/Kolkata`; validation uses the runtime timezone database.

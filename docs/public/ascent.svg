@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 420" role="img" aria-labelledby="title desc">
+  <title id="title">A trail to the summit</title><desc id="desc">Quiet layers of mountain ridges in pine, stone, and rust, with a switchback trail leading to a summit flag.</desc>
+  <rect width="560" height="420" rx="28" fill="#dce9e4"/>
+  <circle cx="427" cy="96" r="34" fill="#f4f1e8"/>
+  <path d="M0 278 126 117l79 105 82-133 151 189H0Z" fill="#718d81"/>
+  <path d="m270 89 17 38-29-4-18 27 47-7 25 28 26-4-36-78Z" fill="#f4f1e8"/>
+  <path d="m0 308 160-119 94 84 121-112 185 145v114H0Z" fill="#244d47"/>
+  <path d="M39 390c63-47 97-38 132-66s45-54 84-62 70 5 96-16 21-45 56-56" fill="none" stroke="#e5a17c" stroke-linecap="round" stroke-width="7" stroke-dasharray="1 1"/>
+  <path d="M405 128v45m0-45 29 10-29 10" fill="none" stroke="#9a4f2e" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+  <g fill="#f4f1e8" opacity=".82"><circle cx="84" cy="88" r="2"/><circle cx="122" cy="68" r="2"/><circle cx="179" cy="102" r="2"/><circle cx="365" cy="68" r="2"/><circle cx="482" cy="166" r="2"/></g>
+</svg>

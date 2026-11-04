@@ -59,7 +59,7 @@ def count_occurrences(path: Path, pattern: str) -> int:
 def test_at496_prerequisite_phase17_locked() -> None:
     """Final audit uses current-project state and presentation evidence."""
     text = WORKFLOW.read_text(encoding="utf-8")
-    assert ".hackathon/project-state.md" in text
+    assert ".sherpa/project-state.md" in text
     assert "Phase 17 presentation evidence must exist" in text
 
 
@@ -321,7 +321,7 @@ def test_at431_state_persistence_contract() -> None:
     for field in ["Final Audit Status", "Final Readiness", "Critical Findings",
                   "Requirement Coverage", "Claim Audit Status", "Primary Next Action"]:
         assert field in rules_text, f"Rules missing compact state field: {field}"
-    assert ".hackathon/final-audit.md" in rules_text, "Detailed audit artifact location missing"
+    assert ".sherpa/final-audit.md" in rules_text, "Detailed audit artifact location missing"
     test_at432_all_audit_domains_present()
 
 

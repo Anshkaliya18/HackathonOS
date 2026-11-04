@@ -37,7 +37,7 @@ For each baseline claim label FACT | INFERENCE | ASSUMPTION | UNKNOWN and cite e
 | Claim ID | Claim | Source | Evidence | Evidence Type | Confidence | Attack Method | Result |
 |----------|-------|--------|----------|---------------|------------|---------------|--------|
 
-Store detailed claims in `.hackathon/red-team/claim-NNN.md`.
+Store detailed claims in `.sherpa/red-team/claim-NNN.md`.
 
 ---
 
@@ -46,7 +46,7 @@ Store detailed claims in `.hackathon/red-team/claim-NNN.md`.
 | Scenario ID | Attack Surface | Perspective | Severity | Confidence | Status |
 |-------------|----------------|-------------|----------|------------|--------|
 
-Store detailed scenarios in `.hackathon/red-team/scenario-NNN.md`.
+Store detailed scenarios in `.sherpa/red-team/scenario-NNN.md`.
 
 ---
 
@@ -55,7 +55,7 @@ Store detailed scenarios in `.hackathon/red-team/scenario-NNN.md`.
 | Finding ID | Title | Category | Severity | Confidence | Flow/Component | Status |
 |------------|-------|----------|----------|------------|----------------|--------|
 
-Store detailed findings in `.hackathon/red-team/finding-NNN.md`.
+Store detailed findings in `.sherpa/red-team/finding-NNN.md`.
 
 ---
 

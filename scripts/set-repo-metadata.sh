@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repository="Anshkaliya18/HackathonOS"
+repository="Anshkaliya18/sherpa"
 description="Globally installed AI agent skill and hackathon mentor for Claude Code and OpenCode."
-homepage="https://anshkaliya18.github.io/HackathonOS/"
+homepage="https://anshkaliya18.github.io/sherpa/"
 
 gh auth status
 gh repo edit "$repository" --description "$description" --homepage "$homepage"

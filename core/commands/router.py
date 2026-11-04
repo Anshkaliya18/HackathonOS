@@ -1,4 +1,4 @@
-"""Deterministic command argument routing shared by HackathonOS adapters."""
+"""Deterministic command argument routing shared by sherpa adapters."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -34,8 +34,8 @@ def validate_manifest(manifest: dict, root: Path = _ROOT, check_adapter_files: b
     errors: list[str] = []
     if not isinstance(manifest, dict) or manifest.get("schema_version") != 1:
         return ["unsupported or malformed manifest"]
-    if manifest.get("master_command") != "/hackathonos":
-        errors.append("master command must remain /hackathonos")
+    if manifest.get("master_command") != "/sherpa":
+        errors.append("master command must remain /sherpa")
     if not isinstance(manifest.get("implemented"), list) or not isinstance(manifest.get("planned"), list):
         return errors + ["implemented and planned must be lists"]
     required_adapters = {"claude", "opencode", "kilo"}
@@ -52,7 +52,7 @@ def validate_manifest(manifest: dict, root: Path = _ROOT, check_adapter_files: b
             errors.append(f"{label} must be an object")
             continue
         command = item.get("command")
-        if not isinstance(command, str) or not re.fullmatch(r"hackathonos-[a-z0-9]+(?:-[a-z0-9]+)*", command):
+        if not isinstance(command, str) or not re.fullmatch(r"sherpa-[a-z0-9]+(?:-[a-z0-9]+)*", command):
             errors.append(f"{label} has an invalid canonical command name")
         elif command in commands:
             errors.append(f"duplicate canonical command: {command}")
@@ -109,7 +109,7 @@ def validate_manifest(manifest: dict, root: Path = _ROOT, check_adapter_files: b
             errors.append(f"planned[{index}] must be an object")
             continue
         command = item.get("command")
-        if not isinstance(command, str) or not re.fullmatch(r"hackathonos-[a-z0-9]+(?:-[a-z0-9]+)*", command):
+        if not isinstance(command, str) or not re.fullmatch(r"sherpa-[a-z0-9]+(?:-[a-z0-9]+)*", command):
             errors.append(f"planned[{index}] has an invalid canonical command name")
         elif command in planned_names or command in commands:
             errors.append(f"duplicate or colliding planned command: {command}")
@@ -132,7 +132,7 @@ def validate_manifest(manifest: dict, root: Path = _ROOT, check_adapter_files: b
 # in every bundle; repository regression checks verify the physical files.
 _MANIFEST_ERRORS = validate_manifest(_MANIFEST, check_adapter_files=False)
 if _MANIFEST_ERRORS:
-    raise ValueError("Invalid HackathonOS command manifest: " + "; ".join(_MANIFEST_ERRORS))
+    raise ValueError("Invalid sherpa command manifest: " + "; ".join(_MANIFEST_ERRORS))
 
 _NATIVE_ROUTES = {
     item["command"]: Route(item["operation"], item["workflow"])
@@ -151,7 +151,7 @@ def resolve(arguments: str) -> Route | None:
     canonical SKILL.md intent router; unknown explicit commands stay unavailable.
     """
     normalized = " ".join(arguments.strip().lower().split())
-    for command in ("/hackathonos", "\\hackathonos", "hackathonos"):
+    for command in ("/sherpa", "\\sherpa", "sherpa"):
         if normalized == command:
             normalized = ""
             break

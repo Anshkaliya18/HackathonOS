@@ -1,3 +1,11 @@
+---
+title: Internal rename inventory
+head:
+  - - meta
+    - name: robots
+      content: noindex, nofollow
+---
+
 # HackathonOS → Sherpa rename map
 
 ## Inventory snapshot
@@ -19,7 +27,7 @@ At inventory time, an independent set of broad uncommitted rename edits was alre
 | Python code, imports, tests, benchmark fixtures | `core/`, `src/`, `distribution/cli/`, `tests/`, `.hackathon/evidence/` | Rename product-specific module/path identifiers and fixtures consistently. Add focused tests for state migration and the deprecated CLI shim. Preserve test intent and benchmark evidence, updating product-specific labels to Sherpa. |
 | Documentation site and visual assets | `docs/.vitepress/`, all current docs pages, `docs/public/`, Pages workflow | Rebrand titles, command links, state paths, repo links, Pages base path, and assets to Sherpa while retaining all existing content/pages. Build the “ascent” visual identity and keep reference material technically neutral. |
 | Historical compatibility references | `CHANGELOG.md`, `MIGRATION.md`, this map, migration code, deprecated `hackathonos` shim | These are intentional remaining references that explain the old product name and upgrade path. List and review each remaining occurrence in the final search. |
-| `Microsoft/Windows/PowerShell/ModuleAnalysisCache` | One tracked 6,072-byte file; no source references | This is a PowerShell module-analysis cache, not an installer path or app source. Preserve its bytes and move it to the corresponding user cache location only after confirming the destination is absent or identical; do not ship it in Sherpa release assets. |
+| `Microsoft/Windows/PowerShell/ModuleAnalysisCache` | One tracked 6,072-byte file; no source references | This is a PowerShell module-analysis cache, not an installer path or app source. Preserve its bytes in the repository and exclude it from Sherpa release assets. The corresponding local cache already exists with different contents, so do not replace or merge either cache. |
 
 ## Installer and migration ordering
 
@@ -29,3 +37,18 @@ At inventory time, an independent set of broad uncommitted rename edits was alre
 4. Keep `.hackathon/` untouched; migration copies its contents into `.sherpa/` only after explicit user approval and only when `.sherpa/` does not exist.
 
 The Windows `Microsoft/Windows/PowerShell` path is not referenced by the installer. It contains the tracked cache described above; its placement is separate from Sherpa's installation paths.
+
+## Final case-insensitive search
+
+The final search used `rg -ni --hidden` for `HackathonOS|hackathonos|hackathon-os|HACKATHONOS|\.hackathon|\.env\.hackathon`, excluding Git internals, `node_modules`, and generated VitePress output. Every remaining hit is intentional and belongs to one of these reviewed groups:
+
+| Remaining references | Locations and reason |
+|---|---|
+| Historical product name / migration | `CHANGELOG.md`, `MIGRATION.md`, `docs/migration.md`, `docs/RENAME-MAP.md`, `RELEASE.md`, `docs/first-ascent.md`, and `docs/installation/index.md` describe the rename, compatibility period, or upgrade instructions. |
+| Legacy state and environment fallbacks | `core/configuration/manager.py`, `core/ideas/engine.py`, `src/config_manager.py`, `distribution/cli/sherpa`, `SKILL.md`, `workflows/init.md`, `docs/configuration/index.md`, and `docs/installation/index.md` read or explain old state/configuration without deleting or writing to it. |
+| Installer cleanup / environment aliases | `distribution/install.sh`, `distribution/install.ps1`, `distribution/uninstall.sh`, and `distribution/uninstall.ps1` recognize only managed old install paths and former variable names; project state remains outside installer cleanup. |
+| Deprecated launcher compatibility | `distribution/cli/hackathonos`, `distribution/cli/hackathonos.bat`, `distribution/npm/hackathonos.mjs`, `distribution/cli/sherpa`, `scripts/build-release.py`, `package.json`, and `package-lock.json` provide or package the forwarding command. |
+| Safety and migration tests | `tests/configuration/test_configuration.py`, `tests/installer/test_cli.py`, and `tests/installer/test_installer_scripts.py` retain old names only as legacy fixtures/assertions. |
+| Preserved benchmark evidence | `.sherpa/evidence/gold-benchmark/dataset.json` and `gold-labels.json` contain historical benchmark claims about a prior repository state. Their evidence text was retained rather than rewritten because that would change benchmark labels and hashes. |
+
+The repository's tracked `Microsoft/Windows/PowerShell/ModuleAnalysisCache` is an opaque cache binary and is not a source reference. It remains unchanged and is not included in the release archives. Generated build files are excluded from this search and from Git.

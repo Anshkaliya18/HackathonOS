@@ -1,23 +1,23 @@
 # Configuration Overview
 
-HackathonOS project configuration belongs in the hackathon project's repository, not in the installed skill directory.
+Sherpa project configuration belongs in the hackathon project's repository, not in the installed skill directory.
 
 ## Files
 
 - Root `.env.example`: documented variable names and safe, non-secret defaults.
 - Project-root `.env`: local overrides and secrets; ignored by Git. Create it only when needed.
-- `.hackathon/hackathon.json`: hackathon facts and project identity/repository/deployment metadata.
-- `.hackathon/settings.json`: agent preferences, capabilities, verification, and autonomous safety limits.
-- `.hackathon/project-state.md`: phase and workflow state; remains the canonical progress record.
-- `.hackathon/config/*.env.example`: optional split examples installed by INIT; these contain placeholders only.
+- `.sherpa/hackathon.json`: hackathon facts and project identity/repository/deployment metadata.
+- `.sherpa/settings.json`: agent preferences, capabilities, verification, and autonomous safety limits.
+- `.sherpa/project-state.md`: phase and workflow state; remains the canonical progress record.
+- `.sherpa/config/*.env.example`: optional split examples installed by INIT; these contain placeholders only.
 
-The framework repository itself intentionally has no `.hackathon/` state and no `.env` file.
+The framework repository itself intentionally has no `.sherpa/` state and no `.env` file.
 
 ## Commands
 
-- `/hackathonos config` — concise overview, redacting credentials as Configured/Missing.
-- `/hackathonos config check` — validates JSON, environment values, paths, Git ignore/tracking, and bounded secret indicators.
-- `/hackathonos init` — creates missing project configuration and state files without overwriting existing files or values.
+- `/sherpa config` — concise overview, redacting credentials as Configured/Missing.
+- `/sherpa config check` — validates JSON, environment values, paths, Git ignore/tracking, and bounded secret indicators.
+- `/sherpa init` — creates missing project configuration and state files without overwriting existing files or values.
 
 ## Statuses
 

@@ -3,9 +3,9 @@ sys.path.insert(0, 'src')
 from verification import (_semantic_similarity, _numeric_claim_conflict, _entity_mismatch,
                           _temporal_mismatch, _polarity_mismatch, _split_compound_claim, _get_model)
 
-with open('.hackathon/evidence/gold-benchmark/gold-labels.json') as f:
+with open('.sherpa/evidence/gold-benchmark/gold-labels.json') as f:
     labels = json.load(f)['labels']
-with open('.hackathon/evidence/gold-benchmark/split.json') as f:
+with open('.sherpa/evidence/gold-benchmark/split.json') as f:
     split = json.load(f)
 
 cal_ids = set(split['calibration_development'])

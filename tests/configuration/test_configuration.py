@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SPEC = importlib.util.spec_from_file_location("hackathonos_config", ROOT / "core/configuration/manager.py")
+SPEC = importlib.util.spec_from_file_location("sherpa_config", ROOT / "core/configuration/manager.py")
 manager = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = manager
 SPEC.loader.exec_module(manager)
@@ -27,13 +27,13 @@ def run():
             assert snap["status"]=="MISSING", snap
     def initialize_non_destructive():
         with tempfile.TemporaryDirectory() as d:
-            root=Path(d); (root/'.hackathon').mkdir(); (root/'.hackathon/settings.json').write_text('{"sentinel":"keep"}')
-            (root/'.hackathon/project-state.md').write_text('human state')
+            root=Path(d); (root/'.sherpa').mkdir(); (root/'.sherpa/settings.json').write_text('{"sentinel":"keep"}')
+            (root/'.sherpa/project-state.md').write_text('human state')
             created,preserved=manager.init_project(root)
-            assert '.hackathon/settings.json' in preserved and '.hackathon/project-state.md' in preserved
-            assert json.loads((root/'.hackathon/settings.json').read_text())=={"sentinel":"keep"}
-            assert (root/'.hackathon/project-state.md').read_text()=='human state'
-            assert (root/'.hackathon/hackathon.json').exists() and (root/'.env.example').exists()
+            assert '.sherpa/settings.json' in preserved and '.sherpa/project-state.md' in preserved
+            assert json.loads((root/'.sherpa/settings.json').read_text())=={"sentinel":"keep"}
+            assert (root/'.sherpa/project-state.md').read_text()=='human state'
+            assert (root/'.sherpa/hackathon.json').exists() and (root/'.env.sherpa.example').exists()
             second,_=manager.init_project(root)
             assert not second
     def env_parser():
@@ -72,9 +72,9 @@ def run():
             snap=manager.config_snapshot(root,process_env={})
             assert snap['status']=='INVALID' and any('expected true or false' in e for e in snap['errors'])
             assert any('between 1 and 20' in e for e in snap['errors'])
-            settings=json.loads((root/'.hackathon/settings.json').read_text())
+            settings=json.loads((root/'.sherpa/settings.json').read_text())
             settings['autonomous_loop']['require_human_approval']=False
-            (root/'.hackathon/settings.json').write_text(json.dumps(settings))
+            (root/'.sherpa/settings.json').write_text(json.dumps(settings))
             (root/'.env').write_text('MAX_AUTO_ITERATIONS=-1\nREQUIRE_HUMAN_APPROVAL=false\n')
             snap=manager.config_snapshot(root,process_env={})
             assert any('between 1 and 20' in e for e in snap['errors'])
@@ -93,7 +93,7 @@ def run():
     def malformed_config_and_adversarial_files():
         with tempfile.TemporaryDirectory() as d:
             root=Path(d); manager.init_project(root)
-            (root/'.hackathon/hackathon.json').write_text('{broken')
+            (root/'.sherpa/hackathon.json').write_text('{broken')
             (root/'README.md').write_text('Bearer '+'X'*32)
             (root/'service-account.json').write_text('{}')
             json_marker='AIza'+'B'*35
@@ -116,7 +116,7 @@ def run():
             snap=manager.config_snapshot(root,process_env={})
             assert any('tracked by Git' in e for e in snap['errors'])
     def stage2_routes_exist():
-        spec=importlib.util.spec_from_file_location('hackathonos_route_contract',ROOT/'core/commands/router.py')
+        spec=importlib.util.spec_from_file_location('sherpa_route_contract',ROOT/'core/commands/router.py')
         routes=importlib.util.module_from_spec(spec); sys.modules[spec.name]=routes; spec.loader.exec_module(routes)
         assert routes.resolve('config').operation=='CONFIG'
         assert routes.resolve('config').workflow=='workflows/configuration.md'
@@ -130,32 +130,44 @@ def run():
         assert routes.resolve('init').operation=='INIT'
         assert routes.resolve('phase').operation=='PHASE'
         assert routes.resolve('suggest').operation=='SUGGEST'
-        assert routes.resolve('/hackathonos-config').operation=='CONFIG'
-        assert routes.resolve('/hackathonos-config-check').operation=='CONFIG CHECK'
-        assert (ROOT/'.kilo/commands/hackathonos-config.md').is_file()
-        assert (ROOT/'.kilo/commands/hackathonos-config-check.md').is_file()
+        assert routes.resolve('/sherpa-config').operation=='CONFIG'
+        assert routes.resolve('/sherpa-config-check').operation=='CONFIG CHECK'
+        assert (ROOT/'.kilo/commands/sherpa-config.md').is_file()
+        assert (ROOT/'.kilo/commands/sherpa-config-check.md').is_file()
     def cli_subcommands_work_on_fixture():
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)
             script=ROOT/'core/configuration/manager.py'
             init=subprocess.run([sys.executable,str(script),'--project-root',str(root),'init'],capture_output=True,text=True)
-            assert init.returncode==0 and '.hackathon/settings.json' in init.stdout
+            assert init.returncode==0 and '.sherpa/settings.json' in init.stdout
             config=subprocess.run([sys.executable,str(script),'--project-root',str(root),'config'],capture_output=True,text=True)
-            assert config.returncode==0 and 'HACKATHONOS CONFIGURATION' in config.stdout
+            assert config.returncode==0 and 'sherpa configuration' in config.stdout.lower()
             check=subprocess.run([sys.executable,str(script),'--project-root',str(root),'check'],capture_output=True,text=True)
             assert check.returncode==0 and 'Secret scan: PASS' in check.stdout
     def framework_init_refused():
         try: manager.init_project(ROOT)
         except ValueError as exc: assert 'refusing to initialize' in str(exc)
         else: raise AssertionError('framework root was initialized')
+    def legacy_state_is_read_only_until_migrated():
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); old=root/'.hackathon'; old.mkdir()
+            (old/'hackathon.json').write_text('{"name":"Old Event"}')
+            (old/'project-state.md').write_text('| Field | Value |\n|---|---|\n| Phase | Validate Ideas |\n')
+            snap=manager.config_snapshot(root,process_env={})
+            assert any('Deprecated .hackathon/' in warning for warning in snap['warnings'])
+            assert snap['fields'].get('Hackathon name') == 'Old Event'
+            try: manager.init_project(root)
+            except ValueError as exc: assert 'sherpa migrate' in str(exc)
+            else: raise AssertionError('INIT wrote into legacy state without migration')
+            assert not (root/'.sherpa').exists() and (old/'project-state.md').exists()
     for name,fn in [
         ('missing config status',missing),('INIT preserves existing state and settings',initialize_non_destructive),
         ('dotenv parsing and diagnostics',env_parser),('precedence and field validators',precedence_and_validation),
         ('secret scan redacts matching values and skips .env content',scanner_redacts),
         ('safe defaults and invalid environment values',configured_defaults_and_bad_values),
-        ('configuration overview redacts credentials',overview_redacts),('malformed JSON and adversarial secret files',malformed_config_and_adversarial_files),('tracked .env detection and ignore rule',tracked_env_and_ignore),('Stage 2 routes exist on all adapters',stage2_routes_exist),('config, config check, and init CLI operations',cli_subcommands_work_on_fixture),('framework root initialization guard',framework_init_refused)]: check(name,fn)
+        ('configuration overview redacts credentials',overview_redacts),('malformed JSON and adversarial secret files',malformed_config_and_adversarial_files),('tracked .env detection and ignore rule',tracked_env_and_ignore),('Stage 2 routes exist on all adapters',stage2_routes_exist),('config, config check, and init CLI operations',cli_subcommands_work_on_fixture),('framework root initialization guard',framework_init_refused),('legacy state fallback remains read-only',legacy_state_is_read_only_until_migrated)]: check(name,fn)
     total=len(checks); passed=sum(x['status']=='PASS' for x in checks)
-    print(json.dumps({'suite':'HackathonOS Stage 2 configuration','scope':'temporary fixtures; standard library; no network or provider calls','results':checks,'summary':{'total':total,'passed':passed,'failed':total-passed}},indent=2))
+    print(json.dumps({'suite':'sherpa Stage 2 configuration','scope':'temporary fixtures; standard library; no network or provider calls','results':checks,'summary':{'total':total,'passed':passed,'failed':total-passed}},indent=2))
     return 0 if passed==total else 1
 
 if __name__=='__main__': raise SystemExit(run())

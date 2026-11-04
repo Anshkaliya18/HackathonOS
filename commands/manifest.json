@@ -1,30 +1,30 @@
 {
   "schema_version": 1,
-  "master_command": "/hackathonos",
+  "master_command": "/sherpa",
   "hub_runtime_status": {
     "claude": {
       "status": "NOT VERIFIED",
-      "evidence": "claude --print --permission-mode plan /hackathonos-status from an isolated temporary project stopped before dispatch because Claude Code rejected the configured model as unrecognized."
+      "evidence": "claude --print --permission-mode plan /sherpa-status from an isolated temporary project stopped before dispatch because Claude Code rejected the configured model as unrecognized."
     },
     "opencode": {
       "status": "NOT VERIFIED",
-      "evidence": "opencode run --pure --log-level DEBUG --command hackathonos-status from an isolated temporary project produced no output after 15 seconds and was interrupted; the earlier project-root attempt also waited without workflow output."
+      "evidence": "opencode run --pure --log-level DEBUG --command sherpa-status from an isolated temporary project produced no output after 15 seconds and was interrupted; the earlier project-root attempt also waited without workflow output."
     },
     "kilo": {
       "status": "NOT VERIFIED",
-      "evidence": "kilo run --pure --command hackathonos-status from an isolated temporary project resolved the global adapter and read the global SKILL.md, manifest, router, and status workflow; the permission gate auto-rejected a read-only Test-Path call before a report was produced."
+      "evidence": "kilo run --pure --command sherpa-status from an isolated temporary project resolved the global adapter and read the global SKILL.md, manifest, router, and status workflow; the permission gate auto-rejected a read-only Test-Path call before a report was produced."
     }
   },
   "implemented": [
     {
-      "command": "hackathonos-status",
+      "command": "sherpa-status",
       "description": "Show evidence-backed project status.",
       "operation": "STATUS",
       "workflow": "workflows/status.md",
       "router_key": "status",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos status"
+        "/sherpa status"
       ],
       "group": "CORE",
       "adapters": [
@@ -35,14 +35,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-next",
+      "command": "sherpa-next",
       "description": "Identify the single highest-priority next action.",
       "operation": "NEXT",
       "workflow": "workflows/next.md",
       "router_key": "next",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos next"
+        "/sherpa next"
       ],
       "group": "CORE",
       "adapters": [
@@ -53,14 +53,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-help",
-      "description": "List implemented HackathonOS commands and limitations.",
+      "command": "sherpa-help",
+      "description": "List implemented sherpa commands and limitations.",
       "operation": "HELP",
       "workflow": "SKILL.md#help",
       "router_key": "help",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos help"
+        "/sherpa help"
       ],
       "group": "CORE",
       "adapters": [
@@ -71,14 +71,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-init",
-      "description": "Initialize project-local HackathonOS state safely.",
+      "command": "sherpa-init",
+      "description": "Initialize project-local sherpa state safely.",
       "operation": "INIT",
       "workflow": "workflows/init.md",
       "router_key": "init",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos init"
+        "/sherpa init"
       ],
       "group": "CORE",
       "adapters": [
@@ -89,14 +89,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-phase",
+      "command": "sherpa-phase",
       "description": "Show current lifecycle phase and evidence.",
       "operation": "PHASE",
       "workflow": "SKILL.md#phase",
       "router_key": "phase",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos phase"
+        "/sherpa phase"
       ],
       "group": "CORE",
       "adapters": [
@@ -107,14 +107,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-config",
+      "command": "sherpa-config",
       "description": "Show a redacted project configuration overview.",
       "operation": "CONFIG",
       "workflow": "workflows/configuration.md",
       "router_key": "config",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos config"
+        "/sherpa config"
       ],
       "group": "CONFIGURATION",
       "adapters": [
@@ -125,14 +125,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-config-check",
+      "command": "sherpa-config-check",
       "description": "Validate project configuration and secret protections.",
       "operation": "CONFIG CHECK",
       "workflow": "workflows/configuration.md",
       "router_key": "config check",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos config check"
+        "/sherpa config check"
       ],
       "group": "CONFIGURATION",
       "adapters": [
@@ -143,14 +143,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-suggest",
+      "command": "sherpa-suggest",
       "description": "Discover, evaluate, and red-team idea candidates; human selection required.",
       "operation": "SUGGEST",
       "workflow": "workflows/idea-intelligence.md",
       "router_key": "suggest",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos suggest"
+        "/sherpa suggest"
       ],
       "group": "INTELLIGENCE",
       "adapters": [
@@ -161,14 +161,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-evaluate",
+      "command": "sherpa-evaluate",
       "description": "Evaluate and compare candidate ideas with evidence.",
       "operation": "IDEA-EVALUATE",
       "workflow": "workflows/idea-evaluation.md",
       "router_key": "evaluate",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos evaluate"
+        "/sherpa evaluate"
       ],
       "group": "INTELLIGENCE",
       "adapters": [
@@ -179,14 +179,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-compare",
+      "command": "sherpa-compare",
       "description": "Compare candidate ideas using the existing idea-evaluation workflow.",
       "operation": "IDEA-EVALUATE",
       "workflow": "workflows/idea-evaluation.md",
       "router_key": "compare",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos compare"
+        "/sherpa compare"
       ],
       "group": "INTELLIGENCE",
       "adapters": [
@@ -197,14 +197,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-redteam",
+      "command": "sherpa-redteam",
       "description": "Challenge project assumptions and readiness using the red-team workflow.",
       "operation": "RED-TEAM",
       "workflow": "workflows/red-team.md",
       "router_key": "redteam",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos redteam"
+        "/sherpa redteam"
       ],
       "group": "INTELLIGENCE",
       "adapters": [
@@ -215,14 +215,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-optimize",
+      "command": "sherpa-optimize",
       "description": "Prioritize score-improving work against evidence and criteria.",
       "operation": "SCORE-OPTIMIZE",
       "workflow": "workflows/score-optimization.md",
       "router_key": "optimize",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos optimize"
+        "/sherpa optimize"
       ],
       "group": "INTELLIGENCE",
       "adapters": [
@@ -233,14 +233,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-judge-me",
+      "command": "sherpa-judge-me",
       "description": "Simulate judge perception using the judge-simulation workflow.",
       "operation": "JUDGE-SIM",
       "workflow": "workflows/judge-simulation.md",
       "router_key": "judge-me",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos judge-me"
+        "/sherpa judge-me"
       ],
       "group": "INTELLIGENCE",
       "adapters": [
@@ -251,14 +251,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-repo",
+      "command": "sherpa-repo",
       "description": "Inspect repository evidence as part of project planning.",
       "operation": "PROJECT-PLAN",
       "workflow": "workflows/project-planning.md",
       "router_key": "repo",
       "focus_hint": "repository analysis",
       "legacy_aliases": [
-        "/hackathonos repo"
+        "/sherpa repo"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -269,14 +269,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-architecture",
+      "command": "sherpa-architecture",
       "description": "Plan architecture from the selected idea and repository evidence.",
       "operation": "PROJECT-PLAN",
       "workflow": "workflows/project-planning.md",
       "router_key": "architecture",
       "focus_hint": "architecture",
       "legacy_aliases": [
-        "/hackathonos architecture"
+        "/sherpa architecture"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -287,14 +287,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-techstack",
+      "command": "sherpa-techstack",
       "description": "Assess technology choices within the project plan.",
       "operation": "PROJECT-PLAN",
       "workflow": "workflows/project-planning.md",
       "router_key": "techstack",
       "focus_hint": "technology stack",
       "legacy_aliases": [
-        "/hackathonos techstack"
+        "/sherpa techstack"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -305,14 +305,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-plan",
+      "command": "sherpa-plan",
       "description": "Create an implementation-ready project plan.",
       "operation": "PROJECT-PLAN",
       "workflow": "workflows/project-planning.md",
       "router_key": "plan",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos plan"
+        "/sherpa plan"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -323,14 +323,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-build",
+      "command": "sherpa-build",
       "description": "Execute an approved implementation task using the existing implementation workflow.",
       "operation": "IMPLEMENT",
       "workflow": "workflows/implementation.md",
       "router_key": "build",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos build"
+        "/sherpa build"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -341,14 +341,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-verify",
+      "command": "sherpa-verify",
       "description": "Verify implementation through the existing testing and security workflow.",
       "operation": "TESTING-SECURITY",
       "workflow": "workflows/testing-security.md",
       "router_key": "verify",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos verify"
+        "/sherpa verify"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -359,14 +359,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-test",
+      "command": "sherpa-test",
       "description": "Test implemented scope using the testing and security workflow.",
       "operation": "TESTING-SECURITY",
       "workflow": "workflows/testing-security.md",
       "router_key": "test",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos test"
+        "/sherpa test"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -377,14 +377,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-security",
+      "command": "sherpa-security",
       "description": "Review security using the testing and security workflow.",
       "operation": "TESTING-SECURITY",
       "workflow": "workflows/testing-security.md",
       "router_key": "security",
       "focus_hint": "security review",
       "legacy_aliases": [
-        "/hackathonos security"
+        "/sherpa security"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -395,14 +395,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-ux",
+      "command": "sherpa-ux",
       "description": "Review product usability and accessibility readiness.",
       "operation": "UX-REVIEW",
       "workflow": "workflows/ux-review.md",
       "router_key": "ux",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos ux"
+        "/sherpa ux"
       ],
       "group": "ENGINEERING",
       "adapters": [
@@ -413,14 +413,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-accessibility",
+      "command": "sherpa-accessibility",
       "description": "Review accessibility within the existing UX-review scope.",
       "operation": "UX-REVIEW",
       "workflow": "workflows/ux-review.md",
       "router_key": "accessibility",
       "focus_hint": "accessibility",
       "legacy_aliases": [
-        "/hackathonos accessibility"
+        "/sherpa accessibility"
       ],
       "group": "PRODUCT QUALITY",
       "adapters": [
@@ -431,14 +431,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-demo",
+      "command": "sherpa-demo",
       "description": "Prepare an evidence-backed judge-oriented demo plan.",
       "operation": "DEMO-PREPARE",
       "workflow": "workflows/demo-preparation.md",
       "router_key": "demo",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos demo"
+        "/sherpa demo"
       ],
       "group": "FINALIZATION",
       "adapters": [
@@ -449,14 +449,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-audit",
+      "command": "sherpa-audit",
       "description": "Run the existing final-audit workflow after its prerequisites are met.",
       "operation": "FINAL-AUDIT",
       "workflow": "workflows/final-audit.md",
       "router_key": "audit",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos audit"
+        "/sherpa audit"
       ],
       "group": "FINALIZATION",
       "adapters": [
@@ -467,14 +467,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-submission",
+      "command": "sherpa-submission",
       "description": "Prepare and verify submission materials without submitting.",
       "operation": "SUBMISSION-PREPARE",
       "workflow": "workflows/submission.md",
       "router_key": "submission",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos submission"
+        "/sherpa submission"
       ],
       "group": "FINALIZATION",
       "adapters": [
@@ -485,14 +485,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-postmortem",
+      "command": "sherpa-postmortem",
       "description": "Run the final-phase evidence-based retrospective.",
       "operation": "POSTMORTEM",
       "workflow": "workflows/postmortem.md",
       "router_key": "postmortem",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos postmortem"
+        "/sherpa postmortem"
       ],
       "group": "FINALIZATION",
       "adapters": [
@@ -503,14 +503,14 @@
       "status": "implemented"
     },
     {
-      "command": "hackathonos-research",
+      "command": "sherpa-research",
       "description": "Research competitors, markets, technologies, and evidence with verifiable sources.",
       "operation": "RESEARCH",
       "workflow": "workflows/research.md",
       "router_key": "research",
       "focus_hint": null,
       "legacy_aliases": [
-        "/hackathonos research"
+        "/sherpa research"
       ],
       "group": "INTELLIGENCE",
       "adapters": [
@@ -523,42 +523,42 @@
   ],
   "planned": [
     {
-      "command": "hackathonos-improve",
+      "command": "sherpa-improve",
       "status": "planned",
       "reason": "No general improvement workflow exists; score optimization is narrower."
     },
     {
-      "command": "hackathonos-polish",
+      "command": "sherpa-polish",
       "status": "planned",
       "reason": "No standalone polish workflow exists."
     },
     {
-      "command": "hackathonos-performance",
+      "command": "sherpa-performance",
       "status": "planned",
       "reason": "No performance-review workflow exists."
     },
     {
-      "command": "hackathonos-experience",
+      "command": "sherpa-experience",
       "status": "planned",
       "reason": "No standalone experience workflow exists."
     },
     {
-      "command": "hackathonos-video",
+      "command": "sherpa-video",
       "status": "planned",
       "reason": "No video workflow exists."
     },
     {
-      "command": "hackathonos-emergency",
+      "command": "sherpa-emergency",
       "status": "planned",
       "reason": "No emergency workflow exists."
     },
     {
-      "command": "hackathonos-freeze",
+      "command": "sherpa-freeze",
       "status": "planned",
       "reason": "No freeze workflow exists."
     },
     {
-      "command": "hackathonos-reality-check",
+      "command": "sherpa-reality-check",
       "status": "planned",
       "reason": "No dedicated reality-check workflow exists."
     }
@@ -575,15 +575,15 @@
   "host_runtime_status": {
     "claude": {
       "status": "NOT VERIFIED",
-      "evidence": "Runtime compatibility has not yet been verified."
+      "evidence": "claude --print --permission-mode plan /sherpa-status from an isolated temporary project stopped before dispatch because Claude Code rejected the configured model as unrecognized."
     },
     "opencode": {
       "status": "NOT VERIFIED",
-      "evidence": "Runtime compatibility has not yet been verified."
+      "evidence": "opencode run --pure --log-level DEBUG --command sherpa-status from an isolated temporary project produced no output after 15 seconds and was interrupted; the earlier project-root attempt also waited without workflow output."
     },
     "kilo": {
       "status": "NOT VERIFIED",
-      "evidence": "Runtime compatibility has not yet been verified."
+      "evidence": "kilo run --pure --command sherpa-status from an isolated temporary project resolved the global adapter and read the global SKILL.md, manifest, router, and status workflow; the permission gate auto-rejected a read-only Test-Path call before a report was produced."
     }
   }
 }

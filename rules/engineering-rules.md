@@ -1,4 +1,4 @@
-# HackathonOS — Engineering Rules
+# sherpa — Engineering Rules
 
 Defines Phase 3 engineering analysis and planning rules. All rules enforce evidence discipline, human authority, and time-aware prioritization.
 
@@ -22,7 +22,7 @@ Every repository observation and claim must be classified:
 - Seeing package.json does NOT mean dependencies are installed.
 - Seeing deployment configuration does NOT mean deployment works.
 - Seeing an API route does NOT mean the API is operational.
-- HackathonOS-generated artifacts are NOT independent evidence.
+- sherpa-generated artifacts are NOT independent evidence.
 - Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information.
 - Do not treat previous AI-generated recommendations as facts.
 
@@ -101,7 +101,7 @@ Do not describe proposed architecture as if it already exists. If migration is r
 
 ## 6. Project State Rules
 
-Keep `.hackathon/project-state.md` compact.
+Keep `.sherpa/project-state.md` compact.
 
 Add only compact planning status fields:
 
@@ -114,7 +114,7 @@ Add only compact planning status fields:
 | Implementation plan | UNKNOWN | READY |
 | Engineering risk | UNKNOWN | LOW | MEDIUM | HIGH |
 
-Do NOT put detailed repository analysis or architecture inside project-state.md. Detailed artifacts go to `.hackathon/evidence/`.
+Do NOT put detailed repository analysis or architecture inside project-state.md. Detailed artifacts go to `.sherpa/evidence/`.
 
 ---
 
@@ -122,7 +122,7 @@ Do NOT put detailed repository analysis or architecture inside project-state.md.
 
 Before normal Phase 3 execution:
 
-1. Read `.hackathon/project-state.md`.
+1. Read `.sherpa/project-state.md`.
 2. If `selected idea = UNKNOWN`:
    - STOP normal planning.
    - Do not invent a selected idea.
@@ -159,7 +159,7 @@ Analysis must be targeted and structured. Prioritize inspection in this order:
 
 The analysis must declare its scope. Do not claim exhaustive repository analysis unless the repository was actually analyzed exhaustively.
 
-Repository analysis artifacts go to `.hackathon/evidence/`.
+Repository analysis artifacts go to `.sherpa/evidence/`.
 
 ---
 

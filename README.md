@@ -1,80 +1,69 @@
-# HackathonOS
+# Sherpa
 
 **Build the right thing. Prove it works. Show why it matters.**
 
-HackathonOS is a globally installed skill for Claude Code and OpenCode that mentors your work across projects; it is a tool you install once and use in every project, not a hackathon project.
+Sherpa is a globally installed AI agent skill that mentors hackathon teams across projects, from idea selection through verification, demo preparation, and submission.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Latest release](https://img.shields.io/github/v/release/Anshkaliya18/HackathonOS)](https://github.com/Anshkaliya18/HackathonOS/releases/latest)
-[![GitHub stars](https://img.shields.io/github/stars/Anshkaliya18/HackathonOS)](https://github.com/Anshkaliya18/HackathonOS/stargazers)
-[![Claude Code and OpenCode](https://img.shields.io/badge/Install%20targets-Claude%20Code%20%7C%20OpenCode-blue)](AGENT-COMPATIBILITY.md)
+[![MIT License](https://img.shields.io/badge/license-MIT-244d47.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/Anshkaliya18/sherpa)](https://github.com/Anshkaliya18/sherpa/releases)
+[![Stars](https://img.shields.io/github/stars/Anshkaliya18/sherpa)](https://github.com/Anshkaliya18/sherpa/stargazers)
+[![Claude Code · OpenCode](https://img.shields.io/badge/agent%20files-Claude%20Code%20%7C%20OpenCode-9a4f2e)](AGENT-COMPATIBILITY.md)
 
-Docs: [anshkaliya18.github.io/HackathonOS](https://anshkaliya18.github.io/HackathonOS/)
-
-<!-- Record the install-to-recommendation walkthrough described in scripts/record-demo.md and save it to docs/public/demo.gif. -->
 ![demo](docs/public/demo.gif)
 
 ## Install once
 
-Linux / macOS:
+After the first Sherpa release is published, install from its version-pinned release asset:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/v1.0.0/distribution/install.sh | HACKATHONOS_RELEASE_MANIFEST_URL=https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/manifest.json bash
+curl -fsSL https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.sh | bash
 ```
 
-Windows PowerShell:
-
-```powershell
-$env:HACKATHONOS_RELEASE_MANIFEST_URL = 'https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/manifest.json'; irm https://raw.githubusercontent.com/Anshkaliya18/HackathonOS/v1.0.0/distribution/install.ps1 | iex; Remove-Item Env:\HACKATHONOS_RELEASE_MANIFEST_URL
-```
-
-After the npm package is published, install with `npx hackathonos-cli install`. Preview target paths without changing files with `npx hackathonos-cli install --dry-run`; remove the global installs with `npx hackathonos-cli install --uninstall`. The package is prepared in this repository but has not been published to npm yet.
+The same release contains `install.ps1` for Windows PowerShell. The npm package name is `sherpa-skill` (`sherpa` is already taken on npm); its first publication is still pending.
 
 ## Try it now
 
 ```text
-/hackathonos help
-/hackathonos init
-/hackathonos suggest
+/sherpa help
+/sherpa suggest
+/sherpa next
 ```
 
-## Why it's different
+The host's runtime command loading has not been verified; see the [supported agents table](AGENT-COMPATIBILITY.md).
 
-- **Evidence-led:** recommendations distinguish project evidence from assumptions and unknowns.
-- **Human approval gates:** the skill prepares actions and submission materials while leaving consequential decisions to you.
-- **Judging impact per unit time and risk:** prioritize work that can improve judging outcomes within your remaining time and constraints.
+## How Sherpa guides the work
 
-## Capabilities
-
-- Discover, compare, and red-team project ideas.
-- Turn a selected idea into an implementation plan and next actions.
-- Review configuration, testing, security, UX, demos, and submissions.
-- Prepare judge-facing explanations grounded in project evidence.
-- Manage the installed skill with the `hackathonos` CLI.
+- **Evidence-led:** keep facts, assumptions, and unknowns distinct.
+- **Human approval gates:** recommendations do not silently choose ideas or approve consequential work.
+- **Project-local notes:** project context and generated records live in `.sherpa/`.
+- **Plain compatibility status:** integration files, installer coverage, and runtime checks are tracked separately.
 
 ## Supported agents
 
-| Agent | Status | Notes |
-|---|---|---|
-| Claude Code | Install verified; runtime check pending | v1.0.0 installed in an isolated Windows profile; entry files and command manifest validated. |
-| OpenCode | Install verified; runtime check pending | v1.0.0 installed in an isolated Windows profile; entry files and command manifest validated. |
-| Other agents | Not currently supported by the installer | See [compatibility notes](AGENT-COMPATIBILITY.md). |
+| Agent | Integration files | Global installer | Runtime status |
+|---|---|---:|---|
+| Claude Code | `.claude/skills/` | Yes | NOT VERIFIED |
+| OpenCode | `.opencode/commands/` and package metadata | Yes | NOT VERIFIED |
+| Kilo Code | `.kilo/commands/` | No | NOT VERIFIED |
+| Codex CLI, Qwen Code, Gemini CLI | No verified native adapter | No | Not supported |
 
-## Project structure
-
-| Path | Purpose |
-|---|---|
-| `SKILL.md` | Core mentoring behavior and routing |
-| `commands/` | Command definitions and compatibility metadata |
-| `core/`, `workflows/`, `rules/` | Shared logic, lifecycle guidance, and safety rules |
-| `templates/` | Reusable project artifacts |
-| `adapters/`, `.claude/`, `.opencode/` | Agent integrations |
-| `distribution/` | Installers, CLI, and release metadata |
-| `tests/` | Workflow, command, regression, and installer coverage |
+Details and evidence: [agent compatibility](AGENT-COMPATIBILITY.md).
 
 ## Documentation
 
-- [Documentation site](https://anshkaliya18.github.io/HackathonOS/)
-- [Quickstart](QUICKSTART.md) · [Installation](INSTALLATION.md) · [Agent compatibility](AGENT-COMPATIBILITY.md)
-- [Commands](COMMANDS.md) · [Workflows](WORKFLOWS.md) · [Configuration](CONFIGURATION.md) · [Architecture](ARCHITECTURE.md)
-- [Troubleshooting](TROUBLESHOOTING.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md)
+The [Sherpa field guide](https://anshkaliya18.github.io/sherpa/) includes installation, a first-ascent tutorial, lifecycle guides, and a searchable command explorer.
+
+Useful project references: [installation](INSTALLATION.md) · [commands](COMMANDS.md) · [workflows](WORKFLOWS.md) · [configuration](CONFIGURATION.md) · [architecture](ARCHITECTURE.md) · [security](SECURITY.md) · [migration](MIGRATION.md) · [contributing](CONTRIBUTING.md) · [changelog](CHANGELOG.md).
+
+## Repository map
+
+| Path | Purpose |
+|---|---|
+| `SKILL.md` | Mentoring behavior and routing |
+| `commands/` | Command definitions and compatibility metadata |
+| `core/`, `workflows/`, `rules/` | Shared logic, lifecycle guides, and safety rules |
+| `templates/` | Reusable project artifacts |
+| `adapters/`, `.claude/`, `.opencode/`, `.kilo/` | Agent integration files |
+| `distribution/` | Installers, CLI, and release tooling |
+| `docs/` | VitePress field guide |
+| `tests/` | Command, workflow, regression, and installer checks |

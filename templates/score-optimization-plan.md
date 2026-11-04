@@ -16,13 +16,13 @@
 
 | Phase | Evidence Source | Status | Evidence Type |
 |-------|----------------|--------|---------------|
-| Phase 2 | `.hackathon/decisions.md`, idea evaluation | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 3 | `.hackathon/evidence/project-plan-*.md` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 4 | `.hackathon/evidence/` implementation artifacts | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 11 | `.hackathon/evidence/` testing/security artifacts | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 12 | `.hackathon/ux-review.md`, `.hackathon/ux/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 13 | `.hackathon/red-team.md`, `.hackathon/red-team/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
-| Phase 14 | `.hackathon/judge-simulation.md` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 2 | `.sherpa/decisions.md`, idea evaluation | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 3 | `.sherpa/evidence/project-plan-*.md` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 4 | `.sherpa/evidence/` implementation artifacts | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 11 | `.sherpa/evidence/` testing/security artifacts | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 12 | `.sherpa/ux-review.md`, `.sherpa/ux/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 13 | `.sherpa/red-team.md`, `.sherpa/red-team/` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
+| Phase 14 | `.sherpa/judge-simulation.md` | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
 | Repository | Direct repository inspection | | FACT / INFERENCE / ASSUMPTION / UNKNOWN |
 
 **Rule:** Do not claim evidence was consumed unless the artifact was actually read.

@@ -1,0 +1,10 @@
+{
+  "dataset.json": "d62c730af30854c6e3b1ff433cee3eba374fabe2085b1e2fa3d1572f26fe9ad4",
+  "annotation-guide.md": "7be2b5f83a7e050d7a14eea73b20b52d656844b99fe8ccf4bd50c787a6b6f273",
+  "split.json": "d0d80b0e13d2f38da0c77c4aeb7f2880b7778f56bd06d9282fd5126aa38a4463",
+  "gold-labels.json": "4af2c8819d88afe0310b97fbe0be73b4c1470bfcab512acd8b4ba3ac58c8f4e0",
+  "predictions.json": "621483b287b5db23b4c2d386590ef9c8e2b2de7739b56fe33d2051cd48899474",
+  "metrics.json": "d2e844c4f2c18e869080f0f68d2e804d30ec67eb629d2ceae5e9dae4711d8f51",
+  "confusion-matrix.json": "c8e18416fdf92956661b23d7649b335e34f80ff9f3b3ff9ef4c76c58368758e7",
+  "citation-evaluation.json": "3e44715845daa928672dcfc14b712893d3b641ec5958b9e1fea59440a88cc5ea"
+}

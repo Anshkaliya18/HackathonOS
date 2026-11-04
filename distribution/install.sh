@@ -1,42 +1,54 @@
 #!/usr/bin/env bash
 #
-# HackathonOS Installer — Linux / macOS / Git Bash
+# sherpa Installer — Linux / macOS / Git Bash
 #
-# Installs the HackathonOS AI Hackathon Mentor skill for Claude Code and
+# Installs the sherpa AI Hackathon Mentor skill for Claude Code and
 # OpenCode from a versioned GitHub Releases archive, verifies its SHA-256
-# checksum, and installs the `hackathonos` CLI.
+# checksum, and installs the `sherpa` CLI.
 #
 # Usage:
 #   curl -fsSL https://YOUR-DOMAIN/install.sh | bash
 #
 # Configuration (environment variables, all optional):
-#   HACKATHONOS_RELEASE_MANIFEST_URL   Release manifest JSON URL
+#   SHERPA_RELEASE_MANIFEST_URL   Release manifest JSON URL
 #                                      (default: GitHub Releases latest)
-#   HACKATHONOS_INSTALL_CLAUDE         Install into Claude Code (1) or skip (0)
-#   HACKATHONOS_INSTALL_OPENCODE       Install into OpenCode   (1) or skip (0)
-#   HACKATHONOS_INSTALL_CLI            Install the CLI (1) or skip (0)
-#   HACKATHONOS_VERSION                Pin a specific version (default: latest)
-#   HACKATHONOS_NO_PATH                Do not modify shell profile PATH
+#   SHERPA_INSTALL_CLAUDE         Install into Claude Code (1) or skip (0)
+#   SHERPA_INSTALL_OPENCODE       Install into OpenCode   (1) or skip (0)
+#   SHERPA_INSTALL_CLI            Install the CLI (1) or skip (0)
+#   SHERPA_VERSION                Pin a specific version (default: latest)
+#   SHERPA_NO_PATH                Do not modify shell profile PATH
 #
-# The installer never touches user project data or `.hackathon/` directories.
+# The installer never touches user project data or `.sherpa/` directories.
 
 set -euo pipefail
 
 ###############################################################################
 # Constants
 ###############################################################################
-PROJECT="HackathonOS"
-CLI_NAME="hackathonos"
-DEFAULT_MANIFEST_URL="https://github.com/Anshkaliya18/HackathonOS/releases/latest/download/manifest.json"
+PROJECT="sherpa"
+CLI_NAME="sherpa"
+DEFAULT_MANIFEST_URL="https://github.com/Anshkaliya18/sherpa/releases/latest/download/manifest.json"
 
-CLAUDE_SKILL_DIR="${HOME}/.claude/skills/hackathonos"
-OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/hackathonos"
+CLAUDE_SKILL_DIR="${HOME}/.claude/skills/sherpa"
+OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/sherpa"
+LEGACY_CLAUDE_SKILL_DIR="${HOME}/.claude/skills/hackathonos"
+LEGACY_OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/hackathonos"
 CLI_BIN_DIR="${HOME}/.local/bin"
 
 STEP=0
 STEP_TOTAL=6
 TMP_DIR=""
 BACKUP_DIRS=()
+LEGACY_CLI_SOURCE=""
+
+# Accept old product-prefixed variables for one release while preferring the
+# new uppercase SHERPA_* names.
+SHERPA_RELEASE_MANIFEST_URL="${SHERPA_RELEASE_MANIFEST_URL:-${HACKATHONOS_RELEASE_MANIFEST_URL:-${sherpa_RELEASE_MANIFEST_URL:-}}}"
+SHERPA_INSTALL_CLAUDE="${SHERPA_INSTALL_CLAUDE:-${HACKATHONOS_INSTALL_CLAUDE:-${sherpa_INSTALL_CLAUDE:-1}}}"
+SHERPA_INSTALL_OPENCODE="${SHERPA_INSTALL_OPENCODE:-${HACKATHONOS_INSTALL_OPENCODE:-${sherpa_INSTALL_OPENCODE:-1}}}"
+SHERPA_INSTALL_CLI="${SHERPA_INSTALL_CLI:-${HACKATHONOS_INSTALL_CLI:-${sherpa_INSTALL_CLI:-1}}}"
+SHERPA_VERSION="${SHERPA_VERSION:-${HACKATHONOS_VERSION:-${sherpa_VERSION:-}}}"
+SHERPA_NO_PATH="${SHERPA_NO_PATH:-${HACKATHONOS_NO_PATH:-${sherpa_NO_PATH:-0}}}"
 
 ###############################################################################
 # Helpers
@@ -168,8 +180,8 @@ detect_environments() {
     fi
 
     # Decide targets.
-    INSTALL_CLAUDE="${HACKATHONOS_INSTALL_CLAUDE:-1}"
-    INSTALL_OPENCODE="${HACKATHONOS_INSTALL_OPENCODE:-1}"
+    INSTALL_CLAUDE="${SHERPA_INSTALL_CLAUDE:-1}"
+    INSTALL_OPENCODE="${SHERPA_INSTALL_OPENCODE:-1}"
     if [[ "$INSTALL_CLAUDE" == "1" ]]; then TARGETS+=("claude"); fi
     if [[ "$INSTALL_OPENCODE" == "1" ]]; then TARGETS+=("opencode"); fi
     if [[ ${#TARGETS[@]} -eq 0 ]]; then
@@ -181,7 +193,7 @@ detect_environments() {
 # Fetch manifest
 ###############################################################################
 fetch_manifest() {
-    local manifest_url="${HACKATHONOS_RELEASE_MANIF_URL:-${HACKATHONOS_RELEASE_MANIFEST_URL:-$DEFAULT_MANIFEST_URL}}"
+    local manifest_url="${SHERPA_RELEASE_MANIFEST_URL:-$DEFAULT_MANIFEST_URL}"
     info "Release manifest: $manifest_url"
     TMP_DIR="$(mktemp -d)"
     local manifest_file="${TMP_DIR}/manifest.json"
@@ -197,7 +209,7 @@ select_archive() {
     local os arch version
     os="$(detect_os)"
     arch="$(detect_arch)"
-    version="${HACKATHONOS_VERSION:-}"
+    version="${SHERPA_VERSION:-}"
 
     # Extract latest version from manifest.
     local latest
@@ -388,10 +400,10 @@ install_cli() {
     mkdir -p "$CLI_BIN_DIR"
     # The CLI ships alongside this installer in the release; copy it.
     local cli_source
-    cli_source="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)/cli/hackathonos"
+    cli_source="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)/cli/sherpa"
     if [[ ! -f "$cli_source" ]]; then
         # Installer was piped via curl: fetch CLI from the manifest cli url.
-        local cli_archive="${TMP_DIR}/hackathonos-cli.zip"
+        local cli_archive="${TMP_DIR}/sherpa-cli.zip"
         local cli_url
         cli_url="$(manifest_field "$MANIFEST_FILE" "data.get('cli',{}).get('url','')")"
         local cli_checksum
@@ -403,10 +415,11 @@ install_cli() {
             local cli_extract="${TMP_DIR}/cli"
             mkdir -p "$cli_extract"
             unzip -oq "$cli_archive" -d "$cli_extract" || die "invalid CLI archive"
-            cli_source="$(find "$cli_extract" -type f -name hackathonos -print -quit)"
-            [[ -n "$cli_source" ]] || die "CLI archive missing hackathonos executable"
+            cli_source="$(find "$cli_extract" -type f -name sherpa -print -quit)"
+            [[ -n "$cli_source" ]] || die "CLI archive missing sherpa executable"
+            LEGACY_CLI_SOURCE="$(find "$cli_extract" -type f -name hackathonos -print -quit)"
             local bat_source
-            bat_source="$(find "$cli_extract" -type f -name hackathonos.bat -print -quit)"
+            bat_source="$(find "$cli_extract" -type f -name sherpa.bat -print -quit)"
             [[ -z "$bat_source" ]] || cp "$bat_source" "$CLI_BIN_DIR/$CLI_NAME.bat"
         else
             die "CLI not available with a URL and SHA-256 in this installer bundle"
@@ -414,14 +427,16 @@ install_cli() {
     fi
     cp -f "$cli_source" "$CLI_BIN_DIR/$CLI_NAME"
     chmod +x "$CLI_BIN_DIR/$CLI_NAME"
+    local shim_source="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)/cli/hackathonos"
+    if [[ -f "$shim_source" ]]; then LEGACY_CLI_SOURCE="$shim_source"; fi
     ok "CLI installed"
 
     ensure_path
 }
 
 ensure_path() {
-    if [[ "${HACKATHONOS_NO_PATH:-0}" == "1" ]]; then
-        info "Skipping PATH modification (HACKATHONOS_NO_PATH=1)"
+    if [[ "${SHERPA_NO_PATH:-0}" == "1" ]]; then
+        info "Skipping PATH modification (SHERPA_NO_PATH=1)"
         return
     fi
     if [[ ":$PATH:" == *":${CLI_BIN_DIR}:"* ]]; then
@@ -435,10 +450,10 @@ ensure_path() {
         info "Add $CLI_BIN_DIR to your PATH manually"
         return
     fi
-    if ! grep -q "HackathonOS PATH" "$profile" 2>/dev/null; then
+    if ! grep -q "sherpa PATH" "$profile" 2>/dev/null; then
         {
             echo ''
-            echo '# HackathonOS CLI'
+            echo '# sherpa CLI'
             echo "export PATH=\"\${PATH}:${CLI_BIN_DIR}\""
         } >> "$profile"
         ok "Added $CLI_BIN_DIR to PATH in $profile"
@@ -468,7 +483,7 @@ validate_installation() {
 print_banner() {
     printf '\n'
     printf '╔═══════════════════════════════════════╗\n'
-    printf '║          HACKATHONOS                 ║\n'
+    printf '║          sherpa                 ║\n'
     printf '║       AI HACKATHON MENTOR             ║\n'
     printf '╚═══════════════════════════════════════╝\n'
     printf '\n'
@@ -480,26 +495,26 @@ print_success() {
     printf '║  Installation completed successfully! ║\n'
     printf '╚═══════════════════════════════════════╝\n'
     printf '\n'
-    printf 'HackathonOS is installed:\n'
+    printf 'sherpa is installed:\n'
     for target in "${TARGETS[@]}"; do
         local dir
         case "$target" in claude) dir="$CLAUDE_SKILL_DIR" ;; opencode) dir="$OPENCODE_SKILL_DIR" ;; esac
         printf '  • %s: %s\n' "$target" "$dir"
     done
-    if [[ "${HACKATHONOS_INSTALL_CLI:-1}" == "1" ]]; then
+    if [[ "${SHERPA_INSTALL_CLI:-1}" == "1" ]]; then
         printf '  • CLI: %s/%s\n' "$CLI_BIN_DIR" "$CLI_NAME"
     fi
     printf '\n'
     printf 'Try it in your AI coding agent:\n'
-    printf '  /hackathonos status\n'
-    printf '  /hackathonos next\n'
-    printf '  /hackathonos suggest\n'
+    printf '  /sherpa status\n'
+    printf '  /sherpa next\n'
+    printf '  /sherpa suggest\n'
     printf '\n'
     printf 'CLI commands:\n'
-    printf '  hackathonos --version\n'
-    printf '  hackathonos update\n'
-    printf '  hackathonos doctor\n'
-    printf '  hackathonos uninstall\n'
+    printf '  sherpa --version\n'
+    printf '  sherpa update\n'
+    printf '  sherpa doctor\n'
+    printf '  sherpa uninstall\n'
     printf '\n'
     printf 'Release manifest: %s\n' "$MANIFEST_URL_DISPLAY"
     printf 'Docs: INSTALLATION.md README.md SECURITY.md\n'
@@ -517,7 +532,7 @@ usage() {
     cat <<EOF
 Usage: install.sh [options]
 
-Install HackathonOS (AI Hackathon Mentor) for Claude Code and/or OpenCode.
+Install sherpa (AI Hackathon Mentor) for Claude Code and/or OpenCode.
 
 Options:
   --claude           Install only the Claude Code skill
@@ -526,16 +541,16 @@ Options:
   --project DIR      Project-level install target (experimental)
   --version VER      Pin a specific release version
   --manifest-url URL Override the release manifest URL
-  --no-cli           Do not install the hackathonos CLI
+  --no-cli           Do not install the sherpa CLI
   --no-path          Do not modify shell profile PATH
   --yes              Non-interactive (accept defaults)
   -h, --help         Show this help
 
 Environment variables:
-  HACKATHONOS_RELEASE_MANIFEST_URL  Release manifest JSON URL
-  HACKATHONOS_VERSION               Pin a specific release version
-  HACKATHONOS_INSTALL_CLAUDE/OPENCODE/CLI  1=install, 0=skip
-  HACKATHONOS_NO_PATH               1=skip PATH modification
+  SHERPA_RELEASE_MANIFEST_URL  Release manifest JSON URL
+  SHERPA_VERSION               Pin a specific release version
+  SHERPA_INSTALL_CLAUDE/OPENCODE/CLI  1=install, 0=skip
+  SHERPA_NO_PATH               1=skip PATH modification
 
 Examples:
   curl -fsSL https://YOUR-DOMAIN/install.sh | bash
@@ -550,11 +565,11 @@ while [[ $# -gt 0 ]]; do
         --opencode) INSTALL_OPENCODE=1; INSTALL_CLAUDE=0; shift ;;
         --both)     INSTALL_CLAUDE=1; INSTALL_OPENCODE=1; shift ;;
         --project)  die "project-level installer mode is not implemented; use the repository-local agent files" ;;
-        --version)  HACKATHONOS_VERSION="${2:-}"; shift 2 ;;
-        --manifest-url) HACKATHONOS_RELEASE_MANIFEST_URL="${2:-}"; shift 2 ;;
+        --version)  SHERPA_VERSION="${2:-}"; shift 2 ;;
+        --manifest-url) SHERPA_RELEASE_MANIFEST_URL="${2:-}"; shift 2 ;;
         --no-cli)   INSTALL_CLI=0; shift ;;
-        --no-path)  HACKATHONOS_NO_PATH=1; shift ;;
-        --yes)      HACKATHONOS_NONINTERACTIVE=1; shift ;;
+        --no-path)  SHERPA_NO_PATH=1; shift ;;
+        --yes)      SHERPA_NONINTERACTIVE=1; shift ;;
         -h|--help)  usage ;;
         *)          die "unknown option: $1" ;;
     esac
@@ -576,7 +591,7 @@ main() {
 
     step "Fetching latest release"
     fetch_manifest
-    MANIFEST_URL_DISPLAY="${HACKATHONOS_RELEASE_MANIFEST_URL:-$DEFAULT_MANIFEST_URL}"
+    MANIFEST_URL_DISPLAY="${SHERPA_RELEASE_MANIFEST_URL:-$DEFAULT_MANIFEST_URL}"
     select_archive
 
     step "Downloading package"
@@ -596,6 +611,17 @@ main() {
 
     step "Validating installation"
     validate_installation
+
+    # Keep the old command as a shim only after the new command validates.
+    if [[ "${SHERPA_INSTALL_CLI:-1}" == "1" && -n "$LEGACY_CLI_SOURCE" && -f "$LEGACY_CLI_SOURCE" ]]; then
+        cp -f "$LEGACY_CLI_SOURCE" "$CLI_BIN_DIR/hackathonos"
+        chmod +x "$CLI_BIN_DIR/hackathonos"
+    fi
+
+    # Legacy managed skill folders are removed only after the new install validates.
+    for legacy in "$LEGACY_CLAUDE_SKILL_DIR" "$LEGACY_OPENCODE_SKILL_DIR"; do
+        if [[ -d "$legacy" ]]; then rm -rf "$legacy"; ok "Removed superseded HackathonOS skill -> $legacy"; fi
+    done
 
     print_success
     cleanup

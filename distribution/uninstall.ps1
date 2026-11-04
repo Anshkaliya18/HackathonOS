@@ -1,7 +1,7 @@
-# HackathonOS Uninstaller - Windows PowerShell (5.1+ / 7+)
+# sherpa Uninstaller - Windows PowerShell (5.1+ / 7+)
 #
-# Removes only HackathonOS installation files. User project data and
-# `.hackathon/` directories are never touched.
+# Removes only sherpa installation files. User project data and
+# `.sherpa/` directories are never touched.
 #
 # Usage:
 #   irm https://YOUR-DOMAIN/uninstall.ps1 | iex
@@ -13,17 +13,20 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$PROJECT = "HackathonOS"
-$CLI_NAME = "hackathonos"
-$CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
-$CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\hackathonos"
-$OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\hackathonos"
+$PROJECT = "sherpa"
+$CLI_NAME = "sherpa"
+$CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\sherpa\bin"
+$CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\sherpa"
+$OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\sherpa"
+$LEGACY_CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\hackathonos"
+$LEGACY_OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\hackathonos"
+$LEGACY_CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
 
 function Write-Ok { param([string] $M) Write-Host ("  + " + $M) -ForegroundColor Green }
 function Write-Info { param([string] $M) Write-Host ("  > " + $M) }
 function Write-Err { param([string] $M) Write-Host ("  x " + $M) -ForegroundColor Red }
 
-Write-Host "HackathonOS uninstaller"
+Write-Host "sherpa uninstaller"
 Write-Host ""
 Write-Host "The following will be removed:"
 $removed = 0
@@ -37,12 +40,14 @@ if (Test-Path (Join-Path $OPENCODE_SKILL_DIR "SKILL.md")) {
 }
 $cliExe = Join-Path $CLI_BIN_DIR $CLI_NAME
 $cliBat = Join-Path $CLI_BIN_DIR "${CLI_NAME}.bat"
+$legacyShim = Join-Path $CLI_BIN_DIR "hackathonos.bat"
+$oldShim = Join-Path $LEGACY_CLI_BIN_DIR "hackathonos.bat"
 if (Test-Path $cliExe -or Test-Path $cliBat) {
     Write-Host ("  * CLI: {0}" -f $CLI_BIN_DIR) -ForegroundColor Green
     $removed++
 }
 Write-Host ""
-Write-Host "User project data (.hackathon/ directories) will NOT be removed."
+Write-Host "User project data (.sherpa/ directories) will NOT be removed."
 Write-Host "This action cannot be undone."
 Write-Host ""
 
@@ -64,13 +69,18 @@ if (Test-Path (Join-Path $OPENCODE_SKILL_DIR "SKILL.md")) {
 }
 if (Test-Path $cliExe) { Remove-Item -Path $cliExe -Force }
 if (Test-Path $cliBat) { Remove-Item -Path $cliBat -Force }
+if (Test-Path $legacyShim) { Remove-Item -Path $legacyShim -Force }
+if (Test-Path $oldShim) { Remove-Item -Path $oldShim -Force }
+foreach ($legacyDir in @($LEGACY_CLAUDE_SKILL_DIR, $LEGACY_OPENCODE_SKILL_DIR)) {
+    if (Test-Path (Join-Path $legacyDir "SKILL.md")) { Remove-Item -LiteralPath $legacyDir -Recurse -Force }
+}
 if ($cliExe -or $cliBat) { Write-Ok "Removed CLI" }
 
 if ($removed -eq 0) {
-    Write-Host "No HackathonOS installation found."
+    Write-Host "No sherpa installation found."
 } else {
     Write-Host ""
     Write-Host ("Uninstallation completed. Removed {0} item(s)." -f $removed) -ForegroundColor Green
     Write-Host ""
-    Write-Host "Note: your project .hackathon/ state directories were preserved."
+    Write-Host "Note: your project .sherpa/ state directories were preserved."
 }

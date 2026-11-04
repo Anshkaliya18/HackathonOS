@@ -1,11 +1,11 @@
 ---
-name: hackathonos
-description: AI Hackathon Mentor/Co-Pilot that mentors a project throughout the entire hackathon lifecycle, from rules analysis to submission, optimizing for judging impact per unit time. State lives in .hackathon/ inside the project repo, not in the skill directory.
+name: sherpa
+description: AI Hackathon Mentor/Co-Pilot that mentors a project throughout the entire hackathon lifecycle, from rules analysis to submission, optimizing for judging impact per unit time. State lives in .sherpa/ inside the project repo, not in the skill directory.
 ---
 
-# HackathonOS — AI Hackathon Mentor/Co-Pilot
+# Sherpa — AI Hackathon Mentor/Co-Pilot
 
-HackathonOS is a reusable OpenCode/Claude Code skill that stays with a hackathon project from start to submission. It does not behave like a normal coding assistant that says "sure, let's implement that." It is a mentor that optimizes for:
+Sherpa is a reusable OpenCode/Claude Code skill that stays with a hackathon project from start to submission. It does not behave like a normal coding assistant that says "sure, let's implement that." It is a mentor that optimizes for:
 
 **JUDGING IMPACT / TIME / RISK**
 
@@ -24,16 +24,16 @@ For the master router's explicit arguments, normalize whitespace first.
 are distinct exact routes; `suggest` accepts a topic suffix such as `ideas`,
 `problems`, `for agents`, `for automation`, or `for llm apps`.
 Some hosts may forward the full invocation rather than only its arguments;
-remove one leading `/hackathonos`, `\hackathonos`, or `hackathonos` token before
+remove one leading `/sherpa`, `\sherpa`, or `sherpa` token before
 matching. A blank argument uses the normal intent router below. An explicit
 `config` or `config check` request must use the configuration workflow and must
 never route to STATUS. An unknown explicit command is unavailable; do not
 reinterpret it as a feature request or another operation.
 
-When invoked, HackathonOS:
+When invoked, sherpa:
 
-1. Checks whether `.hackathon/` exists in the current project repository.
-2. Reads the current project state from `.hackathon/project-state.md`.
+1. Checks whether `.sherpa/` exists in the current project repository.
+2. Reads the current project state from `.sherpa/project-state.md`.
 3. Determines which operation the user needs: **INIT**, **CONFIG**, **CONFIG CHECK**, **HELP**, **PHASE**, **STATUS**, **NEXT**, **SUGGEST**, **IDEA-EVALUATE**, **PROJECT-PLAN**, **IMPLEMENT**, **TESTING-SECURITY**, **UX-REVIEW**, **RED-TEAM**, **JUDGE-SIM**, **SCORE-OPTIMIZE**, **DEMO-PREPARE**, **PRESENTATION-PREPARE**, **FINAL-AUDIT**, **SUBMISSION-PREPARE**, or **POSTMORTEM**.
 4. Loads the corresponding workflow and executes it. For IDEA-EVALUATE, the engine recommends but never auto-confirms a selected idea. For PROJECT-PLAN, it creates an engineering plan but never auto-approves architecture or writes application code. IMPLEMENT consumes the approved Phase 3 plan and follows `workflows/implementation.md`. TESTING-SECURITY consumes the Phase 3 plan and Phase 4 implementation state, then follows `workflows/testing-security.md`. UX-REVIEW consumes Phase 3–5 evidence, follows `workflows/ux-review.md`, and cannot change the selected idea, architecture, or application source unless the human separately authorizes implementation through the existing process. RED-TEAM consumes Phase 2–7 evidence, follows `workflows/red-team.md`, actively attempts to disprove project readiness, and cannot change the selected idea, silently redesign architecture, or replace Phase 5/Phase 7 engines. JUDGE-SIM consumes Phase 2–8 evidence, follows `workflows/judge-simulation.md`, simulates how judges would perceive the project, and cannot change the selected idea, silently redesign architecture, or replace Phase 5/7/8 engines. SCORE-OPTIMIZE consumes Phase 2–9 evidence, follows `workflows/score-optimization.md`, produces a prioritized score optimization plan based on judging criteria gaps, and cannot change the selected idea, silently redesign architecture, silently modify application code, silently modify Phase 1–9 artifacts, replace Phase 5/7/8/9 engines, create PPT, perform final submission, or perform postmortem. DEMO-PREPARE consumes Phase 11–15 evidence, follows `workflows/demo-preparation.md`, produces a reliable judge-oriented demo preparation plan based on validated evidence, and cannot change the selected idea, silently redesign architecture, silently modify application code, silently modify Phase 1–15 artifacts, replace Phase 11/12/13/14/15 engines, create PPT, perform final submission, or perform postmortem.
 
@@ -41,7 +41,7 @@ When invoked, HackathonOS:
 
 | Operation | When to use | Workflow |
 |-----------|-------------|----------|
-| **INIT** | Starting a new hackathon project; no `.hackathon/` state exists yet | `workflows/init.md` |
+| **INIT** | Starting a new hackathon project; no `.sherpa/` state exists yet | `workflows/init.md` |
 | **CONFIG** | View project configuration without exposing secrets | `workflows/configuration.md` |
 | **CONFIG CHECK** | Validate project configuration, Git secret protections, and scanned secret indicators | `workflows/configuration.md` |
 | **HELP** | You want the list of implemented operations and native command syntax | `SKILL.md#help` |
@@ -98,24 +98,26 @@ When invoked, HackathonOS:
 
 ## HELP
 
-Read `commands/manifest.json` and `docs/commands/README.md`. List only entries whose manifest status is implemented, grouped by the manifest group names. Omit empty groups. Include the native hyphenated commands and the backward-compatible `/hackathonos <operation>` router. Planned commands must not be advertised as available. State host runtime status exactly as recorded in the manifest; repository files alone do not prove runtime discovery. Do not modify project state.
+Read `commands/manifest.json` and `docs/commands/README.md`. List only entries whose manifest status is implemented, grouped by the manifest group names. Omit empty groups. Include the native hyphenated commands and the backward-compatible `/sherpa <operation>` router. Planned commands must not be advertised as available. State host runtime status exactly as recorded in the manifest; repository files alone do not prove runtime discovery. Do not modify project state.
 
 ## PHASE
 
-Read `.hackathon/project-state.md` in the current project repository and report only:
+Read `.sherpa/project-state.md` in the current project repository and report only:
 
 1. **Current phase** — the recorded phase number and name.
 2. **Phase status** — for example IN PROGRESS, COMPLETE, or COMPLETE & LOCKED.
 3. **Evidence** — the file or artifact the values came from.
 
-If `.hackathon/` or `project-state.md` is absent, report `UNKNOWN` for each value and recommend INIT; do not infer a phase from the command name, from audit reports in the framework repository, or from other files. PHASE is read-only: it does not run STATUS, does not recommend an action (that is NEXT), and never changes lifecycle state.
+If `.sherpa/` or `project-state.md` is absent, report `UNKNOWN` for each value and recommend INIT; do not infer a phase from the command name, from audit reports in the framework repository, or from other files. PHASE is read-only: it does not run STATUS, does not recommend an action (that is NEXT), and never changes lifecycle state.
 
 ## Project State
 
-All persistent state lives in `.hackathon/` inside the hackathon project's repository:
+If `.sherpa/` is absent but `.hackathon/` exists, read the legacy directory as a one-release fallback and tell the user it is deprecated. Offer the non-destructive CLI migration (`sherpa migrate`): ask before running it, copy only when `.sherpa/` is absent, and preserve the original. Do not initialize or write new artifacts into the legacy directory; wait for migration or the user's explicit data-handling decision.
+
+All persistent state lives in `.sherpa/` inside the hackathon project's repository:
 
 ```
-.hackathon/
+.sherpa/
 ├── project-state.md
 ├── decisions.md
 ├── risks.md
@@ -136,15 +138,15 @@ See `rules/mentor-rules.md` for the core operating principles the skill always f
 
 ## How to Invoke
 
-The preferred interface is the registered hyphenated command system in `commands/manifest.json`, for example `/hackathonos-status`, `/hackathonos-config-check`, `/hackathonos-suggest`, and `/hackathonos-verify`. The `/hackathonos` master router and existing nested forms remain backward-compatible and resolve to the same workflows. `/hackathonos-help` lists only implemented commands; planned names are not available. Native file presence does not establish host runtime support, which is recorded per host in the manifest.
+The preferred interface is the registered hyphenated command system in `commands/manifest.json`, for example `/sherpa-status`, `/sherpa-config-check`, `/sherpa-suggest`, and `/sherpa-verify`. The `/sherpa` master router and existing nested forms remain backward-compatible and resolve to the same workflows. `/sherpa-help` lists only implemented commands; planned names are not available. Native file presence does not establish host runtime support, which is recorded per host in the manifest.
 
 ## Human Confirmation Requirement
 
-The Idea Intelligence Engine (IDEA-EVALUATE) recommends but never auto-confirms. Only explicit human confirmation can set `selected idea` in `.hackathon/project-state.md`. The engine writes recommendations to `.hackathon/decisions.md`; project-state.md is not silently overwritten.
+The Idea Intelligence Engine (IDEA-EVALUATE) recommends but never auto-confirms. Only explicit human confirmation can set `selected idea` in `.sherpa/project-state.md`. The engine writes recommendations to `.sherpa/decisions.md`; project-state.md is not silently overwritten.
 
 ## Architecture Approval Gate
 
-The Project Planning Engine (PROJECT-PLAN) recommends architecture but never auto-approves it. Architecture status can only change from DRAFT to APPROVED with explicit human confirmation. The engine writes architecture recommendations to the project-plan artifact in `.hackathon/evidence/`; architecture approval status in project-state.md is not silently changed.
+The Project Planning Engine (PROJECT-PLAN) recommends architecture but never auto-approves it. Architecture status can only change from DRAFT to APPROVED with explicit human confirmation. The engine writes architecture recommendations to the project-plan artifact in `.sherpa/evidence/`; architecture approval status in project-state.md is not silently changed.
 
 Phase 3 creates the engineering plan. Phase 4 will execute it. Phase 3 never writes application code, modifies source files, installs dependencies, or deploys.
 

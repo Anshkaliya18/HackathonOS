@@ -1,12 +1,12 @@
 # FAQ
 
-## Is HackathonOS a standalone AI model or hosted service?
+## Is Sherpa a standalone AI model or hosted service?
 
 No. It is a Markdown-first skill that an AI coding agent loads, with a small Python core and a separate distribution CLI.
 
 ## Where does it save project information?
 
-In `.hackathon/` inside the hackathon project's repository.
+In `.sherpa/` inside the hackathon project's repository.
 
 ## Does it automatically pick an idea or approve architecture?
 
@@ -20,7 +20,7 @@ No. It prepares and verifies materials without submitting them.
 
 Integration files exist for Claude Code, OpenCode, and Kilo Code, but runtime loading is marked `NOT VERIFIED`. The global installer targets Claude Code and OpenCode. Codex CLI, Qwen Code, and Gemini CLI have no verified native adapter.
 
-## Is `/hackathonos audit` the same as `hackathonos audit`?
+## Is `/sherpa audit` the same as `sherpa audit`?
 
 No. The slash command routes to the final-audit agent workflow. The standalone CLI command audits recognized managed skill installation folders.
 

@@ -1,4 +1,4 @@
-# HackathonOS — Implementation Rules
+# sherpa — Implementation Rules
 
 Defines authoritative Phase 4 behavior. Phase 4 consumes Phase 3 planning output and implements approved work in small, verifiable steps. It is an implementation mentor and orchestrator, not an uncontrolled autonomous coding agent.
 
@@ -6,11 +6,11 @@ Defines authoritative Phase 4 behavior. Phase 4 consumes Phase 3 planning output
 
 Before planning or changing application code:
 
-1. Read `.hackathon/project-state.md`.
+1. Read `.sherpa/project-state.md`.
 2. Verify `selected idea` is known and consistent with Phase 2 evidence.
-3. Read `.hackathon/decisions.md` and the selected idea's evaluation artifact when present/referenced.
-4. Read the Phase 3 repository analysis in `.hackathon/evidence/` or its explicitly referenced stable path.
-5. Read the Phase 3 project plan in `.hackathon/evidence/` or its explicitly referenced stable path.
+3. Read `.sherpa/decisions.md` and the selected idea's evaluation artifact when present/referenced.
+4. Read the Phase 3 repository analysis in `.sherpa/evidence/` or its explicitly referenced stable path.
+5. Read the Phase 3 project plan in `.sherpa/evidence/` or its explicitly referenced stable path.
 6. Verify architecture and MVP statuses and the plan's readiness status.
 7. Verify implementation readiness before any application edit.
 
@@ -42,7 +42,7 @@ If any condition is missing, report `NOT READY`, list the blocking evidence gaps
 
 ## 4. Evidence discipline
 
-Classify repository observations and claims as `FACT`, `INFERENCE`, `ASSUMPTION`, or `UNKNOWN`. Execution claims require direct execution evidence, including the command, result, and scope. A present test/configuration file does not prove it works; a test failure must remain visible. Generated HackathonOS state, plans, tasks, and recommendations are planning records, not independent repository facts or execution evidence.
+Classify repository observations and claims as `FACT`, `INFERENCE`, `ASSUMPTION`, or `UNKNOWN`. Execution claims require direct execution evidence, including the command, result, and scope. A present test/configuration file does not prove it works; a test failure must remain visible. Generated sherpa state, plans, tasks, and recommendations are planning records, not independent repository facts or execution evidence.
 
 Never invent a commit, installed dependency, test/build result, environment value, API behavior, deployment result, completion claim, or remaining time. When Git is unavailable, record `Git baseline = UNKNOWN`.
 
@@ -63,7 +63,7 @@ For every proposed new dependency, record why it is needed, whether existing cod
 
 ## 6. Plan and task ordering
 
-Store detailed planning in `.hackathon/implementation-plan.md`, based on `templates/implementation-plan.md`. Store task records in `.hackathon/implementation/task-NNN.md`, based on `templates/implementation-task.md`. Keep `project-state.md` compact and update only the Phase 4 fields listed in Section 10.
+Store detailed planning in `.sherpa/implementation-plan.md`, based on `templates/implementation-plan.md`. Store task records in `.sherpa/implementation/task-NNN.md`, based on `templates/implementation-task.md`. Keep `project-state.md` compact and update only the Phase 4 fields listed in Section 10.
 
 Represent workstreams, task dependencies, validation, blockers, and the critical path explicitly. Select exactly one current task. Order work by:
 
@@ -107,7 +107,7 @@ Use the existing state/deadline and Phase 1 time strategy; do not invent a deadl
 
 ## 10. Compact project-state fields
 
-Only add or update these Phase 4 fields in `.hackathon/project-state.md`:
+Only add or update these Phase 4 fields in `.sherpa/project-state.md`:
 
 | Field | Allowed values |
 |---|---|

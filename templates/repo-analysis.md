@@ -201,4 +201,4 @@
 
 **Valid source types:** repository inspection, actual execution, external verification, explicit human-provided information.
 
-**Invalid source types:** HackathonOS-generated artifacts, previous AI recommendations without verification.
+**Invalid source types:** sherpa-generated artifacts, previous AI recommendations without verification.

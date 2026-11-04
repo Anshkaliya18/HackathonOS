@@ -56,7 +56,7 @@ def test_at391_prerequisite_phase15_locked() -> None:
     """Demo preparation consumes score optimization project evidence."""
     text = WORKFLOW.read_text(encoding="utf-8")
     assert "Phase 15 score optimization evidence must exist" in text
-    assert ".hackathon/project-state.md" in text
+    assert ".sherpa/project-state.md" in text
 
 
 def test_at392_lifecycle_correctness() -> None:

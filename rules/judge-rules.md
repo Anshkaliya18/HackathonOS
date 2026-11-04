@@ -1,4 +1,4 @@
-# HackathonOS — Judge Simulation Rules
+# sherpa — Judge Simulation Rules
 
 These rules are authoritative for the JUDGE-SIM capability. Judge Simulation is lifecycle Phase 14; this is engineering capability Phase 9. Do not renumber or edit the 20-phase lifecycle.
 
@@ -12,7 +12,7 @@ If a proposed remediation needs database/API redesign, authentication redesign, 
 
 ## Readiness and source of truth
 
-Read `.hackathon/project-state.md`, Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, Phase 7 UX evidence, and Phase 8 Red Team evidence before simulating a judge. Judge simulation normally requires implementation baseline, Phase 5 evidence, Phase 7 evidence, and Phase 8 evidence. If implementation is incomplete or readiness cannot be established, report **JUDGE SIMULATION BLOCKED** or **LIMITED**; do not imply a review occurred.
+Read `.sherpa/project-state.md`, Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, Phase 7 UX evidence, and Phase 8 Red Team evidence before simulating a judge. Judge simulation normally requires implementation baseline, Phase 5 evidence, Phase 7 evidence, and Phase 8 evidence. If implementation is incomplete or readiness cannot be established, report **JUDGE SIMULATION BLOCKED** or **LIMITED**; do not imply a review occurred.
 
 Use the selected idea as context only. Never change it. Consume existing Phase 2–8 evidence. If a judge-simulation question requires an automated or functional test, mark **TEST REQUIRED** and route it to Phase 5; do not execute or duplicate that engine.
 
@@ -20,7 +20,7 @@ Use the selected idea as context only. Never change it. Consume existing Phase 2
 
 Every claim is labeled FACT, INFERENCE, ASSUMPTION, or UNKNOWN. FACT identifies inspected source, UI, state, test, or direct observation. INFERENCE states its evidence and reasoning. ASSUMPTION is an explicit provisional premise. UNKNOWN includes what is missing and why. Every observation cites reproducible evidence: path/line, route/screen, steps, result, or evidence artifact. Never claim an interaction, state, or behavior was observed when it was not.
 
-Generated HackathonOS artifacts are not independent evidence. Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information. Do not treat previous AI-generated recommendations as facts.
+Generated sherpa artifacts are not independent evidence. Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information. Do not treat previous AI-generated recommendations as facts.
 
 Never represent simulated judge behavior as real external feedback. Use language such as:
 
@@ -268,7 +268,7 @@ A project does NOT need perfect judge readiness to complete Phase 9. The workflo
 
 ## State and artifacts
 
-Keep `.hackathon/project-state.md` compact. Add only these fields:
+Keep `.sherpa/project-state.md` compact. Add only these fields:
 
 | Field | Values |
 |-------|--------|
@@ -278,7 +278,7 @@ Keep `.hackathon/project-state.md` compact. Add only these fields:
 | Critical Judge Concerns | UNKNOWN | NONE | IDENTIFIED |
 | Judge Readiness | NOT_READY | IN_PROGRESS | CONDITIONAL | READY |
 
-Detailed material belongs in `.hackathon/judge-simulation.md` and `.hackathon/judge/`. Do not turn project-state.md into a giant report.
+Detailed material belongs in `.sherpa/judge-simulation.md` and `.sherpa/judge/`. Do not turn project-state.md into a giant report.
 
 ## Human control
 

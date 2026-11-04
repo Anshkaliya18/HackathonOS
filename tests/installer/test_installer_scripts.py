@@ -54,8 +54,8 @@ def test_install_sh_backup_and_rollback():
 
 def test_install_sh_detects_both_environments():
     text = read(INSTALL_SH)
-    assert ".claude/skills/hackathonos" in text
-    assert ".config/opencode/skills/hackathonos" in text
+    assert ".claude/skills/sherpa" in text
+    assert ".config/opencode/skills/sherpa" in text
 
 
 def test_install_sh_never_touches_hackathon_state():
@@ -63,7 +63,7 @@ def test_install_sh_never_touches_hackathon_state():
     # The installer must not remove or write to a user .hackathon/ directory.
     # It may mention preservation, but must not rm -rf a .hackathon path.
     import re
-    bad = re.findall(r"rm -rf[^\\n]*\.hackathon", text)
+    bad = re.findall(r"rm -rf[^\r\n]*\.hackathon", text)
     assert not bad, "install.sh must not remove .hackathon/ project state"
 
 
@@ -105,8 +105,7 @@ def test_uninstall_scripts_preserve_hackathon_state():
     for path in (UNINSTALL_SH, UNINSTALL_PS1):
         text = read(path)
         import re
-        assert re.search(r"\.hackathon", text) is not None or True  # may mention preservation
-        bad = re.findall(r"(rm -rf|Remove-Item)[^\\n]*\.hackathon", text)
+        bad = re.findall(r"(rm -rf|Remove-Item)[^\r\n]*\.hackathon", text)
         assert not bad, f"{path.name} must not remove .hackathon/ project state"
 
 
@@ -118,8 +117,8 @@ def test_uninstall_asks_confirmation():
 
 
 def test_cli_and_wrappers_exist():
-    assert (REPO / "distribution" / "cli" / "hackathonos").is_file()
-    assert (REPO / "distribution" / "cli" / "hackathonos.bat").is_file()
+    assert (REPO / "distribution" / "cli" / "sherpa").is_file()
+    assert (REPO / "distribution" / "cli" / "sherpa.bat").is_file()
 
 
 def test_release_templates_exist():

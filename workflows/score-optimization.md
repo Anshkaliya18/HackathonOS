@@ -1,4 +1,4 @@
-# HackathonOS — Score Optimization Workflow
+# sherpa — Score Optimization Workflow
 
 **Operation:** SCORE-OPTIMIZE  
 **Lifecycle Phase:** Phase 15 — Score Optimization Intelligence  
@@ -6,7 +6,7 @@
 
 ## Prerequisites
 
-- `.hackathon/project-state.md` must exist
+- `.sherpa/project-state.md` must exist
 - `selected idea` must be known (not UNKNOWN)
 - Phase 2 idea evaluation evidence must exist
 - Phase 3 project plan evidence must exist
@@ -14,7 +14,7 @@
 - Phase 5 testing/security evidence must exist
 - Phase 7 UX evidence must exist
 - Phase 8 Red Team evidence must exist
-- Phase 9 Judge Simulation report must exist (`.hackathon/judge-simulation.md`)
+- Phase 9 Judge Simulation report must exist (`.sherpa/judge-simulation.md`)
 - Judging criteria and weights must be identified (KNOWN) or explicitly marked UNKNOWN
 
 If any prerequisite is missing, mark it UNKNOWN, report SCORE-OPTIMIZE = BLOCKED or LIMITED, and do not invent criteria, weights, or evidence.
@@ -23,7 +23,7 @@ If any prerequisite is missing, mark it UNKNOWN, report SCORE-OPTIMIZE = BLOCKED
 
 ### Stage 1: Read Project State
 
-Read `.hackathon/project-state.md` and capture:
+Read `.sherpa/project-state.md` and capture:
 
 - Hackathon name, deadline, time remaining
 - Phase
@@ -40,13 +40,13 @@ Consume (do not duplicate or replace) the following evidence:
 
 | Phase | Source | What to consume |
 |-------|--------|-----------------|
-| Phase 2 | `.hackathon/decisions.md`, `.hackathon/evaluations/<idea>.md` | Selected idea, evaluation scores, differentiation, MVP scope |
-| Phase 3 | `.hackathon/evidence/project-plan-*.md` | Architecture, MVP scope (MUST/SHOULD/OPTIONAL/EXCLUDED), workstreams, dependencies, critical path, technical risks, time strategy |
-| Phase 4 | `.hackathon/evidence/` implementation artifacts | Repository baseline, components implemented, tests executed, deployment configuration, known issues |
-| Phase 5 | `.hackathon/evidence/` testing/security artifacts | Test results, security findings, blocked tests, regression risks, known failures |
-| Phase 7 | `.hackathon/ux-review.md`, `.hackathon/ux/` artifacts | UX baseline, critical flows, findings, quality gate status, limitations |
-| Phase 8 | `.hackathon/red-team.md`, `.hackathon/red-team/` artifacts | Red team findings, risks, mitigations, quality gate status, limitations |
-| Phase 9 | `.hackathon/judge-simulation.md` | Judge simulation report, criterion-by-criterion observations, judge concerns, judge trust, differentiation perception |
+| Phase 2 | `.sherpa/decisions.md`, `.sherpa/evaluations/<idea>.md` | Selected idea, evaluation scores, differentiation, MVP scope |
+| Phase 3 | `.sherpa/evidence/project-plan-*.md` | Architecture, MVP scope (MUST/SHOULD/OPTIONAL/EXCLUDED), workstreams, dependencies, critical path, technical risks, time strategy |
+| Phase 4 | `.sherpa/evidence/` implementation artifacts | Repository baseline, components implemented, tests executed, deployment configuration, known issues |
+| Phase 5 | `.sherpa/evidence/` testing/security artifacts | Test results, security findings, blocked tests, regression risks, known failures |
+| Phase 7 | `.sherpa/ux-review.md`, `.sherpa/ux/` artifacts | UX baseline, critical flows, findings, quality gate status, limitations |
+| Phase 8 | `.sherpa/red-team.md`, `.sherpa/red-team/` artifacts | Red team findings, risks, mitigations, quality gate status, limitations |
+| Phase 9 | `.sherpa/judge-simulation.md` | Judge simulation report, criterion-by-criterion observations, judge concerns, judge trust, differentiation perception |
 
 Do not re-run Phase 2–9 engines. Consume their evidence only.
 
@@ -80,7 +80,7 @@ Classify every observation as FACT, INFERENCE, ASSUMPTION, or UNKNOWN. Cite repo
 Rules:
 - Never fabricate repository facts.
 - Seeing a file does not mean it works.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 
 ### Stage 4: Build Score Model
 
@@ -208,7 +208,7 @@ Use `templates/score-optimization-plan.md` to produce the output plan:
 
 ### Stage 10: Update Project State
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | Allowed Values |
 |-------|---------------|
@@ -220,7 +220,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 
 Rules:
 - Do NOT put detailed optimization analysis inside project-state.md.
-- Detailed material goes to `.hackathon/score-optimization.md` and `.hackathon/score-optimization/`.
+- Detailed material goes to `.sherpa/score-optimization.md` and `.sherpa/score-optimization/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Do not silently redesign architecture; architecture changes require human approval.

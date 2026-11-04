@@ -1,15 +1,16 @@
 """
-HackathonOS Configuration Manager
+Sherpa Configuration Manager
 
 Defines authoritative Phase 1 behavior: initialization, collection, validation,
-and persistent storage of project-specific information in `.env.hackathon`.
+and persistent storage of project-specific information in `.env.sherpa`.
 
 Design principles:
-- `.env.hackathon` lives in the project repository root (NOT in the skill directory).
+- `.env.sherpa` lives in the project repository root (NOT in the skill directory).
+- `.env.hackathon` is read only as a deprecated fallback when the new file is absent.
 - It is the single source of truth for project-specific configuration.
 - All fields default to UNKNOWN until explicitly provided.
 - Human-editable: users may edit directly; skill must preserve manual edits.
-- No secrets: API keys and secrets go in `.env`, never in `.env.hackathon`.
+- No secrets: API keys and secrets go in `.env`, never in `.env.sherpa`.
 - Idempotent: running init multiple times must not duplicate or destroy data.
 
 Configuration categories:
@@ -40,7 +41,8 @@ from typing import Any, Dict, List, Optional, Tuple
 # Constants
 # ---------------------------------------------------------------------------
 
-ENV_HACKATHON_FILENAME = ".env.hackathon"
+ENV_SHERPA_FILENAME = ".env.sherpa"
+LEGACY_ENV_FILENAME = ".env.hackathon"
 ENV_FILE = ".env"
 
 # Category -> list of field names
@@ -212,10 +214,10 @@ class VerificationError(Exception):
 
 class ProjectConfig:
     """
-    Manages `.env.hackathon` — the persistent project state file.
+    Manages `.env.sherpa` — the persistent project state file.
 
     Responsibilities:
-    - Initialize `.env.hackathon` if missing
+    - Initialize `.env.sherpa` if missing
     - Load all fields into memory
     - Update fields from user input or repository evidence
     - Write changes back to disk (preserving comments and unknown fields)
@@ -225,7 +227,8 @@ class ProjectConfig:
 
     def __init__(self, project_root: str | None = None):
         self.project_root = Path(project_root or os.getcwd())
-        self.env_path = self.project_root / ".env.hackathon"
+        self.env_path = self.project_root / ENV_SHERPA_FILENAME
+        self.legacy_env_path = self.project_root / LEGACY_ENV_FILENAME
         self.env_file = self.project_root / ".env"
         self._config: dict[str, str] = {}
         self._raw_lines: list[str] = []
@@ -237,13 +240,17 @@ class ProjectConfig:
     # ------------------------------------------------------------------
 
     def load(self) -> dict[str, str]:
-        """Load .env.hackathon into memory. Creates default if missing."""
-        self.env_path = self.project_root / ".env.hackathon"
+        """Load .env.sherpa, or read the old filename as a deprecated fallback."""
+        self.env_path = self.project_root / ENV_SHERPA_FILENAME
+        source_path = self.env_path
+        if not source_path.exists() and self.legacy_env_path.exists():
+            import warnings
+            warnings.warn(".env.hackathon is deprecated; copy it to .env.sherpa. The original is preserved.", DeprecationWarning)
         self._config = {}
         self._raw_lines = []
 
-        if self.env_path.exists():
-            self._load_from_file(self.env_path)
+        if source_path.exists():
+            self._load_from_file(source_path)
         else:
             # Initialize with defaults
             self._config = dict(DEFAULT_VALUES)
@@ -254,7 +261,7 @@ class ProjectConfig:
         return dict(self._config)
 
     def _load_from_file(self, path: Path) -> None:
-        """Parse .env.hackathon file, preserving comments and blank lines."""
+        """Parse a Sherpa project environment file, preserving comments and blank lines."""
         raw = path.read_text(encoding="utf-8")
         self._raw_lines = raw.splitlines(keepends=True)
 
@@ -279,13 +286,13 @@ class ProjectConfig:
                 self._config[key] = default_val
 
     def _build_initial_lines(self) -> list[str]:
-        """Build initial .env.hackathon content from defaults."""
+        """Build initial .env.sherpa content from defaults."""
         lines: list[str] = []
         lines.append("# =============================================================================")
         lines.append("# Hackathon Project State")
         lines.add("")
-        lines.add("# This file is the persistent state for a HackathonOS-managed project.")
-        lines.add("# It lives in .hackathon/project-state.md inside the hackathon project's repository.")
+        lines.add("# This file is the persistent state for a sherpa-managed project.")
+        lines.add("# It lives in .sherpa/project-state.md inside the hackathon project's repository.")
         lines.add("")
         lines.add("# Any field whose value is not known must be set to UNKNOWN.")
         lines.add("# Never invent or guess missing information.")
@@ -307,7 +314,7 @@ class ProjectConfig:
         return lines
 
     def save(self) -> None:
-        """Write current state back to .env.hackathon, preserving comments and unknown fields."""
+        """Write current state to .env.sherpa, preserving comments and unknown fields."""
         if not self.env_path:
             raise RuntimeError("Verifier not initialized: call load() first")
 

@@ -1,51 +1,10 @@
 {
   "schema_version": 1,
-  "project": "HackathonOS",
-  "description": "AI Hackathon Mentor/Co-Pilot skill for Claude Code and OpenCode",
-  "latest": {
-    "version": "1.0.0",
-    "channel": "stable"
-  },
-  "archives": [
-    {
-      "os": "linux",
-      "arch": "amd64",
-      "format": "tar.gz",
-      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-linux-amd64.tar.gz",
-      "size": 189746,
-      "checksum": "0c8aa7b2f78989f6d85bea0eb5031a19af556487b41a22a8bbde8b7366ea743b"
-    },
-    {
-      "os": "darwin",
-      "arch": "amd64",
-      "format": "tar.gz",
-      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-darwin-amd64.tar.gz",
-      "size": 189747,
-      "checksum": "0d1ace90761eb759109524933e8cad703f9337827fb84f767a57611cf79ffda3"
-    },
-    {
-      "os": "darwin",
-      "arch": "arm64",
-      "format": "tar.gz",
-      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-darwin-arm64.tar.gz",
-      "size": 189747,
-      "checksum": "7a44ca9062088bd7d619e0f555902f580e77373eff81e80a406e29fc61e34cf6"
-    },
-    {
-      "os": "windows",
-      "arch": "amd64",
-      "format": "zip",
-      "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-1.0.0-windows-amd64.zip",
-      "size": 252782,
-      "checksum": "1786c7a019d3a4f30eadc1e7219f64de26e91754909adabc0e3eb27fa8547db1"
-    }
-  ],
-  "cli": {
-    "name": "hackathonos",
-    "url": "https://github.com/Anshkaliya18/HackathonOS/releases/download/v1.0.0/hackathonos-cli-1.0.0.zip",
-    "checksum": "432ff463cf72e99476bb4b429376db9732e452f46e4048a48c6089551fd8f5f8",
-    "size": 7527
-  },
-  "notes": "HackathonOS 1.0.0 release. See CHANGELOG.md.",
-  "published_at": "2026-11-04T10:33:43Z"
+  "project": "Sherpa",
+  "description": "AI agent skill that mentors hackathon teams for Claude Code and OpenCode",
+  "latest": { "version": "2.0.0", "channel": "stable" },
+  "archives": [],
+  "cli": null,
+  "notes": "Release manifest template. scripts/build-release.py creates the actual archive URLs, sizes, checksums, and timestamp for each tagged release.",
+  "published_at": null
 }

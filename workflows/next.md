@@ -1,4 +1,4 @@
-# HackathonOS — NEXT Workflow
+# sherpa — NEXT Workflow
 
 **Operation**: NEXT  
 **Purpose**: Identify exactly ONE highest-priority action to take right now, based on project state, time remaining, risks, and judging criteria.
@@ -14,11 +14,11 @@ Use NEXT when:
 
 ### Step 1: Verify State Exists
 
-Check if `.hackathon/project-state.md` exists. If not, recommend INIT first and stop.
+Check if `.sherpa/project-state.md` exists. If not, recommend INIT first and stop.
 
 ### Step 2: Read Project State
 
-Read `.hackathon/project-state.md` and capture:
+Read `.sherpa/project-state.md` and capture:
 - Phase
 - Time remaining (from deadline)
 - Completed work, current work, blocked work

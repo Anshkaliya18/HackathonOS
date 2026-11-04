@@ -1,92 +1,32 @@
-# HackathonOS Release Publishing
+# Sherpa releases
 
-This document describes how to publish a HackathonOS release so that the
-one-command installers can download and verify it.
+Sherpa uses semantic versioning. Version `2.0.0` is the first release under the new product name: command namespace, CLI/package identity, installer paths, and state directory changed, so the public migration is treated as a major version. Legacy state reads and the `hackathonos` shim ease this transition.
 
 ## Release artifacts
 
-For each version (e.g. `v1.0.0`), publish a GitHub Release containing:
+The tagged GitHub Actions workflow runs `scripts/build-release.py` and attaches platform skill archives, a CLI archive, shell and PowerShell install/uninstall scripts, `manifest.json`, and `checksums.txt`. The generated manifest contains the real archive sizes and SHA-256 digests. `distribution/release/manifest.json` is only a template; never use it as a release download manifest.
 
-```
-hackathonos-1.0.0-linux-amd64.tar.gz
-hackathonos-1.0.0-darwin-amd64.tar.gz
-hackathonos-1.0.0-darwin-arm64.tar.gz
-hackathonos-1.0.0-windows-amd64.zip
-hackathonos-cli-1.0.0.zip        # required for default CLI-enabled installs
-manifest.json
-checksums.txt
-```
+The builder excludes `.git/`, `.claude/`, `.opencode/`, `.kilo/`, `.sherpa/`, caches, and generated output. The tracked `Microsoft/Windows/PowerShell/ModuleAnalysisCache` is unrelated to installation and is excluded from release archives.
 
-Each archive must contain the skill tree at its top level (or under a single
-`hackathonos/` directory):
+## Prepare a release
 
-```
-SKILL.md
-commands/manifest.json
-commands/*.md
-core/commands/router.py
-core/configuration/manager.py
-core/ideas/engine.py
-src/verification.py
-src/config_manager.py
-scripts/*.py
-workflows/*.md
-templates/*.md
-rules/*.md
-adapters/*.md
-docs/*
-VERSION
-```
+1. Review the branch and run the documented Python test suite and `npm run docs:build`.
+2. Confirm `distribution/VERSION`, `package.json`, and `CHANGELOG.md` agree on the version.
+3. Merge the reviewed branch, then create and push a version tag, for example `git tag v2.0.0 && git push origin v2.0.0`.
+4. The release workflow builds and uploads the archives and manifest. Verify the attached checksums and release page before sharing the installer.
 
-Do **not** include `.git/`, `.hackathon/`, `.claude/`, `.opencode/`, `.kilo/`,
-`node_modules/`, `__pycache__/`, `build/`, or `dist/` — these are development
-or per-project state, not part of the distributable skill.
+The repository rename and publication steps are intentionally separate; see `scripts/finish-rename.sh`. Do not run those commands before review and merge.
 
-## Generate checksums
+## Installation URLs
 
-From the release artifact directory:
+After the repository rename and release exist, pin install commands to the selected release tag:
 
 ```bash
-sha256sum hackathonos-*.tar.gz hackathonos-*.zip > distribution/release/checksums.txt
+curl -fsSL https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.sh | bash
 ```
 
-Example `checksums.txt` format:
-
-```
-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  hackathonos-1.0.0-linux-amd64.tar.gz
-...
+```powershell
+irm https://github.com/Anshkaliya18/sherpa/releases/download/v2.0.0/install.ps1 | iex
 ```
 
-## Update the manifest
-
-Edit `distribution/release/manifest.json`:
-
-- Set `latest.version` to the new version.
-- Fill in each archive's `url` (GitHub Releases download URL), `size`, and
-  `checksum` (SHA-256).
-- Update the `cli.url` and `cli.checksum`.
-- Set `published_at`.
-- Include the CLI ZIP and its checksum when using the default installer behavior; CLI installation can be disabled with `--no-cli` / `-NoCli`.
-
-Do **not** fabricate checksums — generate them from the real artifacts.
-
-## Publish
-
-1. Tag the commit: `git tag v1.0.0 && git push origin v1.0.0`
-2. Create the GitHub Release from the tag and upload the artifacts.
-3. Upload `manifest.json` and `checksums.txt` to the release (or host them at
-   the `latest/download` path).
-4. Point `DEFAULT_MANIFEST_URL` in `install.sh`/`install.ps1` (or rely on the
-   GitHub `latest/download/manifest.json` default).
-
-## Versioning
-
-HackathonOS uses semantic versioning (semver). The `VERSION` file in the
-distribution and each skill installation records the installed version. The
-`hackathonos update` command compares the installed version against
-`manifest.json` `latest.version`.
-
-## Rollback
-
-If an update fails validation, the installer automatically restores the
-previous `.bak.<timestamp>` backup. No user project data is ever touched.
+Avoid `latest` in public setup snippets when reproducible installs matter.

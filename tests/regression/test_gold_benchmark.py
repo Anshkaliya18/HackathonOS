@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression tests for the HackathonOS gold-labeled verification benchmark.
+"""Regression tests for the sherpa gold-labeled verification benchmark.
 
 Validates benchmark artifact integrity, label validity, split separation,
 and metric correctness. stdlib-only; deterministic; non-zero exit on failure.
@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-BENCH = ROOT / ".hackathon" / "evidence" / "gold-benchmark"
+BENCH = ROOT / ".sherpa" / "evidence" / "gold-benchmark"
 
 VALID_LABELS = {"SUPPORTED", "PARTIALLY_SUPPORTED", "UNSUPPORTED", "CONTRADICTED"}
 

@@ -1,4 +1,4 @@
-# HackathonOS — Judge Simulation Workflow
+# sherpa — Judge Simulation Workflow
 
 **Operation:** JUDGE-SIM  
 **Purpose:** Simulate how a realistic hackathon judge would perceive the project. Identify what judges would notice, question, misunderstand, praise, distrust, or penalize. Phase 9 is a judge simulation intelligence engine — it reviews and recommends; it does not optimize scores or change the project.
@@ -15,7 +15,7 @@ Use JUDGE-SIM when:
 - You want to anticipate how judges would perceive the project
 - You need to understand what judges would question, trust, or distrust
 
-**Prerequisite:** `.hackathon/project-state.md` must exist with `selected idea` known, Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, Phase 7 UX evidence, and Phase 8 Red Team evidence.
+**Prerequisite:** `.sherpa/project-state.md` must exist with `selected idea` known, Phase 2 idea evaluation, Phase 3 project plan, Phase 4 implementation evidence, Phase 5 testing/security evidence, Phase 7 UX evidence, and Phase 8 Red Team evidence.
 
 ---
 
@@ -23,7 +23,7 @@ Use JUDGE-SIM when:
 
 ### Stage 1: Read Project State
 
-Read `.hackathon/project-state.md`:
+Read `.sherpa/project-state.md`:
 - Hackathon name, deadline, time remaining
 - Judging criteria and weights
 - Problem statement, target users
@@ -71,7 +71,7 @@ Read the hackathon's official judging criteria and weights:
 
 ### Stage 4: Read Phase 2 Idea Evaluation
 
-Read `.hackathon/decisions.md` and `.hackathon/evaluations/<idea-name>.md`:
+Read `.sherpa/decisions.md` and `.sherpa/evaluations/<idea-name>.md`:
 - Selected idea name
 - Evaluation scores
 - Red-team outcomes from Phase 2
@@ -80,7 +80,7 @@ Read `.hackathon/decisions.md` and `.hackathon/evaluations/<idea-name>.md`:
 
 ### Stage 5: Read Phase 3 Project Plan
 
-Read `.hackathon/evidence/project-plan-*.md`:
+Read `.sherpa/evidence/project-plan-*.md`:
 - Current architecture
 - Proposed architecture
 - MVP scope (MUST/SHOULD/OPTIONAL/EXCLUDED)
@@ -92,7 +92,7 @@ Read `.hackathon/evidence/project-plan-*.md`:
 
 ### Stage 6: Read Phase 4 Implementation Evidence
 
-Read `.hackathon/evidence/` implementation artifacts:
+Read `.sherpa/evidence/` implementation artifacts:
 - Repository baseline
 - Components implemented
 - Tests executed
@@ -101,7 +101,7 @@ Read `.hackathon/evidence/` implementation artifacts:
 
 ### Stage 7: Read Phase 5 Testing/Security Evidence
 
-Read `.hackathon/evidence/` testing/security artifacts:
+Read `.sherpa/evidence/` testing/security artifacts:
 - Test results
 - Security findings
 - Blocked tests
@@ -112,7 +112,7 @@ Do not duplicate the Phase 5 testing/security engine. Consume its evidence only.
 
 ### Stage 8: Read Phase 7 UX Evidence
 
-Read `.hackathon/ux-review.md` and `.hackathon/ux/` artifacts:
+Read `.sherpa/ux-review.md` and `.sherpa/ux/` artifacts:
 - UX baseline
 - Critical flows
 - Findings
@@ -123,7 +123,7 @@ Do not duplicate the Phase 7 UX engine. Consume its evidence only.
 
 ### Stage 9: Read Phase 8 Red Team Evidence
 
-Read `.hackathon/red-team.md` and `.hackathon/red-team/` artifacts:
+Read `.sherpa/red-team.md` and `.sherpa/red-team/` artifacts:
 - Red team findings
 - Risks
 - Mitigations
@@ -156,7 +156,7 @@ Rules:
 - Never fabricate repository facts.
 - Execution claims require execution evidence.
 - Seeing a test file does NOT mean tests pass.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 
 ### Stage 11: Inspect Actual Demo Flow
 
@@ -289,7 +289,7 @@ Do not prioritize cosmetic issues over project-breaking risks.
 
 Use `templates/judge-simulation.md` as the record format.
 
-Save to `.hackathon/judge-simulation.md`.
+Save to `.sherpa/judge-simulation.md`.
 
 Include:
 - Project
@@ -333,7 +333,7 @@ Include:
 
 ### Stage 20: Update Project State
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | New Value |
 |-------|-----------|
@@ -345,7 +345,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 
 Rules:
 - Do NOT put detailed judge simulation inside project-state.md.
-- Detailed material goes to `.hackathon/judge-simulation.md` and `.hackathon/judge/`.
+- Detailed material goes to `.sherpa/judge-simulation.md` and `.sherpa/judge/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Human approval required for architecture changes.

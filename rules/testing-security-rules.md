@@ -1,10 +1,10 @@
-# HackathonOS — Testing + Security Rules
+# sherpa — Testing + Security Rules
 
 Defines authoritative Phase 5 behavior. Phase 5 inspects the implemented project, creates test/security plans, executes applicable checks, records evidence, and evaluates quality. Phase 4 is a frozen dependency: never modify its rules, templates, or workflow. Phase 5 does not replace Phase 4 or silently modify application code or architecture.
 
 ## 1. Readiness and evidence first
 
-Read `.hackathon/project-state.md`, the Phase 3 project plan, and `.hackathon/implementation-plan.md` before normal testing. Read artifacts at explicitly referenced stable paths when needed. Inspect the actual repository and test baseline before making claims.
+Read `.sherpa/project-state.md`, the Phase 3 project plan, and `.sherpa/implementation-plan.md` before normal testing. Read artifacts at explicitly referenced stable paths when needed. Inspect the actual repository and test baseline before making claims.
 
 - If `Implementation status = NOT_STARTED`, report `Testing blocked until implementation exists.` Do not run a normal project test campaign.
 - If implementation status, selected idea, or required plans are missing/UNKNOWN, mark readiness `UNKNOWN` or `BLOCKED`; do not infer readiness from an artifact alone.
@@ -25,7 +25,7 @@ Prioritize in order: critical user flows; MUST HAVE MVP behavior; authentication
 
 ## 3. Test execution and failures
 
-Use `templates/test-plan.md` at `.hackathon/test-plan.md` and `templates/test-result.md` at `.hackathon/testing/test-NNN.md`. Record planned tests separately from executed results. Before execution, state expected result and relevant scope. After execution, capture exact command/procedure, exit/result, relevant output, date/time, and affected revision when available.
+Use `templates/test-plan.md` at `.sherpa/test-plan.md` and `templates/test-result.md` at `.sherpa/testing/test-NNN.md`. Record planned tests separately from executed results. Before execution, state expected result and relevant scope. After execution, capture exact command/procedure, exit/result, relevant output, date/time, and affected revision when available.
 
 - Mark a check `EXECUTED` while evidence is being recorded; mark `PASSED` only when observed results meet its expected result.
 - Preserve failures as `FAILED` with output, impact, and affected component. Do not relabel them PASSED without a rerun that succeeds.
@@ -34,7 +34,7 @@ Use `templates/test-plan.md` at `.hackathon/test-plan.md` and `templates/test-re
 
 ## 4. Bounded security review
 
-Use `templates/security-review.md` at `.hackathon/security-review.md` and `templates/security-finding.md` at `.hackathon/security/finding-NNN.md`. Every review states scope, files/areas inspected, method, limitations, and unknowns. Never claim a complete security audit from bounded inspection. Use the phrase `No confirmed vulnerabilities identified within the inspected scope.` only when it is accurate; it does not imply the whole application is safe.
+Use `templates/security-review.md` at `.sherpa/security-review.md` and `templates/security-finding.md` at `.sherpa/security/finding-NNN.md`. Every review states scope, files/areas inspected, method, limitations, and unknowns. Never claim a complete security audit from bounded inspection. Use the phrase `No confirmed vulnerabilities identified within the inspected scope.` only when it is accurate; it does not imply the whole application is safe.
 
 Cover applicable areas: authentication, authorization/access control, input validation, output encoding, injection, secrets/environment, sensitive data, file/upload handling, API exposure, CORS, CSRF, XSS, SQL/NoSQL injection, command execution, path traversal, dependency vulnerabilities, rate limiting, logging, error leakage, and session/token handling. Mark uninspected or uncertain areas `UNKNOWN`. Classify observations `FACT`, `INFERENCE`, `ASSUMPTION`, or `UNKNOWN`, with source and confidence. Do not label a vulnerability without supporting evidence.
 
@@ -69,7 +69,7 @@ Use the existing project deadline/time. Do not calculate a false estimate or inv
 
 ## 8. Compact project state
 
-Add/update only these Phase 5 fields in `.hackathon/project-state.md`:
+Add/update only these Phase 5 fields in `.sherpa/project-state.md`:
 
 | Field | Allowed values |
 |---|---|

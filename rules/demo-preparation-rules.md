@@ -1,4 +1,4 @@
-# HackathonOS — Demo Preparation Rules
+# sherpa — Demo Preparation Rules
 
 **Lifecycle Phase:** Phase 16 — Demo Preparation Intelligence  
 **Purpose:** Authoritative rules for demo preparation. Phase 16 reviews and recommends; it does not implement, replace prior phases, or modify locked artifacts. Phase 16 optimizes for reliable judge comprehension and credible proof under real demo constraints, not feature quantity.
@@ -79,7 +79,7 @@ Rules:
 - A screenshot is evidence of what the screenshot shows, not necessarily current live behavior.
 - A successful previous run does not automatically prove current runtime reliability.
 - Every observation cites reproducible evidence: path/line, route/screen, steps, result, or evidence artifact.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 
 Demo evidence types:
 
@@ -486,7 +486,7 @@ AI recommends. Human decides.
 
 ## 24. Project State Fields
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | Allowed Values |
 |-------|---------------|
@@ -500,7 +500,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 Rules:
 
 - Do NOT put detailed demo analysis inside project-state.md.
-- Detailed material goes to `.hackathon/demo-preparation.md` and `.hackathon/demo/`.
+- Detailed material goes to `.sherpa/demo-preparation.md` and `.sherpa/demo/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Human approval required for major demo scope changes.

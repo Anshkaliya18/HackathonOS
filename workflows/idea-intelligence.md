@@ -1,6 +1,6 @@
-# HackathonOS — Idea Intelligence Workflow
+# sherpa — Idea Intelligence Workflow
 
-**Operation:** SUGGEST (`/hackathonos suggest [focus]`)  
+**Operation:** SUGGEST (`/sherpa suggest [focus]`)
 **Purpose:** Discover, generate, evaluate, compare, and red-team hackathon ideas. The human alone selects the project idea.
 
 ## Guardrails
@@ -15,7 +15,7 @@
 
 ## 1. Load bounded context
 
-Run `python core/ideas/engine.py --project-root <current-project-root> context` using the actual consuming project root. It prints bounded JSON containing `.hackathon/project-state.md`, safe fields from `hackathon.json` and settings, project documentation, prior idea records, risks/research, and no raw secret values. If state/config is missing or malformed, keep it UNKNOWN and continue with a clearly low-confidence exploratory report. Do not initialize the project here.
+Run `python core/ideas/engine.py --project-root <current-project-root> context` using the actual consuming project root. It prints bounded JSON containing `.sherpa/project-state.md`, safe fields from `hackathon.json` and settings, project documentation, prior idea records, risks/research, and no raw secret values. If state/config is missing or malformed, keep it UNKNOWN and continue with a clearly low-confidence exploratory report. Do not initialize the project here.
 
 Check project state claims against repository documentation where available. Use the selected prompt suffix only as a focus hint: `ideas`, `problems`, `for agents`, `for automation`, `for llm apps`. Do not force all candidates into that category. If context has Homingo tracks Agents, Automation, or LLM Apps, assess natural track fit; absent track evidence means UNKNOWN.
 
@@ -31,7 +31,7 @@ Reject or sharply downgrade decorative AI, generic chatbots, thin API wrappers, 
 
 ## 4. Score and red-team
 
-For every candidate provide all nine internal dimensions, each as `{value, reason, evidence_type, source, confidence}`: problem strength, AI advantage, technical depth, evaluation strength, demo strength, differentiation, build feasibility, competition fit, and risk. `value` must be an evidenced/explicitly labeled 1–10 rating or null when not responsibly rateable. The engine calculates the **HackathonOS Internal Opportunity Score** using an equal-weight mean of the eight positive dimensions and inverted risk `(11-risk)`, scaled to 0–100. Any null dimension leaves the candidate unranked. This is not an official score or official weight.
+For every candidate provide all nine internal dimensions, each as `{value, reason, evidence_type, source, confidence}`: problem strength, AI advantage, technical depth, evaluation strength, demo strength, differentiation, build feasibility, competition fit, and risk. `value` must be an evidenced/explicitly labeled 1–10 rating or null when not responsibly rateable. The engine calculates the **sherpa Internal Opportunity Score** using an equal-weight mean of the eight positive dimensions and inverted risk `(11-risk)`, scaled to 0–100. Any null dimension leaves the candidate unranked. This is not an official score or official weight.
 
 Attack every candidate with at least five distinct, specific judge questions/findings covering problem pain, AI necessity, build feasibility, evaluation, demo, competitors, data/API availability, scope, reliability, or “LLM wrapper” risk. Classify each finding KILL, MAJOR CONCERN, or MINOR CONCERN. Engine rules mark any candidate with a KILL attack as KILL; very high risk plus very low build feasibility, or AI advantage ≤3 for an AI-claiming idea, also kills. Do not hide a kill finding to preserve ranking.
 
@@ -50,13 +50,13 @@ python core/ideas/engine.py --project-root <project-root> validate --input <draf
 python core/ideas/engine.py --project-root <project-root> persist --input <draft.json>
 ```
 
-Only persist after validation passes. The tool writes immutable artifacts under `.hackathon/ideas/runs/<content-hash>/` plus an append-only `index.json`; identical runs deduplicate. Existing candidates are checked for exact and near duplicates and preserved; explain matches and meaningful changes. Never overwrite prior run artifacts. Remove the temporary draft only if it was created by this workflow and contains no user content.
+Only persist after validation passes. The tool writes immutable artifacts under `.sherpa/ideas/runs/<content-hash>/` plus an append-only `index.json`; identical runs deduplicate. Existing candidates are checked for exact and near duplicates and preserved; explain matches and meaningful changes. Never overwrite prior run artifacts. Remove the temporary draft only if it was created by this workflow and contains no user content.
 
 If persistence fails, return the analysis in the response and state that it was not persisted. Never modify project-state selected idea, existing idea records, project source, lifecycle, or any Stage 1/2 locked artifact.
 
 ## 7. Output
 
-Return `# HACKATHONOS IDEA INTELLIGENCE` with sections Context, Evidence, Problem Territories, Candidate Ideas, Top 5, Top 3, Red Team Findings, Recommended Direction, Unknowns, Validation Needed, Human Decision Required, and exactly one `Primary Next Action`. Keep it readable; cite sources and distinguish FACT/INFERENCE/ASSUMPTION/UNKNOWN. Do not claim external research, persistence, or a generated count that did not occur.
+Return `# sherpa IDEA INTELLIGENCE` with sections Context, Evidence, Problem Territories, Candidate Ideas, Top 5, Top 3, Red Team Findings, Recommended Direction, Unknowns, Validation Needed, Human Decision Required, and exactly one `Primary Next Action`. Keep it readable; cite sources and distinguish FACT/INFERENCE/ASSUMPTION/UNKNOWN. Do not claim external research, persistence, or a generated count that did not occur.
 
 ## Completion checklist
 

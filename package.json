@@ -1,1 +1,33 @@
-{"name":"hackathonos-cli","version":"1.0.0","description":"Install the HackathonOS AI agent skill for Claude Code and OpenCode","license":"MIT","type":"module","bin":{"hackathonos":"distribution/npm/hackathonos.mjs"},"files":["distribution/install.sh","distribution/install.ps1","distribution/uninstall.sh","distribution/uninstall.ps1","distribution/npm/"],"scripts":{"docs:dev":"vitepress dev docs","docs:build":"vitepress build docs","docs:preview":"vitepress preview docs","docs:check":"node scripts/check-docs.mjs","docs:commands":"node scripts/generate-command-reference.mjs"},"devDependencies":{"mermaid":"^11.12.0","vitepress":"^1.6.4","vitepress-plugin-mermaid":"^2.0.17"}}
+{
+    "name": "sherpa-skill",
+    "version": "2.0.0",
+    "description": "Install the sherpa AI agent skill for Claude Code and OpenCode",
+    "license": "MIT",
+    "type": "module",
+    "bin": {
+        "sherpa": "distribution/npm/sherpa.mjs",
+        "hackathonos": "distribution/npm/hackathonos.mjs"
+    },
+    "files": [
+        "distribution/install.sh",
+        "distribution/install.ps1",
+        "distribution/uninstall.sh",
+        "distribution/uninstall.ps1",
+        "distribution/cli/",
+        "distribution/npm/"
+    ],
+    "scripts": {
+        "docs:dev": "vitepress dev docs",
+        "docs:build": "vitepress build docs",
+        "predocs:build": "node scripts/generate-command-reference.mjs",
+        "predocs:dev": "node scripts/generate-command-reference.mjs",
+        "docs:preview": "vitepress preview docs",
+        "docs:check": "node scripts/check-docs.mjs",
+        "docs:commands": "node scripts/generate-command-reference.mjs"
+    },
+    "devDependencies": {
+        "mermaid": "^11.12.0",
+        "vitepress": "^1.6.4",
+        "vitepress-plugin-mermaid": "^2.0.17"
+    }
+}

@@ -1,4 +1,4 @@
-# HackathonOS — SUBMISSION-PREPARE Workflow
+# sherpa — SUBMISSION-PREPARE Workflow
 
 **Lifecycle Phase:** Phase 19 — Submission Intelligence  
 **Purpose:** Prepare, verify, and freeze submission materials without submitting them.
@@ -6,13 +6,13 @@
 ## Hard prerequisites
 
 1. Read `workflows/lifecycle.md`; require exactly 20 phases in order: Phase 18 Final Audit, Phase 19 Submission, Phase 20 Post-Mortem. Do not renumber or repair.
-2. Read `.hackathon/final-audit.md`; require `Audit status: COMPLETE`. If the artifact is absent or incomplete, stop and report the blocker. Never substitute a framework test report for project audit evidence.
+2. Read `.sherpa/final-audit.md`; require `Audit status: COMPLETE`. If the artifact is absent or incomplete, stop and report the blocker. Never substitute a framework test report for project audit evidence.
 3. Inspect the Phase 18 project evidence and applicable Phase 1–18 contracts. Preserve prior project decisions and artifacts.
 4. Do not perform an actual competition submission or begin Phase 20.
 
 ## Procedure
 
-1. Read `.hackathon/project-state.md` and prior phase evidence if present. If absent, record that no live project state was inspected; do not treat this framework repository as the project package.
+1. Read `.sherpa/project-state.md` and prior phase evidence if present. If absent, record that no live project state was inspected; do not treat this framework repository as the project package.
 2. Inspect the actual current repository and its metadata. Cite paths, command output, hashes, or captured evidence. Separate observed FACT from INFERENCE and UNKNOWN. Never simulate inspection.
 3. Discover requirements using the authority order in `rules/submission-rules.md`. Record each in the requirement template. Preserve source conflicts; do not invent mandatory requirements.
 4. Record deadline, timezone, source, confidence, status and time remaining. Unknown deadline/timezone stays UNKNOWN; use the documented deadline strategy only where actual time is known.
@@ -31,7 +31,7 @@
 
 ## Required outputs
 
-Use the Phase 19 templates for requirement records, inventory, field mapping, links, risks, checklist, snapshot, and verification. Produce `.hackathon/submission-plan.md` and detailed evidence under `.hackathon/submission/` only in the actual project repository. Contract harnesses report to stdout and do not create repository audit reports. Keep `.hackathon/project-state.md` compact and add only the Phase 19 fields specified below; do not overwrite prior phase state.
+Use the Phase 19 templates for requirement records, inventory, field mapping, links, risks, checklist, snapshot, and verification. Produce `.sherpa/submission-plan.md` and detailed evidence under `.sherpa/submission/` only in the actual project repository. Contract harnesses report to stdout and do not create repository audit reports. Keep `.sherpa/project-state.md` compact and add only the Phase 19 fields specified below; do not overwrite prior phase state.
 
 ### Additive project-state fields only
 

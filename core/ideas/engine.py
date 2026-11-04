@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Safe, deterministic support for HackathonOS idea-intelligence runs.
+"""Safe, deterministic support for sherpa idea-intelligence runs.
 
 The model researches and drafts ideas. This module reads bounded project
 context, validates the structured draft, scores provided ratings, identifies
@@ -47,7 +47,7 @@ class IdeaError(ValueError):
 
 def _config_manager():
     path = ROOT / "core/configuration/manager.py"
-    spec = importlib.util.spec_from_file_location("hackathonos_config_for_ideas", path)
+    spec = importlib.util.spec_from_file_location("sherpa_config_for_ideas", path)
     if not spec or not spec.loader:
         raise IdeaError("configuration manager unavailable")
     module = importlib.util.module_from_spec(spec)
@@ -136,7 +136,10 @@ def load_context(project_root: str | Path) -> dict[str, Any]:
     if not root.is_dir():
         raise IdeaError("project root does not exist")
     manager = _config_manager()
-    state_path = root / ".hackathon/project-state.md"
+    state_root = manager.project_state_dir(root)
+    if state_root.name == manager.LEGACY_STATE_DIRECTORY and not (root / manager.STATE_DIRECTORY).exists():
+        raise IdeaError("legacy .hackathon/ state is read-only during migration; run `sherpa migrate` before writing idea artifacts")
+    state_path = state_root / "project-state.md"
     state_text = _read_text(state_path)
     state = _state_fields(state_text, manager.SECRET_PATTERNS)
     state_aliases = {
@@ -159,11 +162,11 @@ def load_context(project_root: str | Path) -> dict[str, Any]:
         match = next((value for key, value in state.items() if any(alias.casefold() in key.casefold() for alias in aliases)), None)
         state_claims[canonical] = match if match else "UNKNOWN"
     state_record = {"status": "AVAILABLE" if state_text is not None else "UNKNOWN",
-                    "source": ".hackathon/project-state.md" if state_text is not None else "UNKNOWN",
+                    "source": f"{state_root.name}/project-state.md" if state_text is not None else "UNKNOWN",
                     "fields": state or {"current_phase": "UNKNOWN", "selected_idea": "UNKNOWN"}}
 
-    hackathon_raw, hackathon_error = _safe_json(root / ".hackathon/hackathon.json")
-    settings_raw, settings_error = _safe_json(root / ".hackathon/settings.json")
+    hackathon_raw, hackathon_error = _safe_json(state_root / "hackathon.json")
+    settings_raw, settings_error = _safe_json(state_root / "settings.json")
     safe_hackathon = _scrub(hackathon_raw, patterns=manager.SECRET_PATTERNS) if isinstance(hackathon_raw, dict) else {}
     if not isinstance(safe_hackathon, dict):
         safe_hackathon = {}
@@ -194,11 +197,11 @@ def load_context(project_root: str | Path) -> dict[str, Any]:
             docs.append({"source": path.relative_to(root).as_posix(), "content": _redact_document(content, manager),
                          "evidence_note": "FACT about repository documentation; product claims require independent verification"})
 
-    ideas_root = root / ".hackathon/ideas"
+    ideas_root = state_root / "ideas"
     prior: list[dict[str, Any]] = []
     prior_documents: list[dict[str, str]] = []
     research_documents: list[dict[str, str]] = []
-    evidence_dir = root / ".hackathon/evidence"
+    evidence_dir = state_root / "evidence"
     if evidence_dir.is_dir() and not evidence_dir.is_symlink():
         for path in sorted(evidence_dir.glob("*.md"))[:12]:
             content = _read_text(path, 6000)
@@ -228,19 +231,19 @@ def load_context(project_root: str | Path) -> dict[str, Any]:
                 records, _ = _safe_json(path)
                 if isinstance(records, list):
                     prior.extend(_scrub(item, patterns=manager.SECRET_PATTERNS) for item in records if isinstance(item, dict))
-    risks = _read_text(root / ".hackathon/risks.md", 8000)
-    research = _read_text(root / ".hackathon/research.md", 8000)
+    risks = _read_text(state_root / "risks.md", 8000)
+    research = _read_text(state_root / "research.md", 8000)
     return {
         "project_root": str(root),
         "hackathon_state": state_record,
         "project_facts": state_claims,
         "source_conflicts": conflicts,
         "hackathon_configuration": {"status": "AVAILABLE" if isinstance(hackathon_raw, dict) else "UNKNOWN",
-                                    "source": ".hackathon/hackathon.json" if isinstance(hackathon_raw, dict) else "UNKNOWN",
+                                    "source": f"{state_root.name}/hackathon.json" if isinstance(hackathon_raw, dict) else "UNKNOWN",
                                     "data": safe_hackathon,
                                     "load_note": hackathon_error or "loaded"},
         "settings": {"status": "AVAILABLE" if isinstance(settings_raw, dict) else "UNKNOWN",
-                     "source": ".hackathon/settings.json" if isinstance(settings_raw, dict) else "UNKNOWN",
+                     "source": f"{state_root.name}/settings.json" if isinstance(settings_raw, dict) else "UNKNOWN",
                      "effective_safe_values": settings,
                      "load_note": settings_error or "loaded"},
         "repository_documentation": docs,
@@ -428,7 +431,7 @@ def validate_report(report: Any) -> dict[str, Any]:
     result["top5"] = [item["name"] for item in ranked[:5]]
     result["top3"] = [item["name"] for item in ranked[:3]]
     result["recommendation"] = dict(recommendation, human_decision="PENDING")
-    result["scoring_note"] = "HackathonOS Internal Opportunity Score; equal-weight diagnostic, not official judging weights. A null dimension makes the candidate unranked."
+    result["scoring_note"] = "Sherpa Internal Opportunity Score; equal-weight diagnostic, not official judging weights. A null dimension makes the candidate unranked."
     return result
 
 
@@ -438,11 +441,12 @@ def _markdown(title: str, data: Any) -> str:
 
 
 def _ensure_safe_target(root: Path) -> Path:
-    hackathon = root / ".hackathon"
-    if hackathon.is_symlink():
-        raise IdeaError("refusing to write through a .hackathon symlink")
-    hackathon.mkdir(exist_ok=True)
-    ideas = hackathon / "ideas"
+    manager = _config_manager()
+    state_root = manager.project_state_dir(root)
+    if state_root.is_symlink():
+        raise IdeaError(f"refusing to write through a {state_root.name} symlink")
+    state_root.mkdir(exist_ok=True)
+    ideas = state_root / "ideas"
     if ideas.is_symlink():
         raise IdeaError("refusing to write through an ideas symlink")
     ideas.mkdir(exist_ok=True)
@@ -530,7 +534,7 @@ def persist_report(project_root: str | Path, report: Any) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="HackathonOS idea intelligence support utility")
+    parser = argparse.ArgumentParser(description="Sherpa idea intelligence support utility")
     parser.add_argument("--project-root", default=".")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("context", help="print safe, bounded project context JSON")

@@ -1,6 +1,6 @@
 # Test suite map
 
-Tests are grouped by the behavior they cover. Workflow contract suites use descriptive `test_*.py` names; their internal lifecycle references remain where they describe HackathonOS behavior.
+Tests are grouped by the behavior they cover. Workflow contract suites use descriptive `test_*.py` names; their internal lifecycle references remain where they describe sherpa behavior.
 
 | Area | Location | Purpose |
 |---|---|---|
@@ -31,4 +31,4 @@ The installer tests use pytest:
 python -m pytest tests/installer
 ```
 
-Historical repository audit reports were removed. Project audits created while using HackathonOS still belong under the active project's `.hackathon/` directory.
+Project review and audit records created while using Sherpa belong under the active project's `.sherpa/` directory.

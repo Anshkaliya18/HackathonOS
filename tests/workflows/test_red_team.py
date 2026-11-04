@@ -49,7 +49,7 @@ def test_at286_prerequisite_phase12_locked() -> None:
     """Red Team consumes the project's UX evidence."""
     text = WORKFLOW.read_text(encoding="utf-8")
     assert "Phase 7 UX evidence" in text
-    assert ".hackathon/project-state.md" in text
+    assert ".sherpa/project-state.md" in text
 
 
 def test_at287_lifecycle_correctness() -> None:

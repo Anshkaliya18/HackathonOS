@@ -1,6 +1,8 @@
 # Core concepts
 
-HackathonOS separates the agent's instructions from a team's project state. The skill package contains reusable routing, workflows, rules, and templates. Each project stores its own decisions and evidence under `.hackathon/`.
+Before leaving base camp, learn which parts of Sherpa are reusable instructions and which records belong to your project.
+
+Sherpa separates the agent's instructions from a team's project state. The skill package contains reusable routing, workflows, rules, and templates. Each project stores its own decisions and evidence under `.sherpa/`.
 
 ## The main parts
 
@@ -12,11 +14,11 @@ HackathonOS separates the agent's instructions from a team's project state. The 
 | Workflow | Steps, inputs, boundaries, and outputs for one operation | `workflows/` |
 | Rule | Shared constraints such as evidence or approval requirements | `rules/` |
 | Template | A reusable structure for project artifacts | `templates/` |
-| Project state | Team-specific state and evidence | `<project>/.hackathon/` |
+| Project state | Team-specific state and evidence | `<project>/.sherpa/` |
 
 ## Evidence and approvals
 
-An **artifact** is a file a workflow creates or updates. An **evidence boundary** describes which inputs a workflow may rely on. HackathonOS is instructed to use `UNKNOWN` when information is unavailable. Recommendations do not automatically confirm the selected idea, approve architecture, or accept consequential risks.
+An **artifact** is a file a workflow creates or updates. An **evidence boundary** describes which inputs a workflow may rely on. Sherpa is instructed to use `UNKNOWN` when information is unavailable. Recommendations do not automatically confirm the selected idea, approve architecture, or accept consequential risks.
 
 ## Commands and workflows
 

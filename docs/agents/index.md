@@ -1,35 +1,35 @@
 # Agent compatibility
 
-Compatibility has two parts: files may be present, and the host may successfully discover and run them. The repository does not treat file presence as proof of runtime support.
+Before you set out, check the integration files and the host’s runtime behavior as separate evidence. Files in a repository do not prove the agent discovers or runs them.
 
-| Agent | Repository integration files | Global installer | Runtime status in manifest |
-|---|---|---|---|
+| Agent | Repository integration files | Global installer | Runtime status |
+|---|---|---:|---|
 | Claude Code | `.claude/skills/` | Yes | NOT VERIFIED |
 | OpenCode | `.opencode/commands/` and package metadata | Yes | NOT VERIFIED |
 | Kilo Code | `.kilo/commands/` | No | NOT VERIFIED |
-| Codex CLI | No verified native adapter | No | Not verified / unsupported |
+| Codex CLI | No verified native adapter | No | Not supported |
 | Qwen Code | No verified native adapter | No | Not supported |
 | Gemini CLI | No verified native adapter | No | Not supported |
-| Generic host | Manually load `SKILL.md` if supported | No | Host-dependent |
+| Generic host | Root `SKILL.md`, only when manually supported | No | Host-dependent |
 
-The exact host evidence for Claude, OpenCode, and Kilo is in `commands/manifest.json`. Those entries currently record **NOT VERIFIED**.
+The status values follow [`commands/manifest.json`](https://github.com/Anshkaliya18/sherpa/blob/main/commands/manifest.json). The global installer targets Claude Code and OpenCode. Kilo files are repository-local. Do not infer runtime support from adapter files or installer success.
 
 ## Claude Code
 
-Integration files are checked in under `.claude/skills/`; the global installer targets `~/.claude/skills/hackathonos/`. Install using the [standard installer](/installation/), open a project repository, and try `/hackathonos help`. Runtime discovery has not been verified. If it does not appear, check the host's skill discovery rules and reload the agent.
+Files are checked in under `.claude/skills/`, and the installer targets `~/.claude/skills/sherpa/`. After installation, open a project and try `/sherpa help` only if the host exposes the skill. Runtime discovery has not been verified.
 
 ## OpenCode
 
-Command and package files are checked in under `.opencode/`; the global installer targets `~/.config/opencode/skills/hackathonos/`. Use the standard installer and try `/hackathonos help`. Runtime loading is not verified; consult the adapter README and host documentation if the command is not discovered.
+Command files and package metadata are checked in under `.opencode/`; the installer targets `~/.config/opencode/skills/sherpa/`. Runtime loading is not verified.
 
 ## Kilo Code
 
-`.kilo/commands/` files exist, but the global installer does not install them. Runtime loading is `NOT VERIFIED` in the manifest. Use repository-local files only if the host supports them, and validate in a disposable project before relying on the integration.
+`.kilo/commands/` files are present, but no global installer is provided and runtime loading is not verified. Validate in a disposable project before relying on them.
 
-## Codex CLI, Qwen Code, and Gemini CLI
+## Other agents
 
-There is no verified native adapter or installer target for these agents. Do not assume a slash command will work. A generic host may use the root `SKILL.md` only when it supports manually supplied instruction files; behavior is host-dependent.
+No verified native adapter or installer target is provided for Codex CLI, Qwen Code, or Gemini CLI. A generic host may accept the root `SKILL.md`, but behavior depends on that host.
 
-## Adapter developer notes
+## Updating a compatibility claim
 
-Keep adapter assets distinct, route only to commands in the shared manifest, preserve approval and evidence constraints, and record runtime smoke-test evidence before changing a compatibility claim. See [contributing](/contributing/) and [architecture](/architecture/).
+Record the host and version, install/source method, exact invocation, project context, observed output, and limitations. Add that evidence to the manifest before changing status. See [contributing](/contributing/) and [architecture](/architecture/).

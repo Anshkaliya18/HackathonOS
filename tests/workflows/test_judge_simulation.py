@@ -49,7 +49,7 @@ def test_at321_prerequisite_phase13_locked() -> None:
     """Judge simulation consumes Red Team project evidence."""
     text = WORKFLOW.read_text(encoding="utf-8")
     assert "red-team" in text.lower()
-    assert ".hackathon/project-state.md" in text
+    assert ".sherpa/project-state.md" in text
 
 
 def test_at322_lifecycle_correctness() -> None:

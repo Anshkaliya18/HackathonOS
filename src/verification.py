@@ -123,7 +123,15 @@ def _has_negation(text: str) -> bool:
 def _extract_entities(text: str) -> set[str]:
     """Extract potential named entities: capitalized words and all-caps acronyms."""
     toks = re.findall(r"\b[A-Z][a-zA-Z]+\b|\b[A-Z]{2,}\b", text)
-    return set(t.lower() for t in toks if len(t) > 1)
+    entities = set(t.lower() for t in toks if len(t) > 1)
+    # Preserve short identifiers when a generic label makes their role clear.
+    labeled = re.findall(
+        r"\b(System|Company|Organization|Project|Product|Model|Team|Platform)\s+([A-Z])\b",
+        text,
+    )
+    entities.discard("system")
+    entities.update(f"{label.lower()} {suffix.lower()}" for label, suffix in labeled)
+    return entities
 
 
 def _extract_dates(text: str) -> set[str]:
@@ -166,6 +174,11 @@ def _entity_mismatch(claim_text: str, evidence_text: str) -> bool:
     AND semantic similarity is high (suggesting same topic, different subject).
     Used as a compatibility signal, not a hard contradiction gate.
     """
+    subject_pattern = r"\b(?:System|Company|Organization|Project|Product|Model|Team|Platform)\s+[A-Z]\b"
+    claim_subjects = {value.casefold() for value in re.findall(subject_pattern, claim_text)}
+    evidence_subjects = {value.casefold() for value in re.findall(subject_pattern, evidence_text)}
+    if claim_subjects and evidence_subjects:
+        return not claim_subjects & evidence_subjects
     claim_ents = _extract_entities(claim_text)
     ev_ents = _extract_entities(evidence_text)
     if not claim_ents or not ev_ents:
@@ -188,6 +201,16 @@ def _temporal_mismatch(claim_text: str, evidence_text: str) -> bool:
 
 def _polarity_mismatch(claim_text: str, evidence_text: str, similarity: float) -> bool:
     """Return True if claim and evidence have opposite polarity with similarity."""
+    claim_words = _tokens(claim_text)
+    evidence_words = _tokens(evidence_text)
+    positive = {"enabled", "active", "true", "available"}
+    negative = {"disabled", "inactive", "false", "unavailable"}
+    claim_positive = bool(claim_words & positive)
+    claim_negative = bool(claim_words & negative)
+    evidence_positive = bool(evidence_words & positive)
+    evidence_negative = bool(evidence_words & negative)
+    if similarity > 0.20 and ((claim_positive and evidence_negative) or (claim_negative and evidence_positive)):
+        return True
     claim_neg = _has_negation(claim_text)
     ev_neg = _has_negation(evidence_text)
     return claim_neg != ev_neg and similarity > 0.20
@@ -252,7 +275,16 @@ def _sub_claim_supported(sub_claim: str, evidence_text: str) -> bool:
         return False
     if _polarity_mismatch(sub_claim, evidence_text, sub_sim):
         return False
-    return sub_sim >= SEMANTIC_SUPPORT_THRESHOLD
+    if sub_sim >= SEMANTIC_SUPPORT_THRESHOLD:
+        return True
+    # Short factual clauses can score poorly against a longer evidence block.
+    # Require all meaningful claim tokens to occur in the evidence before using
+    # this bounded lexical support fallback.
+    ignored = {"a", "an", "the", "is", "are", "was", "were", "be", "been", "being",
+               "use", "uses", "used", "has", "have", "had", "and", "or", "to", "of",
+               "in", "on", "for", "with", "requires", "require", "does", "do"}
+    anchors = _tokens(sub_claim) - ignored
+    return bool(anchors) and anchors <= _tokens(evidence_text)
 
 
 # ---------------------------------------------------------------------------
@@ -331,6 +363,11 @@ def verify_claim(claim_text: str, evidence_text: str) -> VerificationResult:
     # can be unreliable for short or context-dependent sub-claims).
     if contradiction:
         label = CONTRADICTED
+        confidence = 0.0
+    elif entity_mismatch:
+        # A related statement about a different identified subject is not
+        # evidence for this claim, but does not itself disprove the claim.
+        label = UNSUPPORTED
         confidence = 0.0
     elif semantic_sim >= 0.85:
         label = SUPPORTED

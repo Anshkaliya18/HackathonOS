@@ -1,4 +1,4 @@
-# HackathonOS — Final Audit Rules
+# sherpa — Final Audit Rules
 
 **Lifecycle Phase:** Phase 18 — Final Audit Intelligence  
 **Purpose:** Authoritative rules for final audit. Phase 18 performs verification and final readiness audit. It does not implement, replace prior phases, or modify locked artifacts. Phase 18 audits and recommends; it does not execute submission.
@@ -71,7 +71,7 @@ Rules:
 - A passing test does not prove unrelated functionality.
 - A screenshot does not prove current live behavior.
 - A demo rehearsal does not prove production reliability.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 - Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information.
 - Do not treat previous AI-generated recommendations as facts.
 
@@ -758,7 +758,7 @@ AI recommends. Human decides.
 
 # 33. Project State Fields
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | Allowed Values |
 |-------|---------------|
@@ -781,7 +781,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 Rules:
 
 - Do NOT put detailed audit inside project-state.md.
-- Detailed material goes to `.hackathon/final-audit.md` and `.hackathon/final-audit/`.
+- Detailed material goes to `.sherpa/final-audit.md` and `.sherpa/final-audit/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Human approval required for critical risk acceptance.

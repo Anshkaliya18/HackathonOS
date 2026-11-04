@@ -13,6 +13,6 @@
 - Status: UNKNOWN
 - Target / owner: UNKNOWN
 
-**INTERNAL HACKATHONOS IMPROVEMENT PRIORITY — NOT OFFICIAL HACKATHON SCORING**
+**INTERNAL sherpa IMPROVEMENT PRIORITY — NOT OFFICIAL HACKATHON SCORING**
 
 Recommendation only. Does not authorize modification of locked prior-phase artifacts.

@@ -58,7 +58,7 @@ def test_at426_prerequisite_phase16_locked() -> None:
     """Presentation preparation consumes demo project evidence."""
     text = WORKFLOW.read_text(encoding="utf-8")
     assert "Phase 16 demo preparation evidence must exist" in text
-    assert ".hackathon/project-state.md" in text
+    assert ".sherpa/project-state.md" in text
 
 
 def test_at427_lifecycle_correctness() -> None:

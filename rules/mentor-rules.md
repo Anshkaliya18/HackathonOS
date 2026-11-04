@@ -1,4 +1,4 @@
-# HackathonOS Mentor Rules
+# sherpa Mentor Rules
 
 These are the core operating principles. The skill always follows them.
 
@@ -97,7 +97,7 @@ All important claims must be traceable to evidence:
 
 ## 9. Stateful
 
-Project state lives in `.hackathon/` inside the project repository. The skill maintains:
+Project state lives in `.sherpa/` inside the project repository. The skill maintains:
 - Hackathon identity, rules, judging criteria, criteria weights
 - Deadline, time remaining
 - Problem statement, target users

@@ -13,9 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Build release assets and checksums
+        run: python3 scripts/build-release.py "$RUNNER_TEMP/release-assets"
       - name: Build release notes from changelog
         run: python3 scripts/release-notes.py "$GITHUB_REF_NAME" "$RUNNER_TEMP/release-notes.md"
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" --title "HackathonOS $GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/release-notes.md" --verify-tag
+        run: gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP"/release-assets/* --title "Sherpa $GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/release-notes.md" --verify-tag

@@ -1,25 +1,28 @@
 #!/usr/bin/env bash
 #
-# HackathonOS Uninstaller — Linux / macOS / Git Bash
+# sherpa Uninstaller — Linux / macOS / Git Bash
 #
-# Removes only HackathonOS installation files. User project data and
-# `.hackathon/` directories are never touched.
+# Removes only sherpa installation files. User project data and
+# `.sherpa/` directories are never touched.
 #
 # Usage:
 #   curl -fsSL https://YOUR-DOMAIN/uninstall.sh | bash
 #
 # Environment variables:
-#   HACKATHONOS_NO_PATH      1 = do not modify shell profile PATH
-#   HACKATHONOS_YES          1 = skip confirmation prompt
+#   SHERPA_NO_PATH      1 = do not modify shell profile PATH
+#   SHERPA_YES          1 = skip confirmation prompt
 
 set -euo pipefail
 
-PROJECT="HackathonOS"
-CLI_NAME="hackathonos"
+PROJECT="sherpa"
+CLI_NAME="sherpa"
 CLI_BIN_DIR="${HOME}/.local/bin"
+SHERPA_YES="${SHERPA_YES:-${HACKATHONOS_YES:-${sherpa_YES:-0}}}"
 
-CLAUDE_SKILL_DIR="${HOME}/.claude/skills/hackathonos"
-OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/hackathonos"
+CLAUDE_SKILL_DIR="${HOME}/.claude/skills/sherpa"
+OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/sherpa"
+LEGACY_CLAUDE_SKILL_DIR="${HOME}/.claude/skills/hackathonos"
+LEGACY_OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/hackathonos"
 
 step() { printf '\n==> %s\n' "$*"; }
 info(){ printf '  > %s\n' "$*"; }
@@ -31,11 +34,13 @@ HAVE_CLAUDE=0
 HAVE_OPENCODE=0
 [[ -f "${CLAUDE_SKILL_DIR}/SKILL.md" ]] && HAVE_CLAUDE=1
 [[ -f "${OPENCODE_SKILL_DIR}/SKILL.md" ]] && HAVE_OPENCODE=1
+[[ -f "${LEGACY_CLAUDE_SKILL_DIR}/SKILL.md" ]] && HAVE_CLAUDE=1
+[[ -f "${LEGACY_OPENCODE_SKILL_DIR}/SKILL.md" ]] && HAVE_OPENCODE=1
 
 confirm=1
-if [[ "${HACKATHONOS_YES:-0}" == "1" ]]; then confirm=0; fi
+if [[ "${SHERPA_YES:-0}" == "1" ]]; then confirm=0; fi
 
-step "HackathonOS uninstaller"
+step "sherpa uninstaller"
 echo
 echo "The following will be removed:"
 if [[ "$HAVE_CLAUDE" == "1" ]]; then
@@ -48,7 +53,7 @@ if [[ -x "${CLI_BIN_DIR}/${CLI_NAME}" || -f "${CLI_BIN_DIR}/${CLI_NAME}" ]]; the
     echo "  • CLI: ${CLI_BIN_DIR}/${CLI_NAME}"
 fi
 echo
-echo "User project data (.hackathon/ directories) will NOT be removed."
+echo "User project data (.sherpa/ directories) will NOT be removed."
 echo "This action cannot be undone."
 echo
 
@@ -76,12 +81,18 @@ if [[ -e "${CLI_BIN_DIR}/${CLI_NAME}" ]]; then
     ok "Removed CLI"
     removed=$((removed+1))
 fi
+for legacy in "${LEGACY_CLAUDE_SKILL_DIR}" "${LEGACY_OPENCODE_SKILL_DIR}"; do
+    if [[ -f "${legacy}/SKILL.md" ]]; then rm -rf "$legacy"; ok "Removed legacy managed skill"; removed=$((removed+1)); fi
+done
+for shim in "${CLI_BIN_DIR}/hackathonos" "${CLI_BIN_DIR}/hackathonos.bat"; do
+    if [[ -e "$shim" ]]; then rm -f "$shim"; ok "Removed deprecated CLI shim"; removed=$((removed+1)); fi
+done
 
 if [[ "$removed" -eq 0 ]]; then
-    echo "No HackathonOS installation found."
+    echo "No sherpa installation found."
 else
     echo
     echo "Uninstallation completed. Removed ${removed} item(s)."
     echo
-    echo "Note: your project .hackathon/ state directories were preserved."
+    echo "Note: your project .sherpa/ state directories were preserved."
 fi

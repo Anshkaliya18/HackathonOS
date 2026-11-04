@@ -1,4 +1,4 @@
-# HackathonOS — FINAL AUDIT Workflow
+# sherpa — FINAL AUDIT Workflow
 
 **Operation:** FINAL-AUDIT  
 **Lifecycle Phase:** Phase 18 — Final Audit Intelligence  
@@ -9,7 +9,7 @@
 - Confirm `workflows/lifecycle.md` has exactly 20 ordered phases and Phase 17 is PPT / Presentation, Phase 18 is Final Audit, Phase 19 is Submission, and Phase 20 is Post-Mortem.
 - If the lifecycle map differs, stop FINAL-AUDIT and record Lifecycle Integrity = FAIL; do not repair or renumber the lifecycle.
 - Verify Phase 17 is `COMPLETE & LOCKED` from its final audit evidence before proceeding. If not, stop Phase 18 and report the exact prerequisite blocker; do not modify Phase 17.
-- `.hackathon/project-state.md` must exist
+- `.sherpa/project-state.md` must exist
 - `selected idea` must be known (not UNKNOWN)
 - Phase 17 presentation evidence must exist
 - Phase 16 demo preparation evidence must exist
@@ -25,7 +25,7 @@ If project evidence is missing, mark the affected project audit areas UNKNOWN an
 
 ### Stage 1: Read Project State
 
-Read `.hackathon/project-state.md` and capture:
+Read `.sherpa/project-state.md` and capture:
 
 - Hackathon name, deadline, time remaining
 - Phase
@@ -42,13 +42,13 @@ Consume (do not duplicate or replace) the following evidence:
 
 | Phase | Source | What to consume |
 |-------|--------|-----------------|
-| Phase 11 | `.hackathon/evidence/` testing/security artifacts | Verified tests, critical failures, security findings, quality gate, evidence |
-| Phase 12 | `.hackathon/ux-review.md`, `.hackathon/ux/` artifacts | Critical UX issues, usability findings, accessibility findings, demo flow observations |
-| Phase 13 | `.hackathon/red-team.md`, `.hackathon/red-team/` artifacts | Critical findings, adversarial failures, recoverability, unresolved risks |
-| Phase 14 | `.hackathon/judge-simulation.md` | Judge questions, skeptical follow-ups, weak claims, evidence gaps, expected judge concerns |
-| Phase 15 | `.hackathon/score-optimization.md` | P0/P1 improvements, judge-visible priorities, evidence weaknesses, criterion gaps |
-| Phase 16 | `.hackathon/demo-preparation.md` | Demo objective, primary flow, judge-visible moments, evidence, fallback info, timing |
-| Phase 17 | `.hackathon/presentation.md` | Presentation objective, slide architecture, claims evidence, timing, speaker guidance |
+| Phase 11 | `.sherpa/evidence/` testing/security artifacts | Verified tests, critical failures, security findings, quality gate, evidence |
+| Phase 12 | `.sherpa/ux-review.md`, `.sherpa/ux/` artifacts | Critical UX issues, usability findings, accessibility findings, demo flow observations |
+| Phase 13 | `.sherpa/red-team.md`, `.sherpa/red-team/` artifacts | Critical findings, adversarial failures, recoverability, unresolved risks |
+| Phase 14 | `.sherpa/judge-simulation.md` | Judge questions, skeptical follow-ups, weak claims, evidence gaps, expected judge concerns |
+| Phase 15 | `.sherpa/score-optimization.md` | P0/P1 improvements, judge-visible priorities, evidence weaknesses, criterion gaps |
+| Phase 16 | `.sherpa/demo-preparation.md` | Demo objective, primary flow, judge-visible moments, evidence, fallback info, timing |
+| Phase 17 | `.sherpa/presentation.md` | Presentation objective, slide architecture, claims evidence, timing, speaker guidance |
 
 Do not re-run Phase 11–17 engines. Consume their evidence only.
 
@@ -83,7 +83,7 @@ Rules:
 
 - Never fabricate repository facts.
 - Seeing a file does not prove a slide claim.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 
 ### Stage 4: Build Evidence Record
 
@@ -641,7 +641,7 @@ AI recommends. Human decides.
 
 # 32. Project State Fields
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | Allowed Values |
 |-------|---------------|
@@ -664,7 +664,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 Rules:
 
 - Do NOT put detailed audit inside project-state.md.
-- Detailed material goes to `.hackathon/final-audit.md` and `.hackathon/final-audit/`.
+- Detailed material goes to `.sherpa/final-audit.md` and `.sherpa/final-audit/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Human approval required for critical risk acceptance.

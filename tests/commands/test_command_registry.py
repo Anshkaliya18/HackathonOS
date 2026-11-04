@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static validation of HackathonOS Stage 1 native command manifests.
+"""Static validation of sherpa Stage 1 native command manifests.
 Does not invoke an agent model, run a slash command, or mutate project state.
 """
 from __future__ import annotations
@@ -12,16 +12,16 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-CLAUDE = ROOT / ".claude/skills/hackathonos/SKILL.md"
+CLAUDE = ROOT / ".claude/skills/sherpa/SKILL.md"
 KILO_DIR = ROOT / ".kilo/commands"
-OPENCODE = ROOT / ".opencode/commands/hackathonos.md"
+OPENCODE = ROOT / ".opencode/commands/sherpa.md"
 DOCS = ROOT / "commands/README.md"
 ADAPTERS = ("claude", "kilo", "opencode")
 MANIFEST = json.loads((ROOT / "commands/manifest.json").read_text(encoding="utf-8-sig"))
 COMMANDS = tuple(item["command"] for item in MANIFEST["implemented"])
-KILO_COMMANDS = ("hackathonos", *COMMANDS)
+KILO_COMMANDS = ("sherpa", *COMMANDS)
 CLAUDE_SKILLS = ROOT / ".claude/skills"
-ROUTER_SPEC = importlib.util.spec_from_file_location("hackathonos_manifest_router", ROOT / "core/commands/router.py")
+ROUTER_SPEC = importlib.util.spec_from_file_location("sherpa_manifest_router", ROOT / "core/commands/router.py")
 ROUTER = importlib.util.module_from_spec(ROUTER_SPEC)
 sys.modules[ROUTER_SPEC.name] = ROUTER
 ROUTER_SPEC.loader.exec_module(ROUTER)
@@ -46,7 +46,7 @@ def frontmatter(text: str) -> tuple[dict[str, str], str]:
 def tests() -> list[tuple[str, object]]:
     def claude():
         meta, body = frontmatter(CLAUDE.read_text(encoding="utf-8-sig"))
-        assert meta.get("name") == "hackathonos"
+        assert meta.get("name") == "sherpa"
         assert meta.get("disable-model-invocation") == "true"
         assert "$ARGUMENTS" in body and "SKILL.md" in body
     def kilo():
@@ -69,7 +69,7 @@ def tests() -> list[tuple[str, object]]:
         text = DOCS.read_text(encoding="utf-8-sig")
         lower = text.lower()
         for platform in ADAPTERS: assert platform in lower
-        for op in ("status", "next", "help", "init", "phase"): assert f"hackathonos-{op}" in text or f"/hackathonos {op}" in text
+        for op in ("status", "next", "help", "init", "phase"): assert f"sherpa-{op}" in text or f"/sherpa {op}" in text
     def canonical_source():
         for path in [CLAUDE, OPENCODE, *(KILO_DIR / f"{name}.md" for name in KILO_COMMANDS)]:
             assert "SKILL.md" in path.read_text(encoding="utf-8-sig"), str(path)
@@ -86,9 +86,9 @@ def tests() -> list[tuple[str, object]]:
     def manifest_routes_and_adapters():
         commands = [item["command"] for item in MANIFEST["implemented"]]
         assert len(commands) == len(set(commands)), "duplicate implemented command"
-        minimum = {"hackathonos-status", "hackathonos-next", "hackathonos-help", "hackathonos-init",
-                   "hackathonos-phase", "hackathonos-config", "hackathonos-config-check",
-                   "hackathonos-suggest", "hackathonos-verify"}
+        minimum = {"sherpa-status", "sherpa-next", "sherpa-help", "sherpa-init",
+                   "sherpa-phase", "sherpa-config", "sherpa-config-check",
+                   "sherpa-suggest", "sherpa-verify"}
         assert minimum <= set(commands), f"required command missing: {minimum - set(commands)}"
         planned = [item["command"] for item in MANIFEST["planned"]]
         assert not set(commands) & set(planned), "planned command collides with implemented command"
@@ -117,7 +117,7 @@ def tests() -> list[tuple[str, object]]:
         duplicate = copy.deepcopy(MANIFEST); duplicate["implemented"].append(copy.deepcopy(duplicate["implemented"][0])); cases.append((duplicate, "duplicate canonical"))
         missing = copy.deepcopy(MANIFEST); missing["implemented"][0]["workflow"] = "workflows/not-real.md"; cases.append((missing, "missing workflow"))
         adapter = copy.deepcopy(MANIFEST); adapter["implemented"][0]["adapters"].remove("kilo"); cases.append((adapter, "all three host adapters"))
-        name = copy.deepcopy(MANIFEST); name["implemented"][0]["command"] = "hackathonos_Status"; cases.append((name, "invalid canonical"))
+        name = copy.deepcopy(MANIFEST); name["implemented"][0]["command"] = "sherpa_Status"; cases.append((name, "invalid canonical"))
         collision = copy.deepcopy(MANIFEST); collision["implemented"][1]["legacy_aliases"] = collision["implemented"][0]["legacy_aliases"]; cases.append((collision, "duplicate command alias"))
         planned = copy.deepcopy(MANIFEST); planned["planned"][0]["command"] = planned["implemented"][0]["command"]; cases.append((planned, "colliding planned"))
         for mutated, expected in cases:
@@ -131,10 +131,11 @@ def tests() -> list[tuple[str, object]]:
             assert item["workflow"] in docs
         for item in MANIFEST["planned"]:
             assert f"/{item['command']}" in docs and "PLANNED" in docs
+        plain_docs = docs.replace("`", "")
         for host, record in MANIFEST["host_runtime_status"].items():
             assert record["status"] in {"PASS", "FAIL", "UNKNOWN", "NOT VERIFIED"}
             assert host.capitalize() in docs or host == "opencode" and "OpenCode" in docs
-            assert record["evidence"] in docs
+            assert record["evidence"] in plain_docs
 
     def framework_only_global_bundle_validates_without_adapter_folders():
         with tempfile.TemporaryDirectory() as temporary:
@@ -166,7 +167,7 @@ def main() -> int:
         try: test(); results.append({"test":name,"status":"PASS","evidence":"executed static assertion"})
         except Exception as exc: results.append({"test":name,"status":"FAIL","evidence":f"{type(exc).__name__}: {exc}"})
     passed=sum(x["status"]=="PASS" for x in results)
-    print(json.dumps({"suite":"HackathonOS Stage 1 native command manifests","scope":"static files only; no model execution or state mutation","results":results,"summary":{"total":len(results),"passed":passed,"failed":len(results)-passed}},indent=2))
+    print(json.dumps({"suite":"sherpa Stage 1 native command manifests","scope":"static files only; no model execution or state mutation","results":results,"summary":{"total":len(results),"passed":passed,"failed":len(results)-passed}},indent=2))
     return 0 if passed==len(results) else 1
 
 if __name__=="__main__":

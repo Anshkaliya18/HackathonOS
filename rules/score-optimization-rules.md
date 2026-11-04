@@ -1,4 +1,4 @@
-# HackathonOS — Score Optimization Rules
+# sherpa — Score Optimization Rules
 
 **Lifecycle Phase:** Phase 15 — Score Optimization Intelligence  
 **Purpose:** Authoritative rules for score optimization. Phase 15 reviews and recommends; it does not implement, replace prior phases, or modify locked artifacts.
@@ -76,7 +76,7 @@ Rules:
 - Never convert UNKNOWN into a favorable assumption.
 - No dimension score or gap classification may be justified by UNKNOWN or ASSUMPTION without explicit flagging.
 - Every observation cites reproducible evidence: path/line, route/screen, steps, result, or evidence artifact.
-- Generated HackathonOS artifacts are not independent evidence. Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information.
+- Generated sherpa artifacts are not independent evidence. Evidence must trace back to repository inspection, actual execution, external verification, or explicit human-provided information.
 - Do not treat previous AI-generated recommendations as facts.
 
 Example:
@@ -290,7 +290,7 @@ If time remaining is UNKNOWN:
 
 ## 9. Project State Fields
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | Allowed Values |
 |-------|---------------|
@@ -303,7 +303,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 Rules:
 
 - Do NOT put detailed optimization analysis inside project-state.md.
-- Detailed material goes to `.hackathon/score-optimization.md` and `.hackathon/score-optimization/`.
+- Detailed material goes to `.sherpa/score-optimization.md` and `.sherpa/score-optimization/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Do not silently modify application code.

@@ -1,4 +1,4 @@
-# HackathonOS — Phase 19 Submission Rules
+# sherpa — Phase 19 Submission Rules
 
 **Lifecycle Phase:** Phase 19 — Submission Intelligence  
 **Operation:** `SUBMISSION-PREPARE`  

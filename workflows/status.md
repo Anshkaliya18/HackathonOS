@@ -1,7 +1,7 @@
-# HackathonOS — STATUS Workflow
+# sherpa — STATUS Workflow
 
 **Operation**: STATUS  
-**Purpose**: Accurately report the current project state by reading `.hackathon/project-state.md` and inspecting the repository for evidence.
+**Purpose**: Accurately report the current project state by reading `.sherpa/project-state.md` and inspecting the repository for evidence.
 
 ## When to Use
 
@@ -15,16 +15,16 @@ Use STATUS when:
 
 ### Step 1: Verify State Exists
 
-Check if `.hackathon/project-state.md` exists in the current project repository.
+Check if `.sherpa/project-state.md` exists in the current project repository.
 
 If it does NOT exist:
-- Report that HackathonOS has not been initialized for this project
+- Report that sherpa has not been initialized for this project
 - Recommend running INIT first
 - Stop
 
 ### Step 2: Read Project State
 
-Read `.hackathon/project-state.md` and capture:
+Read `.sherpa/project-state.md` and capture:
 - Hackathon name, deadline, time remaining
 - Phase
 - Problem statement, selected idea, MVP scope
@@ -48,7 +48,7 @@ Do NOT make claims about the project without evidence when the repository can be
 
 ### Step 4: Compare State to Reality
 
-Identify gaps between what `.hackathon/project-state.md` says and what the repository shows:
+Identify gaps between what `.sherpa/project-state.md` says and what the repository shows:
 - State says "Authentication implemented" but no auth code exists → flag discrepancy
 - State says "Tests passing" but no test files exist → flag discrepancy
 - State says "Deployed" but no deployment config exists → flag discrepancy
@@ -62,7 +62,7 @@ If deadline is known, calculate time remaining from current date/time. If deadli
 Present a structured status report:
 
 ```
-HackathonOS Status — [Hackathon Name]
+sherpa Status — [Hackathon Name]
 
 Phase: [phase]
 Time remaining: [time or UNKNOWN]
@@ -99,7 +99,7 @@ Biggest Current Risk: [single risk or UNKNOWN]
 ## Validation
 
 After STATUS completes:
-- [ ] `.hackathon/project-state.md` was read
+- [ ] `.sherpa/project-state.md` was read
 - [ ] Repository was inspected for evidence
 - [ ] No claims made without evidence
 - [ ] Discrepancies between state and reality are flagged

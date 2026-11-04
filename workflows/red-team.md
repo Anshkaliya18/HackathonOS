@@ -1,4 +1,4 @@
-# HackathonOS — Red Team Workflow
+# sherpa — Red Team Workflow
 
 **Operation:** RED-TEAM  
 **Purpose:** Actively attempt to disprove project readiness. Identify weaknesses, construct adversarial scenarios, challenge claims, and produce a prioritized red-team review. Phase 8 is an adversarial intelligence layer — it reviews and recommends; it does not implement fixes or replace other phases.
@@ -15,7 +15,7 @@ Use RED-TEAM when:
 - You need an adversarial review of the project before judging
 - You want to identify weaknesses that could cause the project to lose
 
-**Prerequisite:** `.hackathon/project-state.md` must exist with `selected idea` known, Phase 3 project plan, Phase 4 implementation state, Phase 5 testing/security evidence, and Phase 7 UX evidence.
+**Prerequisite:** `.sherpa/project-state.md` must exist with `selected idea` known, Phase 3 project plan, Phase 4 implementation state, Phase 5 testing/security evidence, and Phase 7 UX evidence.
 
 ---
 
@@ -23,7 +23,7 @@ Use RED-TEAM when:
 
 ### Stage 1: Read Project State
 
-Read `.hackathon/project-state.md`:
+Read `.sherpa/project-state.md`:
 - Hackathon name, deadline, time remaining
 - Judging criteria and weights
 - Problem statement, target users
@@ -60,7 +60,7 @@ If required information is missing:
 
 ### Stage 3: Read Phase 2 Idea Evaluation
 
-Read `.hackathon/decisions.md` and `.hackathon/evaluations/<idea-name>.md`:
+Read `.sherpa/decisions.md` and `.sherpa/evaluations/<idea-name>.md`:
 - Selected idea name
 - Evaluation scores
 - Red-team outcomes from Phase 2
@@ -69,7 +69,7 @@ Read `.hackathon/decisions.md` and `.hackathon/evaluations/<idea-name>.md`:
 
 ### Stage 4: Read Phase 3 Project Plan
 
-Read `.hackathon/evidence/project-plan-*.md`:
+Read `.sherpa/evidence/project-plan-*.md`:
 - Current architecture
 - Proposed architecture
 - MVP scope (MUST/SHOULD/OPTIONAL/EXCLUDED)
@@ -81,7 +81,7 @@ Read `.hackathon/evidence/project-plan-*.md`:
 
 ### Stage 5: Read Phase 4 Implementation Evidence
 
-Read `.hackathon/evidence/` implementation artifacts:
+Read `.sherpa/evidence/` implementation artifacts:
 - Repository baseline
 - Components implemented
 - Tests executed
@@ -90,7 +90,7 @@ Read `.hackathon/evidence/` implementation artifacts:
 
 ### Stage 6: Read Phase 5 Testing/Security Evidence
 
-Read `.hackathon/evidence/` testing/security artifacts:
+Read `.sherpa/evidence/` testing/security artifacts:
 - Test results
 - Security findings
 - Blocked tests
@@ -101,7 +101,7 @@ Do not duplicate the Phase 5 testing/security engine. Consume its evidence only.
 
 ### Stage 7: Read Phase 7 UX Evidence
 
-Read `.hackathon/ux-review.md` and `.hackathon/ux/` artifacts:
+Read `.sherpa/ux-review.md` and `.sherpa/ux/` artifacts:
 - UX baseline
 - Critical flows
 - Findings
@@ -134,7 +134,7 @@ Rules:
 - Never fabricate repository facts.
 - Execution claims require execution evidence.
 - Seeing a test file does NOT mean tests pass.
-- Generated HackathonOS artifacts are not independent evidence.
+- Generated sherpa artifacts are not independent evidence.
 
 If conflicting evidence is found between sources (e.g., source code suggests one behavior but observed runtime shows another), record the contradiction as a separate finding; do not silently reconcile it.
 
@@ -311,7 +311,7 @@ A project can be RED TEAM READY while still having accepted medium/low risks.
 
 ### Stage 21: Update Project State
 
-Update ONLY these compact fields in `.hackathon/project-state.md`:
+Update ONLY these compact fields in `.sherpa/project-state.md`:
 
 | Field | New Value |
 |-------|-----------|
@@ -324,7 +324,7 @@ Update ONLY these compact fields in `.hackathon/project-state.md`:
 
 Rules:
 - Do NOT put detailed red team analysis inside project-state.md.
-- Detailed material goes to `.hackathon/red-team.md` and `.hackathon/red-team/`.
+- Detailed material goes to `.sherpa/red-team.md` and `.sherpa/red-team/`.
 - Do not change `selected idea`.
 - Do not silently change architecture.
 - Human approval required for architecture changes and CRITICAL/HIGH risk acceptance.

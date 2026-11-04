@@ -1,15 +1,15 @@
 # Documentation deployment
 
-The documentation site is a VitePress static site. This repository does not currently declare a production documentation domain, so the site omits canonical URLs.
+The field guide is built with VitePress and deployed to GitHub Pages by `.github/workflows/docs.yml`.
 
-## Run locally
+## Preview locally
 
 ```bash
-npm install
+npm ci
 npm run docs:dev
 ```
 
-## Build and preview
+## Build and check
 
 ```bash
 npm run docs:commands
@@ -18,12 +18,14 @@ npm run docs:build
 npm run docs:preview
 ```
 
-The generated site is in `docs/.vitepress/dist/`.
+`docs:build` refreshes the manifest-backed command reference and writes the static site to `docs/.vitepress/dist/`.
 
 ## GitHub Pages
 
-The repository's remote is GitHub, so a Pages workflow is included at `.github/workflows/docs.yml`. It builds the VitePress site with the repository base path and deploys the artifact when pushed to `main`. Enable GitHub Pages in repository settings with **GitHub Actions** as the source. The resulting Pages address depends on repository/account settings and is intentionally not hard-coded here.
+The workflow runs on pushes to `main` and manual dispatch. It builds with the repository base `/sherpa/`, uploads the Pages artifact, and deploys it with `actions/deploy-pages@v4`. Before enabling deployment, merge the branch, rename the repository using the reviewed `scripts/finish-rename.sh` commands, and set the Pages source to **GitHub Actions** in repository settings. GitHub Pages must be enabled for deployment creation to succeed.
 
-## SEO and metadata
+The configured site URL is [anshkaliya18.github.io/sherpa](https://anshkaliya18.github.io/sherpa/); this change does not deploy the current branch.
 
-Pages inherit site title/description and Open Graph metadata, and use the repository mark as favicon. Configure a canonical URL and sitemap hostname only after the public docs domain is established. `docs/public/robots.txt` allows indexing; adjust it if deployment is private or staged.
+## Search and metadata
+
+VitePress local search indexes the generated pages. The site config supplies per-page canonical links, a sitemap hostname, Open Graph and Twitter metadata, and the custom `mark.svg` favicon. `og.svg` is the source social card. `robots.txt` is public and allows indexing; change it if the site becomes private or staged.

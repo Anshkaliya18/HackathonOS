@@ -57,23 +57,23 @@ def main() -> int:
     # 1. Paraphrased supported claim
     check(
         "paraphrased supported",
-        "HackathonOS uses JSON for configuration.",
-        "HackathonOS uses JSON configuration files (manifest.json, settings.json).",
+        "sherpa uses JSON for configuration.",
+        "sherpa uses JSON configuration files (manifest.json, settings.json).",
         SUPPORTED,
     )
 
     # 2. Exact supported claim
     check(
         "exact supported",
-        "HackathonOS is written in Python.",
-        "HackathonOS configuration manager is written in Python.",
+        "sherpa is written in Python.",
+        "sherpa configuration manager is written in Python.",
         SUPPORTED,
     )
 
     # 3. Semantically similar but unsupported (different subject)
     check(
         "semantically similar unsupported",
-        "HackathonOS uses Python.",
+        "sherpa uses Python.",
         "The weather is sunny today in California.",
         UNSUPPORTED,
     )
@@ -81,7 +81,7 @@ def main() -> int:
     # 4. Numerical mismatch
     check(
         "numerical mismatch",
-        "HackathonOS has 15 lifecycle phases.",
+        "sherpa has 15 lifecycle phases.",
         "Lifecycle has exactly 20 phases.",
         CONTRADICTED,
     )
@@ -97,7 +97,7 @@ def main() -> int:
     # 6. Polarity mismatch
     check(
         "polarity mismatch",
-        "HackathonOS does not require human approval.",
+        "sherpa does not require human approval.",
         "REQUIRE_HUMAN_APPROVAL=true.",
         CONTRADICTED,
     )
@@ -105,7 +105,7 @@ def main() -> int:
     # 7. Temporal mismatch
     check(
         "temporal mismatch",
-        "HackathonOS was created in 2025.",
+        "sherpa was created in 2025.",
         "Repository files show LastWriteTime 31-10-2026.",
         CONTRADICTED,
     )
@@ -113,15 +113,15 @@ def main() -> int:
     # 8. Partial claim (one element supported, one not)
     check(
         "partial claim",
-        "HackathonOS uses Python and is deployed on AWS.",
-        "HackathonOS configuration manager is written in Python.",
+        "sherpa uses Python and is deployed on AWS.",
+        "sherpa configuration manager is written in Python.",
         PARTIALLY_SUPPORTED,
     )
 
     # 9. Contradictory evidence
     check(
         "contradictory evidence",
-        "HackathonOS verification is disabled.",
+        "sherpa verification is disabled.",
         "verification: { enabled: true }. ENABLE_AUTO_VERIFY=true.",
         CONTRADICTED,
     )
@@ -129,23 +129,23 @@ def main() -> int:
     # 10. Irrelevant semantic evidence (high word overlap, no support)
     check(
         "irrelevant semantic evidence",
-        "HackathonOS reduces development time by 50%.",
-        "HackathonOS top-level directories: adapters, commands, core, docs.",
+        "sherpa reduces development time by 50%.",
+        "sherpa top-level directories: adapters, commands, core, docs.",
         UNSUPPORTED,
     )
 
     # 11. Multi-document support (evidence text combines both docs)
     check(
         "multi-document support",
-        "HackathonOS uses Python and has verification enabled.",
-        "HackathonOS configuration manager is written in Python. verification: { enabled: true }.",
+        "sherpa uses Python and has verification enabled.",
+        "sherpa configuration manager is written in Python. verification: { enabled: true }.",
         SUPPORTED,
     )
 
     # 12. No evidence (empty evidence)
     check(
         "no evidence",
-        "HackathonOS has a mobile app.",
+        "sherpa has a mobile app.",
         "",
         UNSUPPORTED,
     )
@@ -154,23 +154,23 @@ def main() -> int:
     check(
         "empty claim",
         "",
-        "HackathonOS uses Python.",
+        "sherpa uses Python.",
         UNSUPPORTED,
     )
 
     # 14. Compound claim fully supported
     check(
         "compound fully supported",
-        "HackathonOS uses Python and requires human approval.",
-        "HackathonOS configuration manager is written in Python. REQUIRE_HUMAN_APPROVAL=true.",
+        "sherpa uses Python and requires human approval.",
+        "sherpa configuration manager is written in Python. REQUIRE_HUMAN_APPROVAL=true.",
         SUPPORTED,
     )
 
     # 15. Negation match (both negated)
     check(
         "negation match",
-        "HackathonOS does not use Python.",
-        "HackathonOS does not use Python.",
+        "sherpa does not use Python.",
+        "sherpa does not use Python.",
         SUPPORTED,
     )
 
@@ -193,8 +193,8 @@ def main() -> int:
     # 18. Supported exact match
     check(
         "supported exact match",
-        "master_command: /hackathonos.",
-        "master_command: /hackathonos.",
+        "master_command: /sherpa.",
+        "master_command: /sherpa.",
         SUPPORTED,
     )
 

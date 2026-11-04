@@ -1,21 +1,21 @@
-# HackathonOS Installer - Windows PowerShell (5.1+ / 7+)
+# sherpa Installer - Windows PowerShell (5.1+ / 7+)
 #
-# Installs the HackathonOS AI Hackathon Mentor skill for Claude Code and
+# Installs the sherpa AI Hackathon Mentor skill for Claude Code and
 # OpenCode from a versioned GitHub Releases archive, verifies its SHA-256
-# checksum, and installs the `hackathonos` CLI.
+# checksum, and installs the `sherpa` CLI.
 #
 # Usage:
 #   irm https://YOUR-DOMAIN/install.ps1 | iex
 #
 # Configuration (environment variables, all optional):
-#   $env:HACKATHONOS_RELEASE_MANIFEST_URL   Release manifest JSON URL
-#   $env:HACKATHONOS_VERSION                Pin a specific version (default: latest)
-#   $env:HACKATHONOS_INSTALL_CLAUDE         1=install (default), 0=skip
-#   $env:HACKATHONOS_INSTALL_OPENCODE       1=install (default), 0=skip
-#   $env:HACKATHONOS_INSTALL_CLI            1=install (default), 0=skip
-#   $env:HACKATHONOS_NO_PATH                1=do not modify user PATH
+#   $env:SHERPA_RELEASE_MANIFEST_URL   Release manifest JSON URL
+#   $env:SHERPA_VERSION                Pin a specific version (default: latest)
+#   $env:SHERPA_INSTALL_CLAUDE         1=install (default), 0=skip
+#   $env:SHERPA_INSTALL_OPENCODE       1=install (default), 0=skip
+#   $env:SHERPA_INSTALL_CLI            1=install (default), 0=skip
+#   $env:SHERPA_NO_PATH                1=do not modify user PATH
 #
-# The installer never touches user project data or `.hackathon/` directories.
+# The installer never touches user project data or `.sherpa/` directories.
 
 [CmdletBinding()]
 param(
@@ -33,13 +33,27 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 1.0
 
-$PROJECT = "HackathonOS"
-$CLI_NAME = "hackathonos"
-$DEFAULT_MANIFEST_URL = "https://github.com/Anshkaliya18/HackathonOS/releases/latest/download/manifest.json"
+foreach ($key in @('RELEASE_MANIFEST_URL','VERSION','INSTALL_CLAUDE','INSTALL_OPENCODE','INSTALL_CLI','NO_PATH')) {
+    $newName = "SHERPA_$key"
+    $oldName = "HACKATHONOS_$key"
+    $draftName = "sherpa_$key"
+    if ([string]::IsNullOrEmpty([Environment]::GetEnvironmentVariable($newName))) {
+        $legacy = [Environment]::GetEnvironmentVariable($oldName)
+        if ([string]::IsNullOrEmpty($legacy)) { $legacy = [Environment]::GetEnvironmentVariable($draftName) }
+        if (-not [string]::IsNullOrEmpty($legacy)) { [Environment]::SetEnvironmentVariable($newName, $legacy, 'Process') }
+    }
+}
 
-$CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\hackathonos"
-$OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\hackathonos"
-$CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
+$PROJECT = "sherpa"
+$CLI_NAME = "sherpa"
+$DEFAULT_MANIFEST_URL = "https://github.com/Anshkaliya18/sherpa/releases/latest/download/manifest.json"
+
+$CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\sherpa"
+$OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\sherpa"
+$LEGACY_CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\hackathonos"
+$LEGACY_OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\hackathonos"
+$CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\sherpa\bin"
+$LEGACY_CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
 
 $script:TMP_DIR = $null
 $script:BACKUP_DIRS = @()
@@ -112,7 +126,7 @@ function Get-Sha256 {
         return $hash.Hash
     } catch {
         # Fallback to certutil.
-        $tmp = Join-Path $env:TEMP "hackathonos-sha256-$([guid]::NewGuid()).txt"
+        $tmp = Join-Path $env:TEMP "sherpa-sha256-$([guid]::NewGuid()).txt"
         certutil -hashfile $Path SHA256 > $tmp 2>$null
         $lines = Get-Content $tmp
         Remove-Item $tmp -Force -ErrorAction SilentlyContinue
@@ -157,8 +171,8 @@ function Detect-Environment {
     if ($opencodeInstalled) { Write-Ok "OpenCode skill detected ($OPENCODE_SKILL_DIR)" }
     else { Write-Info "OpenCode skill not installed" }
 
-    $script:INSTALL_CLAUDE = [bool]($env:HACKATHONOS_INSTALL_CLAUDE -ne "0")
-    $script:INSTALL_OPENCODE = [bool]($env:HACKATHONOS_INSTALL_OPENCODE -ne "0")
+    $script:INSTALL_CLAUDE = [bool]($env:SHERPA_INSTALL_CLAUDE -ne "0")
+    $script:INSTALL_OPENCODE = [bool]($env:SHERPA_INSTALL_OPENCODE -ne "0")
     if ($Claude) { $script:INSTALL_CLAUDE = $true; $script:INSTALL_OPENCODE = $false }
     if ($OpenCode) { $script:INSTALL_OPENCODE = $true; $script:INSTALL_CLAUDE = $false }
     if ($Both) { $script:INSTALL_CLAUDE = $true; $script:INSTALL_OPENCODE = $true }
@@ -176,12 +190,12 @@ function Detect-Environment {
 ###############################################################################
 function Fetch-Manifest {
     $manifestUrl = $ManifestUrl
-    if ([string]::IsNullOrWhiteSpace($manifestUrl)) { $manifestUrl = $env:HACKATHONOS_RELEASE_MANIFEST_URL }
+    if ([string]::IsNullOrWhiteSpace($manifestUrl)) { $manifestUrl = $env:SHERPA_RELEASE_MANIFEST_URL }
     if ([string]::IsNullOrWhiteSpace($manifestUrl)) { $manifestUrl = $DEFAULT_MANIFEST_URL }
     $script:MANIFEST_URL_DISPLAY = $manifestUrl
 
     Write-Info "Release manifest: $manifestUrl"
-    $script:TMP_DIR = Join-Path $env:TEMP ("hackathonos-install-" + [guid]::NewGuid().ToString("N"))
+    $script:TMP_DIR = Join-Path $env:TEMP ("sherpa-install-" + [guid]::NewGuid().ToString("N"))
     New-Item -ItemType Directory -Path $script:TMP_DIR -Force | Out-Null
     $manifestFile = Join-Path $script:TMP_DIR "manifest.json"
 
@@ -201,7 +215,7 @@ function Select-Archive {
     if ([string]::IsNullOrWhiteSpace($latest)) {
         throw "Manifest does not declare a latest version."
     }
-    if ([string]::IsNullOrWhiteSpace($Version)) { $Version = $env:HACKATHONOS_VERSION }
+    if ([string]::IsNullOrWhiteSpace($Version)) { $Version = $env:SHERPA_VERSION }
     if (-not [string]::IsNullOrWhiteSpace($Version)) {
         $script:INSTALL_VERSION = $Version
         if ($Version -ne $latest) { throw "This manifest only describes latest ($latest); version-pinned archives are not available." }
@@ -369,8 +383,8 @@ function Install-Cli {
     $cliSource = $null
     $cliBatSource = $null
     if ($scriptDir) {
-        $cliSource = Join-Path $scriptDir "cli\hackathonos"
-        $cliBatSource = Join-Path $scriptDir "cli\hackathonos.bat"
+        $cliSource = Join-Path $scriptDir "cli\sherpa"
+        $cliBatSource = Join-Path $scriptDir "cli\sherpa.bat"
     }
     if (-not $cliSource -or -not (Test-Path $cliSource)) {
         $cliUrl = Parse-JsonField $script:MANIFEST_FILE 'param($d) $d.cli.url'
@@ -378,15 +392,15 @@ function Install-Cli {
         if ([string]::IsNullOrWhiteSpace($cliUrl) -or [string]::IsNullOrWhiteSpace($cliChecksum)) {
             throw "CLI not available with a URL and SHA-256 in this installer bundle."
         }
-        $cliArchive = Join-Path $script:TMP_DIR "hackathonos-cli.zip"
+        $cliArchive = Join-Path $script:TMP_DIR "sherpa-cli.zip"
         Invoke-DownloadWithRetry -Uri $cliUrl -Destination $cliArchive -TimeoutSec 120
         if ((Get-Sha256 $cliArchive) -ne $cliChecksum) { throw "CLI archive SHA-256 mismatch." }
         Assert-SafeZip $cliArchive
         $cliExtract = Join-Path $script:TMP_DIR "cli"
         Expand-Archive -Path $cliArchive -DestinationPath $cliExtract -Force -ErrorAction Stop
-        $cliSource = Get-ChildItem -Path $cliExtract -Recurse -File | Where-Object { $_.Name -eq "hackathonos" } | Select-Object -First 1 -ExpandProperty FullName
-        if (-not $cliSource) { throw "CLI archive is missing the hackathonos executable." }
-        $cliBatSource = Get-ChildItem -Path $cliExtract -Recurse -File | Where-Object { $_.Name -eq "hackathonos.bat" } | Select-Object -First 1 -ExpandProperty FullName
+        $cliSource = Get-ChildItem -Path $cliExtract -Recurse -File | Where-Object { $_.Name -eq "sherpa" } | Select-Object -First 1 -ExpandProperty FullName
+        if (-not $cliSource) { throw "CLI archive is missing the sherpa executable." }
+        $cliBatSource = Get-ChildItem -Path $cliExtract -Recurse -File | Where-Object { $_.Name -eq "sherpa.bat" } | Select-Object -First 1 -ExpandProperty FullName
     }
 
     Copy-Item -Path $cliSource -Destination (Join-Path $CLI_BIN_DIR $CLI_NAME) -Force
@@ -397,8 +411,8 @@ function Install-Cli {
 }
 
 function Ensure-Path {
-    if ($NoPath -or [string]::IsNullOrWhiteSpace($env:HACKATHONOS_NO_PATH) -eq $false -and $env:HACKATHONOS_NO_PATH -eq "1") {
-        Write-Info "Skipping PATH modification (HACKATHONOS_NO_PATH=1)"
+    if ($NoPath -or [string]::IsNullOrWhiteSpace($env:SHERPA_NO_PATH) -eq $false -and $env:SHERPA_NO_PATH -eq "1") {
+        Write-Info "Skipping PATH modification (sherpa_NO_PATH=1)"
         return
     }
     $currentPath = [Environment]::GetEnvironmentVariable("PATH", "User")
@@ -441,7 +455,7 @@ function Validate-Installation {
 function Print-Banner {
     Write-Host ""
     Write-Host "=========================================" -ForegroundColor Cyan
-    Write-Host "|          HACKATHONOS                 |" -ForegroundColor Cyan
+    Write-Host "|          sherpa                 |" -ForegroundColor Cyan
     Write-Host "|       AI HACKATHON MENTOR             |" -ForegroundColor Cyan
     Write-Host "=========================================" -ForegroundColor Cyan
     Write-Host ""
@@ -452,7 +466,7 @@ function Print-Success {
     Write-Host "|  Installation completed successfully! |" -ForegroundColor Green
     Write-Host "=========================================" -ForegroundColor Green
     Write-Host ""
-    Write-Host "HackathonOS is installed:"
+    Write-Host "sherpa is installed:"
     foreach ($target in $script:TARGETS) {
         switch ($target) {
             "claude"   { $dir = $CLAUDE_SKILL_DIR }
@@ -465,15 +479,15 @@ function Print-Success {
     }
     Write-Host ""
     Write-Host "Try it in your AI coding agent:"
-    Write-Host "  /hackathonos status"
-    Write-Host "  /hackathonos next"
-    Write-Host "  /hackathonos suggest"
+    Write-Host "  /sherpa status"
+    Write-Host "  /sherpa next"
+    Write-Host "  /sherpa suggest"
     Write-Host ""
     Write-Host "CLI commands:"
-    Write-Host "  hackathonos --version"
-    Write-Host "  hackathonos update"
-    Write-Host "  hackathonos doctor"
-    Write-Host "  hackathonos uninstall"
+    Write-Host "  sherpa --version"
+    Write-Host "  sherpa update"
+    Write-Host "  sherpa doctor"
+    Write-Host "  sherpa uninstall"
     Write-Host ""
     Write-Host ("Release manifest: {0}" -f $script:MANIFEST_URL_DISPLAY)
     Write-Host "Docs: INSTALLATION.md README.md SECURITY.md"
@@ -522,6 +536,21 @@ if (-not $NoCli) {
 
 Write-Step "Validating installation"
 Validate-Installation
+
+# Retire old managed skill folders only after the new installation is validated.
+foreach ($legacyDir in @($LEGACY_CLAUDE_SKILL_DIR, $LEGACY_OPENCODE_SKILL_DIR)) {
+    if (Test-Path (Join-Path $legacyDir "SKILL.md")) { Remove-Item -LiteralPath $legacyDir -Recurse -Force; Write-Ok "Removed superseded HackathonOS skill -> $legacyDir" }
+}
+if (-not $NoCli -and (Test-Path (Join-Path $LEGACY_CLI_BIN_DIR "hackathonos.bat"))) {
+    $legacyBat = Join-Path $LEGACY_CLI_BIN_DIR "hackathonos.bat"
+    $shim = "@echo off`r`necho HackathonOS is now Sherpa. The 'hackathonos' command is deprecated; use 'sherpa'. 1>&2`r`n`"$CLI_BIN_DIR\sherpa.bat`" %*`r`n"
+    Set-Content -LiteralPath $legacyBat -Value $shim -Encoding ASCII
+}
+if (-not $NoCli) {
+    $newShim = Join-Path $CLI_BIN_DIR "hackathonos.bat"
+    $shim = "@echo off`r`necho HackathonOS is now Sherpa. The 'hackathonos' command is deprecated; use 'sherpa'. 1>&2`r`n`"$CLI_BIN_DIR\sherpa.bat`" %*`r`n"
+    Set-Content -LiteralPath $newShim -Value $shim -Encoding ASCII
+}
 
 Print-Success
 Cleanup

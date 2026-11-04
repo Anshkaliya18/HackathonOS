@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic, stdlib-only contract smoke tests for HackathonOS workflows.
+"""Deterministic, stdlib-only contract smoke tests for sherpa workflows.
 
 This harness executes the workflows' documented state/gate/scoring contracts in
 disposable directories. It does not invoke an LLM or claim to test generated
@@ -53,7 +53,7 @@ def state_values(path: Path) -> dict[str, str]:
 
 
 def init_fixture(project: Path) -> Path:
-    state = project / ".hackathon" / "project-state.md"
+    state = project / ".sherpa" / "project-state.md"
     state.parent.mkdir(parents=True, exist_ok=True)
     text = STATE_TEMPLATE.read_text(encoding="utf-8")
     text = set_field(text, "Hackathon name", "Smoke Fixture (synthetic)")
@@ -109,7 +109,7 @@ def implementation_gate(state: dict[str, str]) -> str:
 
 
 def test_init() -> None:
-    with tempfile.TemporaryDirectory(prefix="hackathonos-smoke-init-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="sherpa-smoke-init-") as tmp:
         project = Path(tmp)
         state_path = init_fixture(project)
         state = state_values(state_path)
@@ -122,7 +122,7 @@ def test_init() -> None:
 
 
 def test_status() -> None:
-    with tempfile.TemporaryDirectory(prefix="hackathonos-smoke-status-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="sherpa-smoke-status-") as tmp:
         project = Path(tmp)
         state_path = init_fixture(project)
         state = state_values(state_path)
@@ -133,7 +133,7 @@ def test_status() -> None:
 
 
 def test_next() -> None:
-    with tempfile.TemporaryDirectory(prefix="hackathonos-smoke-next-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="sherpa-smoke-next-") as tmp:
         state = state_values(init_fixture(Path(tmp)))
         action = choose_next(state)
         output = f"PRIMARY NEXT ACTION: {action}\nTime remaining: UNKNOWN"
@@ -151,7 +151,7 @@ def test_idea_evaluate() -> None:
     assert math.isclose(float(first["raw"]), 62.3333333333, abs_tol=0.01)
     assert math.isclose(float(first["feasibility"]), 6.8, abs_tol=1e-9)
     assert math.isclose(float(first["final"]), 42.3866666667, abs_tol=0.01)
-    with tempfile.TemporaryDirectory(prefix="hackathonos-smoke-idea-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="sherpa-smoke-idea-") as tmp:
         state_path = init_fixture(Path(tmp))
         before = state_values(state_path)["Selected idea"]
         recommendation = "SELECT IDEA A"  # synthetic fixture input only
@@ -161,11 +161,11 @@ def test_idea_evaluate() -> None:
 
 
 def test_project_plan() -> None:
-    with tempfile.TemporaryDirectory(prefix="hackathonos-smoke-plan-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="sherpa-smoke-plan-") as tmp:
         project = Path(tmp)
         state_path = init_fixture(project)
         state_path.write_text(set_field(state_path.read_text(encoding="utf-8"), "Selected idea", "IDEA A (confirmed synthetic fixture)"), encoding="utf-8")
-        evidence = project / ".hackathon" / "evidence"
+        evidence = project / ".sherpa" / "evidence"
         evidence.mkdir()
         (evidence / "decisions.md").write_text("Synthetic Phase 2 decision; not independent evidence.\n", encoding="utf-8")
         state_path.write_text(set_field(state_path.read_text(encoding="utf-8"), "Architecture approval status", "PENDING"), encoding="utf-8")
@@ -199,14 +199,14 @@ def test_testing_security_route() -> None:
 
 
 def test_unknown_state_safety() -> None:
-    with tempfile.TemporaryDirectory(prefix="hackathonos-smoke-unknown-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="sherpa-smoke-unknown-") as tmp:
         project = Path(tmp)
         state_path = init_fixture(project)
         values = state_values(state_path)
         assert values["Deadline date/time"] == "UNKNOWN"
         assert values["Judging criteria"] == "UNKNOWN"
         assert values["Selected idea"] == "UNKNOWN"
-        missing = project / "missing" / ".hackathon" / "project-state.md"
+        missing = project / "missing" / ".sherpa" / "project-state.md"
         assert not missing.exists()
         missing_state_result = "Run INIT first" if not missing.exists() else "read state"
         assert missing_state_result == "Run INIT first"

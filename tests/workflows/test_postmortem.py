@@ -37,9 +37,9 @@ def guarded(record: dict) -> bool:
     return not any(record.get(key, False) for key in forbidden)
 
 checks = [
-("Prerequisite validation", lambda: check(".hackathon/project-state.md" in T["workflow"] and ".hackathon/submission-plan.md" in T["workflow"] and "CONDITIONAL — FRAMEWORK VALIDATION ONLY" in T["workflow"], "project-scoped evidence gate absent")),
+("Prerequisite validation", lambda: check(".sherpa/project-state.md" in T["workflow"] and ".sherpa/submission-plan.md" in T["workflow"] and "CONDITIONAL — FRAMEWORK VALIDATION ONLY" in T["workflow"], "project-scoped evidence gate absent")),
 ("Lifecycle exactly 20", lambda: check(sum(1 for x in PHASE_NAMES if re.search(rf'^\\| {re.escape(x)} \\|', T["lifecycle"], re.M)) == 20, "phase count")),
-("Submission source contract", lambda: check(".hackathon/final-audit.md" in T["submission_workflow"] and "Audit status: COMPLETE" in T["submission_workflow"], "project audit prerequisite missing")),
+("Submission source contract", lambda: check(".sherpa/final-audit.md" in T["submission_workflow"] and "Audit status: COMPLETE" in T["submission_workflow"], "project audit prerequisite missing")),
 ("Evidence labels", lambda: check(all(x in T["rules"] for x in ("FACT", "INFERENCE", "ASSUMPTION", "UNKNOWN")), "evidence model")),
 ("Outcome and causality separation", lambda: check("Correlation is not causation" in T["rules"] and "Causality states" in T["rules"], "causality contract")),
 ("Plan vs actual model", lambda: check("plan-vs-actual" in T["workflow"].lower() and "Plan vs Actual" in T["report_template"], "comparison missing")),
@@ -64,10 +64,10 @@ checks = [
 ("KEEP CHANGE STOP START", lambda: check(all(f"## {i}. {v}" in T["report_template"] for i,v in [(21,"Keep"),(22,"Change"),(23,"Stop"),(24,"Start")]), "action categories")),
 ("Lesson extraction", lambda: check(all(x in T["lesson"] for x in ("Lesson ID", "Category", "Situation", "Observation", "Evidence", "Confidence", "Reusable?")), "lesson schema")),
 ("Reusable asset extraction", lambda: check("Reusable Assets" in T["report_template"] and "Reuse Recommendation" in T["report_template"], "asset review")),
-("HackathonOS effectiveness", lambda: check("HackathonOS Effectiveness" in T["report_template"] and "Phases 1–19" in T["workflow"], "effectiveness review")),
+("sherpa effectiveness", lambda: check("sherpa Effectiveness" in T["report_template"] and "Phases 1–19" in T["workflow"], "effectiveness review")),
 ("Bottleneck analysis", lambda: check("Process Bottlenecks" in T["report_template"] and all(x in T["rules"] for x in ("TOOLING", "HUMAN_DECISION", "COMMUNICATION")), "bottleneck model")),
 ("Process debt", lambda: check("Process Debt" in T["report_template"] and "process debt" in T["workflow"].lower(), "process debt section")),
-("Contract gap analysis", lambda: check("HackathonOS Contract Gaps" in T["report_template"] and "contract gaps" in T["workflow"].lower(), "contract gap section")),
+("Contract gap analysis", lambda: check("sherpa Contract Gaps" in T["report_template"] and "contract gaps" in T["workflow"].lower(), "contract gap section")),
 ("Improvement backlog", lambda: check(all(x in T["improvement"] for x in ("Improvement ID", "Affected phase", "Evidence", "Recommendation", "Expected impact", "Cost", "Dependencies", "Priority", "Status")) and "NOT OFFICIAL HACKATHON SCORING" in T["improvement"], "backlog schema")),
 ("No retroactive rewriting", lambda: check("Never rewrite" in T["rules"] and "historical" in T["rules"].lower() and "preserve" in T["workflow"].lower(), "history guard")),
 ("Phase 20 scope boundary", lambda: check(all(x in T["rules"] for x in ("modify application source", "install dependencies", "deploy", "submit", "Phase 21")), "scope exclusions")),
@@ -95,7 +95,7 @@ for idx,(name,fn) in enumerate(checks,531):
     results.append({"id":f"AT-{idx}","description":name,"setup":"Read current postmortem contract and project-scoped submission workflow.","expected_result":"Contract is evidence-based and preserves historical and human authority.","observed_result":observed,"status":status,"evidence":f"Executed assertion tests/workflows/test_postmortem.py::{name}"})
 for idx,(name,key) in enumerate(adversarial_names,1):
     try:
-        with tempfile.TemporaryDirectory(prefix="hackathonos-phase20-") as directory:
+        with tempfile.TemporaryDirectory(prefix="sherpa-phase20-") as directory:
             fixture=Path(directory)/"adversarial.json"; fixture.write_text(json.dumps({key:True}),encoding="utf-8")
             record=json.loads(fixture.read_text(encoding="utf-8")); assert not guarded(record), "unsafe fixture accepted"
         status="PASS"; observed="PASS: unsafe synthetic fixture rejected; no historical or project files changed"

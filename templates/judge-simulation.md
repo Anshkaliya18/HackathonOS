@@ -95,7 +95,7 @@ Evidence status:
 |-----------|--------|-------------|------------|-----------------------|------------|----------|
 | | | | | | | |
 
-Store detailed criterion observations in `.hackathon/judge/criterion-NNN.md`.
+Store detailed criterion observations in `.sherpa/judge/criterion-NNN.md`.
 
 ---
 
@@ -105,7 +105,7 @@ Store detailed criterion observations in `.hackathon/judge/criterion-NNN.md`.
 |-------------|---------|----------|-----------|------------------------|----------------------------|----------------|------------|--------|
 | | | | | | | | | |
 
-Store detailed questions in `.hackathon/judge/question-NNN.md`.
+Store detailed questions in `.sherpa/judge/question-NNN.md`.
 
 ---
 

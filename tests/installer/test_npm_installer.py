@@ -6,12 +6,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-ENTRY = ROOT / "distribution" / "npm" / "hackathonos.mjs"
+ENTRY = ROOT / "distribution" / "npm" / "sherpa.mjs"
 
 
 class NpmInstallerTests(unittest.TestCase):
     def test_dry_run_lists_both_targets_without_creating_them(self):
-        with tempfile.TemporaryDirectory(prefix="hackathonos-npm-dry-run-") as profile:
+        with tempfile.TemporaryDirectory(prefix="sherpa-npm-dry-run-") as profile:
             env = os.environ.copy()
             env["HOME"] = profile
             env["USERPROFILE"] = profile
@@ -25,8 +25,8 @@ class NpmInstallerTests(unittest.TestCase):
             )
 
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn(str(Path(profile) / ".claude" / "skills" / "hackathonos"), result.stdout)
-            self.assertIn(str(Path(profile) / ".config" / "opencode" / "skills" / "hackathonos"), result.stdout)
+            self.assertIn(str(Path(profile) / ".claude" / "skills" / "sherpa"), result.stdout)
+            self.assertIn(str(Path(profile) / ".config" / "opencode" / "skills" / "sherpa"), result.stdout)
             self.assertIn("no files were changed", result.stdout)
             self.assertFalse((Path(profile) / ".claude").exists())
             self.assertFalse((Path(profile) / ".config").exists())

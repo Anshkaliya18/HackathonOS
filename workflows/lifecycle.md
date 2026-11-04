@@ -1,4 +1,4 @@
-# HackathonOS Lifecycle
+# sherpa Lifecycle
 
 Defines the hackathon lifecycle phases and how the skill transitions between them. The lifecycle is time-aware: strategy changes based on time remaining until the deadline.
 
@@ -41,11 +41,11 @@ The skill adjusts its recommendations based on time remaining:
 
 ## How the Router Determines Phase
 
-1. Read `.hackathon/project-state.md`.
+1. Read `.sherpa/project-state.md`.
 2. Check the `Phase` field (if `UNKNOWN`, default to "Understand Rules").
 3. Check `Time remaining` against the deadline.
 4. The phase + time remaining determine which workflow guidance applies.
 
 ## Persistence
 
-The lifecycle phase and time remaining are stored in `.hackathon/project-state.md` and updated on every skill invocation.
+The lifecycle phase and time remaining are stored in `.sherpa/project-state.md` and updated on every skill invocation.

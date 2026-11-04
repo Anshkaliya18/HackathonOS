@@ -35,12 +35,12 @@ Web search was attempted for: "travel app discover hidden gems nearby destinatio
 | 12 | `package.json` declares `cesium: ^1.142.0` | FACT | `package.json` | high |
 | 13 | `requirements.txt` declares `requests>=2.31.0`, `geopy>=2.3.0` | FACT | `requirements.txt` | high |
 
-## Team Input (source: team input via /hackathonos init and idea-evaluate)
+## Team Input (source: team input via /sherpa init and idea-evaluate)
 
 | # | Claim | Type | Source | Confidence |
 |---|-------|------|--------|------------|
-| 1 | Problem: "GUIDE is a travel discovery platform designed to help users discover interesting and underrated destinations through an interactive exploration experience" | INFERENCE | team input / `.hackathon/project-state.md` | medium |
-| 2 | Target users: "Travelers, explorers, and users looking for underrated destinations and travel discovery" | INFERENCE | team input / `.hackathon/project-state.md` | medium |
+| 1 | Problem: "GUIDE is a travel discovery platform designed to help users discover interesting and underrated destinations through an interactive exploration experience" | INFERENCE | team input / `.sherpa/project-state.md` | medium |
+| 2 | Target users: "Travelers, explorers, and users looking for underrated destinations and travel discovery" | INFERENCE | team input / `.sherpa/project-state.md` | medium |
 | 3 | Solution includes "AI analysis" component | INFERENCE | team input (idea description) | medium |
-| 4 | Hackathon: Homingo Hack Days, submission deadline 6 Dec 2026 11:59 PM IST, registration deadline 15 Nov 2026 | INFERENCE | team input / `.hackathon/project-state.md` | medium |
-| 5 | Judging criteria: Track-specific (Agents, Automation, LLM Apps) + Cross-track (problem fit, technical depth, demo quality) | FACT | team input / `.hackathon/project-state.md` | high |
+| 4 | Hackathon: Homingo Hack Days, submission deadline 6 Dec 2026 11:59 PM IST, registration deadline 15 Nov 2026 | INFERENCE | team input / `.sherpa/project-state.md` | medium |
+| 5 | Judging criteria: Track-specific (Agents, Automation, LLM Apps) + Cross-track (problem fit, technical depth, demo quality) | FACT | team input / `.sherpa/project-state.md` | high |

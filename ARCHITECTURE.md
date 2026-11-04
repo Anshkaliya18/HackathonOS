@@ -1,6 +1,6 @@
 # Architecture
 
-HackathonOS is a Markdown-first agent skill with a small Python core and a separate distribution CLI.
+sherpa is a Markdown-first agent skill with a small Python core and a separate distribution CLI.
 
 - `SKILL.md`, `commands/`, `workflows/`, `rules/`, and `templates/` define mentor behavior and artifacts.
 - `core/commands/router.py`, `core/configuration/manager.py`, and `core/ideas/engine.py` implement routing, configuration, and idea evaluation.

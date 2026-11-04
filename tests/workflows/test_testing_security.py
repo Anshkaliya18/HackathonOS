@@ -85,7 +85,7 @@ def test_at217_resources_resolve() -> None:
 def test_at218_phase10_lock_required() -> None:
     """The workflow checks actual project implementation evidence."""
     workflow_text = WORKFLOW.read_text(encoding="utf-8")
-    assert ".hackathon/project-state.md" in workflow_text
+    assert ".sherpa/project-state.md" in workflow_text
     assert "implementation status" in workflow_text.lower()
 
 

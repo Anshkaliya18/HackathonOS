@@ -5,8 +5,8 @@ Contributions should preserve evidence boundaries, human approval gates, and the
 ## Set up the repository
 
 ```bash
-git clone https://github.com/Anshkaliya18/HackathonOS.git
-cd HackathonOS
+git clone https://github.com/Anshkaliya18/sherpa.git
+cd sherpa
 python --version
 ```
 
@@ -23,7 +23,7 @@ npm run docs:dev
 - Update the relevant workflow, shared rules, and templates together when behavior changes.
 - Keep agent-specific material in its adapter and record actual runtime evidence.
 - Treat installer and CLI changes as distribution/security-sensitive; preserve checksum verification, path validation, backups, and managed path scope.
-- Keep project data under `.hackathon/`; installers and CLI must not remove it.
+- Keep project data under `.sherpa/`; installers and CLI must not remove it.
 
 ## Coding and writing standards
 
@@ -47,4 +47,4 @@ Implement only formats the host documents. Check command discovery, argument for
 
 Describe the problem, intended behavior, affected workflows/adapters/platforms, and validation run. For bugs, include minimal reproduction steps and relevant sanitized output. Keep tokens and private project data out of issues and test output.
 
-See the [repository contributor notes](https://github.com/Anshkaliya18/HackathonOS/blob/main/CONTRIBUTING.md), [security guidance](https://github.com/Anshkaliya18/HackathonOS/blob/main/SECURITY.md), and [release process](https://github.com/Anshkaliya18/HackathonOS/blob/main/RELEASE.md).
+See the [repository contributor notes](https://github.com/Anshkaliya18/sherpa/blob/main/CONTRIBUTING.md), [security guidance](https://github.com/Anshkaliya18/sherpa/blob/main/SECURITY.md), and [release process](https://github.com/Anshkaliya18/sherpa/blob/main/RELEASE.md).
