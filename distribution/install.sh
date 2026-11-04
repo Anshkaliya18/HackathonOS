@@ -104,7 +104,7 @@ manifest_field() {
 import json, sys
 with open(sys.argv[1], encoding="utf-8") as fh:
     data = json.load(fh)
-print(eval(sys.argv[2], {"data": data}))
+print(json.dumps(eval(sys.argv[2], {"data": data})))
 PY
 }
 
