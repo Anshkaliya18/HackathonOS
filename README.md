@@ -64,9 +64,8 @@ tests/               Regression and installer tests
 
 ## Documentation
 
-- [Quickstart](QUICKSTART.md) · [Installation](INSTALLATION.md) · [Configuration](CONFIGURATION.md)
-- [Agent compatibility](AGENT-COMPATIBILITY.md) · [Commands](COMMANDS.md) · [Workflows](WORKFLOWS.md)
-- [Architecture](ARCHITECTURE.md) · [Troubleshooting](TROUBLESHOOTING.md) · [Contributing](CONTRIBUTING.md)
-- [Release process](RELEASE.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md)
+Browse the [HackathonOS documentation source](docs/index.md) for the getting-started guide, installation, commands, workflows, configuration, architecture, and contribution guidance. To run the site locally, use the commands in [the deployment guide](docs/deployment/index.md).
+
+The source references remain available: [Quickstart](QUICKSTART.md) · [Installation](INSTALLATION.md) · [Configuration](CONFIGURATION.md) · [Agent compatibility](AGENT-COMPATIBILITY.md) · [Commands](COMMANDS.md) · [Workflows](WORKFLOWS.md) · [Architecture](ARCHITECTURE.md) · [Troubleshooting](TROUBLESHOOTING.md) · [Contributing](CONTRIBUTING.md) · [Release process](RELEASE.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md).
 
 No license file is present; no license is inferred here.
