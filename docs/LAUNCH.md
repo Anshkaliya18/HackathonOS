@@ -1,6 +1,6 @@
 # Launch drafts
 
-The demo GIF is currently a labeled placeholder. Replace it with the real recording described in [record-demo.md](../scripts/record-demo.md) before posting. Installation into both standard folders was checked using the v1.0.0 Windows installer in an isolated profile; Claude Code and OpenCode runtime loading has not been verified.
+The demo GIF is currently a labeled placeholder. Replace it with the real recording described in [`scripts/record-demo.md`](https://github.com/Anshkaliya18/HackathonOS/blob/main/scripts/record-demo.md) before posting. Installation into both standard folders was checked using the v1.0.0 Windows installer in an isolated profile; Claude Code and OpenCode runtime loading has not been verified.
 
 Install line used below (Linux/macOS; installer and manifest pinned to v1.0.0):
 
