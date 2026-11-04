@@ -43,6 +43,7 @@ $CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
 
 $script:TMP_DIR = $null
 $script:BACKUP_DIRS = @()
+$script:CREATED_DIRS = @()
 
 ###############################################################################
 # Helpers
@@ -74,7 +75,14 @@ function Cleanup {
         Remove-Item -Path $script:TMP_DIR -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
-trap { Write-Err "Installation failed."; Cleanup; exit 1 }
+trap {
+    Write-Err ("Installation failed: {0}" -f $_.Exception.Message)
+    if ($script:BACKUP_DIRS.Count -gt 0 -or $script:CREATED_DIRS.Count -gt 0) {
+        try { Rollback-Installs } catch { Write-Err ("Rollback failed: {0}" -f $_.Exception.Message) }
+    }
+    Cleanup
+    exit 1
+}
 
 function Test-Command {
     param([string] $Name)
@@ -118,7 +126,7 @@ function Get-Sha256 {
 function Parse-JsonField {
     param([string] $ManifestFile, [string] $ScriptBlock)
     $data = Get-Content -Path $ManifestFile -Raw | ConvertFrom-Json
-    return & ([scriptblock]::Create($ScriptBlock)) -ArgumentList $data
+    return & ([scriptblock]::Create($ScriptBlock)) $data
 }
 
 ###############################################################################
@@ -304,6 +312,10 @@ function Backup-SkillDir {
 
 function Rollback-Installs {
     Write-Info "Rolling back..."
+    for ($i = $script:CREATED_DIRS.Count - 1; $i -ge 0; $i--) {
+        $target = $script:CREATED_DIRS[$i]
+        if (Test-Path $target) { Remove-Item -Path $target -Recurse -Force; Write-Ok ("Removed incomplete install {0}" -f $target) }
+    }
     for ($i = $script:BACKUP_DIRS.Count - 1; $i -ge 0; $i--) {
         $entry = $script:BACKUP_DIRS[$i]
         $target = $entry.Target
@@ -311,6 +323,8 @@ function Rollback-Installs {
         if (Test-Path $target) { Remove-Item -Path $target -Recurse -Force }
         if (Test-Path $backup) { Move-Item -Path $backup -Destination $target; Write-Ok ("Restored {0}" -f $target) }
     }
+    $script:CREATED_DIRS = @()
+    $script:BACKUP_DIRS = @()
 }
 
 function Install-Skill {
@@ -321,7 +335,11 @@ function Install-Skill {
         default    { throw "Unknown target: $TargetName" }
     }
 
-    Backup-SkillDir $targetDir
+    if (Test-Path $targetDir) {
+        Backup-SkillDir $targetDir
+    } else {
+        $script:CREATED_DIRS += $targetDir
+    }
     if (Test-Path $targetDir) { Remove-Item -Path $targetDir -Recurse -Force }
     New-Item -ItemType Directory -Path (Split-Path -Parent $targetDir) -Force | Out-Null
     Copy-Item -Path $script:EXTRACT_SOURCE -Destination $targetDir -Recurse -Force
@@ -345,10 +363,15 @@ function Install-Cli {
     New-Item -ItemType Directory -Path $CLI_BIN_DIR -Force | Out-Null
 
     # Locate the CLI source next to this installer, or download from manifest.
-    $scriptDir = Split-Path -Parent $PSCommandPath
-    $cliSource = Join-Path $scriptDir "cli\hackathonos"
-    $cliBatSource = Join-Path $scriptDir "cli\hackathonos.bat"
-    if (-not (Test-Path $cliSource)) {
+    $scriptDir = $null
+    if (-not [string]::IsNullOrWhiteSpace($PSCommandPath)) { $scriptDir = Split-Path -Parent $PSCommandPath }
+    $cliSource = $null
+    $cliBatSource = $null
+    if ($scriptDir) {
+        $cliSource = Join-Path $scriptDir "cli\hackathonos"
+        $cliBatSource = Join-Path $scriptDir "cli\hackathonos.bat"
+    }
+    if (-not $cliSource -or -not (Test-Path $cliSource)) {
         $cliUrl = Parse-JsonField $script:MANIFEST_FILE 'param($d) $d.cli.url'
         $cliChecksum = Parse-JsonField $script:MANIFEST_FILE 'param($d) $d.cli.checksum'
         if ([string]::IsNullOrWhiteSpace($cliUrl) -or [string]::IsNullOrWhiteSpace($cliChecksum)) {

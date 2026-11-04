@@ -88,6 +88,16 @@ def test_install_preshell_path_traversal():
     assert "\\.\\." in text or "path traversal" in text.lower()
 
 
+def test_install_preshell_iex_manifest_and_cli_fallback():
+    text = read(INSTALL_PS1)
+    assert "return & ([scriptblock]::Create($ScriptBlock)) $data" in text
+    assert "-ArgumentList $data" not in text
+    assert "if (-not [string]::IsNullOrWhiteSpace($PSCommandPath))" in text
+    assert "if (-not $cliSource -or -not (Test-Path $cliSource))" in text
+    assert 'Write-Err ("Installation failed: {0}" -f $_.Exception.Message)' in text
+    assert "Rollback-Installs" in text
+
+
 def test_uninstall_scripts_preserve_hackathon_state():
     for path in (UNINSTALL_SH, UNINSTALL_PS1):
         text = read(path)

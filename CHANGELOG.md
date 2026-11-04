@@ -1,5 +1,11 @@
 # HackathonOS Changelog
 
+## Unreleased
+
+### Fixed
+
+- PowerShell installer now passes the parsed manifest object correctly, handles the empty `$PSCommandPath` produced by `irm | iex`, reports the underlying failure, and rolls back partial skill installs.
+
 ## [1.0.0] — 2026-11-04
 
 ### Fixed
