@@ -12,7 +12,13 @@ Tests are grouped by the behavior they cover. Workflow contract suites use descr
 | Installer and CLI | `tests/installer/` | Installer scripts and distribution CLI tests |
 | Regression | `tests/regression/` | Semantic verification and benchmark regressions |
 
-The standalone contract harnesses run with Python and print machine-readable JSON. For example:
+Run every self-contained Python test file in an isolated process with:
+
+```powershell
+python tests/run_all.py
+```
+
+The standalone contract harnesses print machine-readable JSON. For example:
 
 ```powershell
 python tests/workflows/test_submission.py
