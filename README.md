@@ -56,8 +56,8 @@ The npm package command is `npx hackathonos-cli install` after the package is pu
 
 | Agent | Status | Notes |
 |---|---|---|
-| Claude Code | Install supported, runtime check pending | Global installer targets `~/.claude/skills/hackathonos/`. |
-| OpenCode | Install supported, runtime check pending | Global installer targets `~/.config/opencode/skills/hackathonos/`. |
+| Claude Code | Install verified; runtime check pending | v1.0.0 installed in an isolated Windows profile; entry files and command manifest validated. |
+| OpenCode | Install verified; runtime check pending | v1.0.0 installed in an isolated Windows profile; entry files and command manifest validated. |
 | Other agents | Not currently supported by the installer | See [compatibility notes](AGENT-COMPATIBILITY.md). |
 
 ## Project structure
