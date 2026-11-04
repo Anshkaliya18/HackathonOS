@@ -81,7 +81,8 @@ trap {
         try { Rollback-Installs } catch { Write-Err ("Rollback failed: {0}" -f $_.Exception.Message) }
     }
     Cleanup
-    exit 1
+    try { Read-Host "Installation failed. Press Enter to return to PowerShell" | Out-Null } catch { }
+    return
 }
 
 function Test-Command {
@@ -524,3 +525,4 @@ Validate-Installation
 
 Print-Success
 Cleanup
+Read-Host "Installation complete. Press Enter to return to PowerShell" | Out-Null
