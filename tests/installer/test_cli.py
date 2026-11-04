@@ -9,6 +9,7 @@ Runs standalone with unittest.mock (no pytest required).
 from __future__ import annotations
 
 import hashlib
+import argparse
 import io
 import json
 import os
@@ -421,6 +422,33 @@ def test_doctor_runs():
 
         rc = cli.cmd_doctor(mock.MagicMock())
     assert rc == 0
+
+
+def test_audit_only_scans_managed_installations():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / "skill"
+        root.mkdir()
+        junk = root / "debug.log"
+        junk.write_text("temporary\n")
+        outside = Path(tmp) / "outside.log"
+        outside.write_text("preserve\n")
+        with mock.patch.object(cli, "detect_installed", lambda: {"claude": root}), \
+             mock.patch.object(cli, "log", lambda m, level="info": None):
+            assert cli.audit_paths() == [junk]
+        assert outside.exists()
+
+
+def test_clean_defaults_to_report_only():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / "skill"
+        root.mkdir()
+        junk = root / "debug.log"
+        junk.write_text("temporary\n")
+        with mock.patch.object(cli, "detect_installed", lambda: {"claude": root}), \
+             mock.patch("builtins.print"):
+            args = argparse.Namespace(dry_run=False, assume_yes=False)
+            assert cli.cmd_clean(args) == 0
+        assert junk.exists()
 
 
 if __name__ == "__main__":

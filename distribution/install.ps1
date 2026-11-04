@@ -182,9 +182,10 @@ function Select-Archive {
     if ([string]::IsNullOrWhiteSpace($latest)) {
         throw "Manifest does not declare a latest version."
     }
-    if ($PSBoundParameters.ContainsKey('Version') -and $Version) {
+    if ([string]::IsNullOrWhiteSpace($Version)) { $Version = $env:HACKATHONOS_VERSION }
+    if (-not [string]::IsNullOrWhiteSpace($Version)) {
         $script:INSTALL_VERSION = $Version
-        Write-Info "Pinned version: $script:INSTALL_VERSION (manifest latest: $latest)"
+        if ($Version -ne $latest) { throw "This manifest only describes latest ($latest); version-pinned archives are not available." }
     } else {
         $script:INSTALL_VERSION = $latest
     }
@@ -202,6 +203,22 @@ function Select-Archive {
     Write-Info "Archive: $script:ARCHIVE_NAME"
 }
 
+function Assert-SafeZip {
+    param([string] $Archive)
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($Archive)
+    try {
+        foreach ($entry in $zip.Entries) {
+            $name = $entry.FullName.Replace('\', '/')
+            if ($name.StartsWith('/') -or $name -match '^[A-Za-z]:' -or ($name.Split('/') -contains '..')) {
+                throw "Archive contains unsafe path: $($entry.FullName)"
+            }
+            $unixMode = ($entry.ExternalAttributes -shr 16) -band 0xF000
+            if ($unixMode -eq 0xA000) { throw "Archive contains unsupported symbolic link: $($entry.FullName)" }
+        }
+    } finally { $zip.Dispose() }
+}
+
 ###############################################################################
 # Download + verify
 ###############################################################################
@@ -216,7 +233,7 @@ function Download-And-Verify {
     Write-Ok "Download complete"
 
     if ([string]::IsNullOrWhiteSpace($script:ARCHIVE_CHECKSUM)) {
-        Write-Info "No checksum in manifest - skipping verification (not recommended)."
+        throw "Release manifest has no SHA-256 checksum; refusing unverified installation."
     } else {
         $actual = Get-Sha256 $archive
         if ($actual -ne $script:ARCHIVE_CHECKSUM) {
@@ -235,7 +252,8 @@ function Validate-Archive {
     $extractDir = Join-Path $script:TMP_DIR "extract"
     New-Item -ItemType Directory -Path $extractDir -Force | Out-Null
 
-    # Path-traversal guard: inspect entries before extracting.
+    # Inspect every ZIP entry before extraction; post-extraction checks are too late.
+    Assert-SafeZip $Archive
     $entries = Expand-Archive -Path $Archive -DestinationPath $extractDir -Force -ErrorAction Stop
     # Expand-Archive extracts; now scan for unsafe paths already on disk.
     $unsafe = Get-ChildItem -Path $extractDir -Recurse -File |
@@ -326,17 +344,25 @@ function Install-Cli {
     $cliBatSource = Join-Path $scriptDir "cli\hackathonos.bat"
     if (-not (Test-Path $cliSource)) {
         $cliUrl = Parse-JsonField $script:MANIFEST_FILE 'param($d) $d.cli.url'
-        if ([string]::IsNullOrWhiteSpace($cliUrl)) {
-            throw "CLI not available in this installer bundle."
+        $cliChecksum = Parse-JsonField $script:MANIFEST_FILE 'param($d) $d.cli.checksum'
+        if ([string]::IsNullOrWhiteSpace($cliUrl) -or [string]::IsNullOrWhiteSpace($cliChecksum)) {
+            throw "CLI not available with a URL and SHA-256 in this installer bundle."
         }
-        $cliSource = Join-Path $script:TMP_DIR "hackathonos"
+        $cliArchive = Join-Path $script:TMP_DIR "hackathonos-cli.zip"
         try {
-            Invoke-WebRequest -Uri $cliUrl -OutFile $cliSource -TimeoutSec 120 -ErrorAction Stop | Out-Null
+            Invoke-WebRequest -Uri $cliUrl -OutFile $cliArchive -TimeoutSec 120 -ErrorAction Stop | Out-Null
         } catch { throw "Failed to download CLI." }
+        if ((Get-Sha256 $cliArchive) -ne $cliChecksum) { throw "CLI archive SHA-256 mismatch." }
+        Assert-SafeZip $cliArchive
+        $cliExtract = Join-Path $script:TMP_DIR "cli"
+        Expand-Archive -Path $cliArchive -DestinationPath $cliExtract -Force -ErrorAction Stop
+        $cliSource = Get-ChildItem -Path $cliExtract -Recurse -File | Where-Object { $_.Name -eq "hackathonos" } | Select-Object -First 1 -ExpandProperty FullName
+        if (-not $cliSource) { throw "CLI archive is missing the hackathonos executable." }
+        $cliBatSource = Get-ChildItem -Path $cliExtract -Recurse -File | Where-Object { $_.Name -eq "hackathonos.bat" } | Select-Object -First 1 -ExpandProperty FullName
     }
 
     Copy-Item -Path $cliSource -Destination (Join-Path $CLI_BIN_DIR $CLI_NAME) -Force
-    Copy-Item -Path $cliBatSource -Destination (Join-Path $CLI_BIN_DIR "$CLI_NAME.bat") -Force
+    if ($cliBatSource -and (Test-Path $cliBatSource)) { Copy-Item -Path $cliBatSource -Destination (Join-Path $CLI_BIN_DIR "$CLI_NAME.bat") -Force }
     Write-Ok "CLI installed"
 
     Ensure-Path

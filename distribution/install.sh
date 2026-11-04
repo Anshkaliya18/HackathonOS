@@ -185,7 +185,7 @@ fetch_manifest() {
     info "Release manifest: $manifest_url"
     TMP_DIR="$(mktemp -d)"
     local manifest_file="${TMP_DIR}/manifest.json"
-    if ! curl -fsSL --connect-timeout 20 --max-time 120 -o "$manifest_file" "$manifest_url"; then
+    if ! curl -fsSL --retry 2 --retry-all-errors --connect-timeout 20 --max-time 120 -o "$manifest_file" "$manifest_url"; then
         die "failed to download release manifest from $manifest_url"
     fi
     MANIFEST_FILE="$manifest_file"
@@ -206,7 +206,7 @@ select_archive() {
         die "manifest does not declare a latest version"
     fi
     if [[ -n "$version" && "$version" != "$latest" ]]; then
-        info "Pinned version: $version (manifest latest: $latest)"
+        die "this manifest only describes latest ($latest); version-pinned archives are not available"
     else
         version="$latest"
     fi
@@ -242,12 +242,14 @@ select_archive() {
 download_and_verify() {
     info "URL: $ARCHIVE_URL"
     local archive="${TMP_DIR}/${ARCHIVE_NAME}"
-    if ! curl -fsSL --connect-timeout 20 --max-time 300 -o "$archive" "$ARCHIVE_URL"; then
+    if ! curl -fsSL --retry 2 --retry-all-errors --connect-timeout 20 --max-time 300 -o "$archive" "$ARCHIVE_URL"; then
         die "failed to download $ARCHIVE_NAME"
     fi
     ok "download complete"
 
-    if [[ -n "$ARCHIVE_CHECKSUM" ]]; then
+    if [[ -z "$ARCHIVE_CHECKSUM" ]]; then
+        die "release manifest has no SHA-256 checksum; refusing unverified installation"
+    else
         local actual expected
         actual="$(sha256_of "$archive")"
         expected="$ARCHIVE_CHECKSUM"
@@ -255,8 +257,6 @@ download_and_verify() {
             die "SHA-256 mismatch for $ARCHIVE_NAME: expected $expected, got $actual"
         fi
         ok "SHA-256 verified ($actual)"
-    else
-        info "no checksum in manifest — skipping verification (not recommended)"
     fi
     ARCHIVE_FILE="$archive"
 }
@@ -391,14 +391,25 @@ install_cli() {
     cli_source="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)/cli/hackathonos"
     if [[ ! -f "$cli_source" ]]; then
         # Installer was piped via curl: fetch CLI from the manifest cli url.
-        cli_source="${TMP_DIR}/hackathonos-cli"
+        local cli_archive="${TMP_DIR}/hackathonos-cli.zip"
         local cli_url
         cli_url="$(manifest_field "$MANIFEST_FILE" "data.get('cli',{}).get('url','')")"
-        if [[ -n "$cli_url" ]]; then
-            curl -fsSL --connect-timeout 20 --max-time 120 -o "$cli_source" "$cli_url" \
+        local cli_checksum
+        cli_checksum="$(manifest_field "$MANIFEST_FILE" "data.get('cli',{}).get('checksum','')")"
+        if [[ -n "$cli_url" && -n "$cli_checksum" ]]; then
+            curl -fsSL --retry 2 --retry-all-errors --connect-timeout 20 --max-time 120 -o "$cli_archive" "$cli_url" \
                 || die "failed to download CLI"
+            [[ "$(sha256_of "$cli_archive")" == "${cli_checksum,,}" ]] || die "CLI archive SHA-256 mismatch"
+            local cli_extract="${TMP_DIR}/cli"
+            mkdir -p "$cli_extract"
+            unzip -oq "$cli_archive" -d "$cli_extract" || die "invalid CLI archive"
+            cli_source="$(find "$cli_extract" -type f -name hackathonos -print -quit)"
+            [[ -n "$cli_source" ]] || die "CLI archive missing hackathonos executable"
+            local bat_source
+            bat_source="$(find "$cli_extract" -type f -name hackathonos.bat -print -quit)"
+            [[ -z "$bat_source" ]] || cp "$bat_source" "$CLI_BIN_DIR/$CLI_NAME.bat"
         else
-            die "CLI not available in this installer bundle"
+            die "CLI not available with a URL and SHA-256 in this installer bundle"
         fi
     fi
     cp -f "$cli_source" "$CLI_BIN_DIR/$CLI_NAME"
@@ -538,7 +549,7 @@ while [[ $# -gt 0 ]]; do
         --claude)   INSTALL_CLAUDE=1; INSTALL_OPENCODE=0; shift ;;
         --opencode) INSTALL_OPENCODE=1; INSTALL_CLAUDE=0; shift ;;
         --both)     INSTALL_CLAUDE=1; INSTALL_OPENCODE=1; shift ;;
-        --project)  PROJECT_TARGET="${2:-}"; shift 2 ;;
+        --project)  die "project-level installer mode is not implemented; use the repository-local agent files" ;;
         --version)  HACKATHONOS_VERSION="${2:-}"; shift 2 ;;
         --manifest-url) HACKATHONOS_RELEASE_MANIFEST_URL="${2:-}"; shift 2 ;;
         --no-cli)   INSTALL_CLI=0; shift ;;

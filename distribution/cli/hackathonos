@@ -23,9 +23,11 @@ import hashlib
 import json
 import os
 import shutil
+import subprocess
 import sys
 import tarfile
 import tempfile
+import time
 import zipfile
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -125,15 +127,23 @@ def manifest_url() -> str:
 def fetch_json(url: str, timeout: int = 30) -> dict:
     log(f"Fetching manifest: {url}")
     req = Request(url, headers={"Accept": "application/json", "User-Agent": "hackathonos-cli"})
-    try:
-        with urlopen(req, timeout=timeout) as response:
-            if response.status != 200:
-                raise HackathonOSError(f"manifest request failed: HTTP {response.status}")
-            data = response.read()
-    except HTTPError as exc:
-        raise HackathonOSError(f"manifest request failed: HTTP {exc.code}") from exc
-    except URLError as exc:
-        raise HackathonOSError(f"cannot reach manifest: {exc}") from exc
+    data = None
+    for attempt in range(3):
+        try:
+            with urlopen(req, timeout=timeout) as response:
+                if response.status != 200:
+                    raise HackathonOSError(f"manifest request failed: HTTP {response.status}")
+                data = response.read()
+            break
+        except HTTPError as exc:
+            if exc.code == 403 and exc.headers.get("X-RateLimit-Remaining") == "0":
+                raise HackathonOSError("GitHub API rate limit reached; retry later or use a release manifest URL") from exc
+            if exc.code not in (408, 429, 500, 502, 503, 504) or attempt == 2:
+                raise HackathonOSError(f"manifest request failed: HTTP {exc.code}") from exc
+        except URLError as exc:
+            if attempt == 2:
+                raise HackathonOSError(f"cannot reach manifest after 3 attempts: {exc}") from exc
+        time.sleep(0.5 * (2 ** attempt))
     try:
         return json.loads(data.decode("utf-8"))
     except json.JSONDecodeError as exc:
@@ -151,23 +161,34 @@ def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
 def download_file(url: str, dest: Path, timeout: int = 120) -> Path:
     log(f"Downloading: {url}")
     req = Request(url, headers={"User-Agent": "hackathonos-cli"})
-    try:
-        with urlopen(req, timeout=timeout) as response:
-            if response.status != 200:
-                raise HackathonOSError(f"download failed: HTTP {response.status}")
-            total = response.headers.get("Content-Length")
-            with dest.open("wb") as out:
-                downloaded = 0
-                while True:
-                    block = response.read(1024 * 1024)
-                    if not block:
-                        break
-                    out.write(block)
-                    downloaded += len(block)
-    except HTTPError as exc:
-        raise HackathonOSError(f"download failed: HTTP {exc.code}") from exc
-    except URLError as exc:
-        raise HackathonOSError(f"download failed: {exc}") from exc
+    partial = dest.with_name(dest.name + ".part")
+    for attempt in range(3):
+        try:
+            with urlopen(req, timeout=timeout) as response:
+                if response.status != 200:
+                    raise HackathonOSError(f"download failed: HTTP {response.status}")
+                total = response.headers.get("Content-Length")
+                with partial.open("wb") as out:
+                    downloaded = 0
+                    while True:
+                        block = response.read(1024 * 1024)
+                        if not block:
+                            break
+                        out.write(block)
+                        downloaded += len(block)
+                if total and downloaded != int(total):
+                    raise HackathonOSError(f"incomplete download: expected {total} bytes, got {downloaded}")
+                partial.replace(dest)
+            break
+        except HTTPError as exc:
+            partial.unlink(missing_ok=True)
+            if exc.code not in (408, 429, 500, 502, 503, 504) or attempt == 2:
+                raise HackathonOSError(f"download failed: HTTP {exc.code}") from exc
+        except (URLError, OSError, HackathonOSError) as exc:
+            partial.unlink(missing_ok=True)
+            if attempt == 2:
+                raise HackathonOSError(f"download failed after 3 attempts: {exc}") from exc
+        time.sleep(0.5 * (2 ** attempt))
     log(f"Download complete ({downloaded} bytes)")
     return dest
 
@@ -185,6 +206,8 @@ def safe_extract_tar(archive: Path, dest: Path) -> None:
     dest = dest.resolve()
     with tarfile.open(archive, "r:*") as tar:
         for member in tar.getmembers():
+            if not (member.isfile() or member.isdir()):
+                raise HackathonOSError(f"unsupported archive entry type: {member.name}")
             member_path = (dest / member.name).resolve()
             if not _is_within_directory(dest, member_path):
                 raise HackathonOSError(
@@ -198,6 +221,8 @@ def safe_extract_zip(archive: Path, dest: Path) -> None:
     dest = dest.resolve()
     with zipfile.ZipFile(archive) as zip_file:
         for member in zip_file.infolist():
+            if (member.external_attr >> 16) & 0o170000 == 0o120000:
+                raise HackathonOSError(f"unsupported archive symlink: {member.filename}")
             target = (dest / member.filename).resolve()
             if not _is_within_directory(dest, target):
                 raise HackathonOSError(
@@ -354,13 +379,15 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         print(f"  {name}: {directory} -> {version} {'[installed]' if present else ''}")
 
     # Manifest reachability.
+    healthy = True
     try:
         manifest = fetch_json(manifest_url(), timeout=10)
         print(f"Manifest reachable: yes (latest {manifest.get('latest', {}).get('version', '?')})")
     except HackathonOSError as exc:
         print(f"Manifest reachable: no ({exc})")
+        healthy = False
 
-    return 0
+    return 0 if healthy else 1
 
 
 def cmd_update(args: argparse.Namespace) -> int:
@@ -407,6 +434,8 @@ def cmd_update(args: argparse.Namespace) -> int:
         archive_path = Path(tmp) / archive_url.rsplit("/", 1)[-1]
         download_file(archive_url, archive_path)
 
+        if not archive_checksum:
+            raise HackathonOSError("release manifest has no SHA-256 checksum; refusing unverified installation")
         if archive_checksum:
             actual = sha256_file(archive_path)
             if actual.lower() != archive_checksum.lower():
@@ -453,6 +482,11 @@ def cmd_uninstall(args: argparse.Namespace) -> int:
         cli_exe.unlink()
         removed.append(str(cli_exe))
         log(f"Removed CLI {cli_exe}", "ok")
+    cli_wrapper = cli_bin / f"{CLI_NAME}.bat"
+    if cli_wrapper.exists():
+        cli_wrapper.unlink()
+        removed.append(str(cli_wrapper))
+        log(f"Removed CLI wrapper {cli_wrapper}", "ok")
 
     print("Uninstallation completed.")
     return 0
@@ -484,6 +518,75 @@ More information: INSTALLATION.md, README.md
     return 0
 
 
+def audit_paths() -> list[Path]:
+    """Find obvious generated debris inside managed skill directories only."""
+    candidates: list[Path] = []
+    patterns = ("*.tmp", "*.log", "*.bak", "*.pyc")
+    for root in detect_installed().values():
+        for pattern in patterns:
+            candidates.extend(p for p in root.rglob(pattern) if p.is_file())
+        candidates.extend(p for p in root.rglob("__pycache__") if p.is_dir())
+    # Keep any files tracked by the nearest Git worktree out of cleanup scope.
+    safe: list[Path] = []
+    for root in detect_installed().values():
+        try:
+            result = subprocess.run(["git", "-C", str(root), "ls-files", "-z"], capture_output=True, check=False)
+            tracked = {((root / item).resolve()) for item in result.stdout.decode(errors="replace").split("\0") if item}
+        except OSError:
+            tracked = set()
+        safe.extend(path for path in candidates if path == root or root in path.parents if path.resolve() not in tracked)
+    return sorted(set(safe))
+
+
+def cmd_audit(args: argparse.Namespace) -> int:
+    found = audit_paths()
+    roots = list(detect_installed().values())
+    files = [p for root in roots for p in root.rglob("*") if p.is_file()]
+    required = ["SKILL.md", "commands/manifest.json", "core/commands/router.py", "workflows/"]
+    hashes: dict[str, list[Path]] = {}
+    for path in files:
+        hashes.setdefault(sha256_file(path), []).append(path)
+    duplicates = [group for group in hashes.values() if len(group) > 1]
+    empty_dirs = [p for root in roots for p in root.rglob("*") if p.is_dir() and not any(p.iterdir())]
+    temporary = [p for p in found if p.suffix.lower() in (".tmp", ".log", ".pyc", ".bak") or p.name == "__pycache__"]
+    print("HACKATHONOS OUTPUT AUDIT")
+    print(f"Total files scanned: {len(files)}")
+    print("Required files:")
+    for item in required:
+        print(f"- {item}")
+    print("Unwanted files:")
+    for path in found:
+        print(f"- {path}")
+    print("Temporary files:")
+    for path in temporary:
+        print(f"- {path}")
+    print("Duplicate files:")
+    for group in duplicates:
+        print("- " + " = ".join(str(path) for path in group))
+    print("Empty directories:")
+    for path in empty_dirs:
+        print(f"- {path}")
+    print("Recommended cleanup: run `hackathonos clean --dry-run`; cleanup requires `--yes`.")
+    return 0
+
+
+def cmd_clean(args: argparse.Namespace) -> int:
+    found = audit_paths()
+    print("Dry run — no files will be removed." if args.dry_run or not args.assume_yes else "Cleaning managed generated files.")
+    for path in found:
+        print(f"- {path}")
+        if not args.dry_run and args.assume_yes:
+            if not path.exists():
+                continue
+            if path.is_dir():
+                shutil.rmtree(path)
+            else:
+                path.unlink()
+    if not args.dry_run and not args.assume_yes:
+        print("Pass --yes to authorize removal of listed files.")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog=CLI_NAME,
@@ -507,6 +610,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_uninstall.set_defaults(func=cmd_uninstall)
 
     sub.add_parser("doctor", help="diagnose the installation environment").set_defaults(func=cmd_doctor)
+    sub.add_parser("audit", help="report generated debris in managed installations").set_defaults(func=cmd_audit)
+    p_clean = sub.add_parser("clean", help="report or remove generated debris in managed installations")
+    p_clean.add_argument("--dry-run", action="store_true", help="report only (default)")
+    p_clean.add_argument("--yes", "-y", dest="assume_yes", action="store_true", help="authorize removal")
+    p_clean.set_defaults(func=cmd_clean)
     sub.add_parser("help", help="show this help message").set_defaults(func=cmd_help)
 
     return parser

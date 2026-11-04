@@ -1,71 +1,60 @@
-# HackathonOS Distribution
+# HackathonOS
 
-Production-ready distribution packaging for HackathonOS — the AI Hackathon
-Mentor/Co-Pilot skill for Claude Code and OpenCode.
+HackathonOS is a Markdown-first AI hackathon mentor skill. It helps teams move from idea selection through implementation, verification, demo preparation, and submission readiness while grounding advice in project evidence and preserving human approval gates.
 
-This directory contains the one-command installers, the `hackathonos` CLI,
-release metadata, and uninstallers. Users install with a single terminal
-command; no repository clone is required.
+## Capabilities
 
-## Install once, use everywhere
+- Idea discovery, evaluation, comparison, and red-team review.
+- Project planning, implementation guidance, status, and next-action workflows.
+- Configuration and secret checks, testing/security reviews, demo and submission preparation.
+- Markdown templates, reusable rules, Python routing/configuration/evaluation utilities.
+- Distribution CLI for version, updates, uninstall, diagnostics, and output audit.
 
-```bash
-# Linux / macOS
-curl -fsSL https://YOUR-DOMAIN/install.sh | bash
+## Agent support
 
-# Windows PowerShell
-irm https://YOUR-DOMAIN/install.ps1 | iex
+Integration files exist for Claude Code, OpenCode, and Kilo Code. The global installer currently targets Claude Code and OpenCode. Runtime loading is marked **NOT VERIFIED** in `commands/manifest.json`; Codex CLI, Qwen Code, and Gemini CLI have no verified adapter. See [AGENT-COMPATIBILITY.md](AGENT-COMPATIBILITY.md).
+
+## Install status
+
+The project has PowerShell and Bash installer scripts, but the checked-in release manifest is a template and release artifacts/checksums are not published. Therefore public one-command installation is not live yet. Do not use the placeholder `YOUR-DOMAIN` commands. See [INSTALLATION.md](INSTALLATION.md) for accurate current options and release publishing steps.
+
+## Quick use from this repository
+
+Open the repo in an agent that can load its skill files, then invoke:
+
+```text
+/hackathonos help
+/hackathonos status
+/hackathonos suggest
 ```
 
-## Layout
+CLI management examples (after a valid release install):
 
-```
-distribution/
-├── install.sh                  # Linux / macOS / Git Bash installer
-├── install.ps1                 # Windows PowerShell installer
-├── uninstall.sh                # Linux / macOS / Git Bash uninstaller
-├── uninstall.ps1               # Windows PowerShell uninstaller
-├── VERSION                     # Distribution version (1.0.0)
-├── cli/
-│   ├── hackathonos             # stdlib CLI (--version / update / uninstall / doctor / help)
-│   └── hackathonos.bat         # Windows CLI wrapper
-└── release/
-    ├── manifest.json           # release manifest template
-    └── checksums.txt           # SHA-256 checksums template
+```text
+hackathonos --version
+hackathonos doctor
+hackathonos audit
+hackathonos clean --dry-run
 ```
 
-## Supported agent environments
+## Project structure
 
-- **Claude Code** — `~/.claude/skills/hackathonos/`
-- **OpenCode** — `~/.config/opencode/skills/hackathonos/`
-
-Both can be installed simultaneously. The existing HackathonOS functionality
-(workflows, rules, templates, command router) is preserved intact.
-
-## CLI
-
-```bash
-hackathonos --version   # show version
-hackathonos update      # update to latest release (with backup + rollback)
-hackathonos uninstall   # remove safely (preserves user data)
-hackathonos doctor      # diagnose environment
-hackathonos help        # show help
+```text
+SKILL.md             Canonical behavior and routing guidance
+commands/            Command manifest and command definitions
+core/                Router, configuration manager, idea engine
+workflows/ rules/    Lifecycle workflows and shared safety rules
+templates/           Project artifacts and configuration examples
+adapters/ .claude/ .opencode/ .kilo/  Agent integrations
+distribution/        Installers, CLI, release metadata
+tests/               Regression and installer tests
 ```
 
 ## Documentation
 
-- `INSTALLATION.md` — installation instructions, customisation, update/uninstall
-- `RELEASE.md` — how to publish a release
-- `SECURITY.md` — security model and guarantees
-- `CHANGELOG.md` — version history
+- [Quickstart](QUICKSTART.md) · [Installation](INSTALLATION.md) · [Configuration](CONFIGURATION.md)
+- [Agent compatibility](AGENT-COMPATIBILITY.md) · [Commands](COMMANDS.md) · [Workflows](WORKFLOWS.md)
+- [Architecture](ARCHITECTURE.md) · [Troubleshooting](TROUBLESHOOTING.md) · [Contributing](CONTRIBUTING.md)
+- [Release process](RELEASE.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md)
 
-## Intellectual property
-
-The installer is kept separate from the skill engine. Skill files are ordinary
-Markdown/Python; no claim is made that local files are proprietary or
-protected. The architecture is modular so a private hosted API can be
-introduced in a future version without changing the installer.
-
-## Repository
-
-https://github.com/Anshkaliya18/HackathonOS
+No license file is present; no license is inferred here.
