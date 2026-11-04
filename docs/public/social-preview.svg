@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">HackathonOS — Build the right thing. Prove it works. Show why it matters.</title>
+  <desc id="desc">A focused AI agent skill for evidence-led hackathon mentoring across projects.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07151d"/><stop offset="1" stop-color="#102b37"/></linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2dd4bf"/><stop offset="1" stop-color="#55a6ff"/></linearGradient>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0v36" fill="none" stroke="#c5f7ef" stroke-opacity=".055"/></pattern>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.6"><feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#02080c" flood-opacity=".45"/></filter>
+  </defs>
+  <rect width="1280" height="640" rx="32" fill="url(#bg)"/>
+  <rect width="1280" height="640" rx="32" fill="url(#grid)"/>
+  <circle cx="1090" cy="135" r="225" fill="#2dd4bf" opacity=".07"/>
+  <circle cx="1112" cy="124" r="122" fill="none" stroke="#2dd4bf" stroke-opacity=".2"/>
+  <circle cx="1112" cy="124" r="83" fill="none" stroke="#55a6ff" stroke-opacity=".22"/>
+  <g transform="translate(78 72)">
+    <rect width="54" height="54" rx="16" fill="#087d76"/>
+    <path d="m14 35 13-22 13 22-13 8-13-8Z" fill="none" stroke="#fff" stroke-width="2.8" stroke-linejoin="round"/>
+    <circle cx="27" cy="30" r="3.4" fill="#fff"/>
+    <text x="72" y="36" fill="#e9f6f5" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="26" font-weight="700" letter-spacing=".3">HACKATHONOS</text>
+  </g>
+  <text x="80" y="232" fill="#f4fbfa" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="700">Build the right thing.</text>
+  <text x="80" y="300" fill="#f4fbfa" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="700">Prove it works.</text>
+  <text x="80" y="368" fill="#f4fbfa" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="700">Show why it matters.</text>
+  <text x="82" y="422" fill="#a9c4ca" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="22">An evidence-led hackathon mentor skill for Claude Code and OpenCode.</text>
+  <g filter="url(#shadow)" transform="translate(80 486)">
+    <rect width="492" height="72" rx="14" fill="#071117" stroke="#2dd4bf" stroke-opacity=".35"/>
+    <circle cx="25" cy="24" r="5" fill="#ff7e7e"/><circle cx="43" cy="24" r="5" fill="#f8c15c"/><circle cx="61" cy="24" r="5" fill="#53d39b"/>
+    <text x="25" y="52" fill="#78e2d3" font-family="Consolas,Menlo,monospace" font-size="19">/hackathonos suggest</text>
+  </g>
+  <g transform="translate(931 355)">
+    <rect width="269" height="167" rx="20" fill="#102832" stroke="#b3fff0" stroke-opacity=".22"/>
+    <text x="23" y="38" fill="#7de3d4" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="1.4">EVIDENCE FIRST</text>
+    <path d="M24 60h220" stroke="#c3ece8" stroke-opacity=".15"/>
+    <circle cx="31" cy="88" r="5" fill="url(#glow)"/><text x="48" y="94" fill="#e2f0ef" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16">Show what is proven</text>
+    <circle cx="31" cy="121" r="5" fill="#f6bd60"/><text x="48" y="127" fill="#e2f0ef" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16">Name what is unknown</text>
+    <text x="23" y="151" fill="#8eaab1" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13">Install once · use in every project</text>
+  </g>
+</svg>
