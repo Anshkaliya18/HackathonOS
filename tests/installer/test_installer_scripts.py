@@ -96,6 +96,7 @@ def test_install_preshell_iex_manifest_and_cli_fallback():
     assert "if (-not $cliSource -or -not (Test-Path $cliSource))" in text
     assert 'Write-Err ("Installation failed: {0}" -f $_.Exception.Message)' in text
     assert "Rollback-Installs" in text
+    assert not text.rstrip().endswith("exit 0"), "successful IEX install must return to the PowerShell prompt"
 
 
 def test_uninstall_scripts_preserve_hackathon_state():

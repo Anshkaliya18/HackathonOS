@@ -524,4 +524,3 @@ Validate-Installation
 
 Print-Success
 Cleanup
-exit 0
