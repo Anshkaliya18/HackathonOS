@@ -9,7 +9,7 @@ Sherpa is a globally installed AI agent skill that mentors hackathon teams acros
 [![Stars](https://img.shields.io/github/stars/Anshkaliya18/sherpa)](https://github.com/Anshkaliya18/sherpa/stargazers)
 [![Claude Code · OpenCode](https://img.shields.io/badge/agent%20files-Claude%20Code%20%7C%20OpenCode-9a4f2e)](AGENT-COMPATIBILITY.md)
 
-![demo](docs/public/demo.gif)
+![sherpa](docs/public/sherpa.gif)
 
 ## Install once
 

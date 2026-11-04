@@ -1,8 +1,12 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
-const origin = 'https://anshkaliya18.github.io'
-const base = '/sherpa/'
+// GitHub Pages project sites are served from /<repository>/. Derive both this
+// path and repository links from Actions so the site follows a later repo rename.
+const [repositoryOwner, repositoryName] = (process.env.GITHUB_REPOSITORY ?? 'Anshkaliya18/HackathonOS').split('/')
+const origin = `https://${repositoryOwner.toLowerCase()}.github.io`
+const base = process.env.VITEPRESS_BASE ?? `/${repositoryName}/`
+const repositoryUrl = `https://github.com/${repositoryOwner}/${repositoryName}`
 
 export default withMermaid(defineConfig({
   title: 'Sherpa',
@@ -21,7 +25,7 @@ export default withMermaid(defineConfig({
     logo: '/mark.svg',
     siteTitle: 'Sherpa',
     search: { provider: 'local' },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/Anshkaliya18/sherpa' }],
+    socialLinks: [{ icon: 'github', link: repositoryUrl }],
     nav: [
       { text: 'Field guide', link: '/getting-started/' },
       { text: 'Commands', link: '/reference/commands' },
@@ -48,7 +52,7 @@ export default withMermaid(defineConfig({
       ]},
     ],
     outline: { level: [2, 3] },
-    editLink: { pattern: 'https://github.com/Anshkaliya18/sherpa/edit/main/docs/:path', text: 'Edit this page on GitHub' },
+    editLink: { pattern: `${repositoryUrl}/edit/main/docs/:path`, text: 'Edit this page on GitHub' },
     footer: { message: 'Build with evidence. Keep the decisions yours.', copyright: 'Sherpa contributors · MIT License' },
   },
   head: [
