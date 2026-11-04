@@ -24,7 +24,6 @@ FINDING_TEMPLATE = ROOT / "templates" / "ux-finding.md"
 FLOW_TEMPLATE = ROOT / "templates" / "ux-flow.md"
 VERIFICATION_TEMPLATE = ROOT / "templates" / "ux-verification.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE11_AUDIT = ROOT / "audits" / "phase11-final-report.md"
 
 # Expected Phase 12 resources (already exist from legacy Phase 7 numbering,
 # but lifecycle.md identifies UX Review as Phase 12)
@@ -61,10 +60,10 @@ def count_occurrences(path: Path, pattern: str) -> int:
 # ---------------------------------------------------------------------------
 
 def test_at251_prerequisite_phase11_locked() -> None:
-    """Phase 12 requires Phase 11 to be complete and locked."""
-    assert PHASE11_AUDIT.is_file(), "Phase 11 final audit report missing"
-    audit_text = PHASE11_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 11 audit does not report COMPLETE & LOCKED"
+    """UX review consumes project testing/security records."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 5 test results/security review/findings" in text
+    assert "UX review BLOCKED" in text
 
 
 def test_at252_lifecycle_correctness() -> None:
@@ -366,8 +365,10 @@ def test_at285_no_fabricated_compliance() -> None:
 # ---------------------------------------------------------------------------
 
 def test_adv_01_missing_phase11() -> None:
-    """Missing Phase 11 blocks Phase 12."""
-    assert PHASE11_AUDIT.is_file() and "COMPLETE & LOCKED" in PHASE11_AUDIT.read_text(encoding="utf-8")
+    """Missing test/security evidence blocks substantive UX conclusions."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 5 test results/security review/findings" in text
+    assert "BLOCKED" in text
 
 
 def test_adv_02_missing_project_state() -> None:

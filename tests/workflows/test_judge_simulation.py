@@ -24,7 +24,6 @@ SESSION_TEMPLATE = ROOT / "templates" / "judge-session.md"
 QUESTION_TEMPLATE = ROOT / "templates" / "judge-question.md"
 CRITERION_TEMPLATE = ROOT / "templates" / "judge-criterion.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE13_AUDIT = ROOT / "audits" / "phase13-final-report.md"
 
 # Expected Phase 14 resources (already exist from legacy Phase 9 numbering,
 # but lifecycle.md identifies Judge Simulation as Phase 14)
@@ -47,10 +46,10 @@ def file_contains(path: Path, pattern: str) -> bool:
 # ---------------------------------------------------------------------------
 
 def test_at321_prerequisite_phase13_locked() -> None:
-    """Phase 14 requires Phase 13 to be complete and locked."""
-    assert PHASE13_AUDIT.is_file(), "Phase 13 final audit report missing"
-    audit_text = PHASE13_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 13 audit does not report COMPLETE & LOCKED"
+    """Judge simulation consumes Red Team project evidence."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "red-team" in text.lower()
+    assert ".hackathon/project-state.md" in text
 
 
 def test_at322_lifecycle_correctness() -> None:
@@ -348,8 +347,10 @@ def test_at355_evidence_integrity() -> None:
 # ---------------------------------------------------------------------------
 
 def test_adv_01_missing_phase13() -> None:
-    """Missing Phase 13 blocks Phase 14."""
-    assert PHASE13_AUDIT.is_file() and "COMPLETE & LOCKED" in PHASE13_AUDIT.read_text(encoding="utf-8")
+    """Missing Red Team evidence is handled as unknown or blocked."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "red-team" in text.lower()
+    assert "UNKNOWN" in text or "BLOCKED" in text
 
 
 def test_adv_02_partial_phase13() -> None:

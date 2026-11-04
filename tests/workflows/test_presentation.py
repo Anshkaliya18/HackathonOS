@@ -27,7 +27,6 @@ RISK_TEMPLATE = ROOT / "templates" / "presentation-risk.md"
 QNA_TEMPLATE = ROOT / "templates" / "presentation-qna.md"
 VERIFICATION_TEMPLATE = ROOT / "templates" / "presentation-verification.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE16_AUDIT = ROOT / "audits" / "phase16-final-report.md"
 
 # Expected Phase 17 resources
 PHASE17_FILES = [
@@ -56,10 +55,10 @@ def count_occurrences(path: Path, pattern: str) -> int:
 # ---------------------------------------------------------------------------
 
 def test_at426_prerequisite_phase16_locked() -> None:
-    """Phase 17 requires Phase 16 to be complete and locked."""
-    assert PHASE16_AUDIT.is_file(), "Phase 16 final audit report missing"
-    audit_text = PHASE16_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 16 audit does not report COMPLETE & LOCKED"
+    """Presentation preparation consumes demo project evidence."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 16 demo preparation evidence must exist" in text
+    assert ".hackathon/project-state.md" in text
 
 
 def test_at427_lifecycle_correctness() -> None:
@@ -345,8 +344,9 @@ def test_at460_primary_next_action() -> None:
 # ---------------------------------------------------------------------------
 
 def test_adv_01_missing_phase16() -> None:
-    """Missing Phase 16 blocks Phase 17."""
-    assert PHASE16_AUDIT.is_file() and "COMPLETE & LOCKED" in PHASE16_AUDIT.read_text(encoding="utf-8")
+    """Missing demo evidence remains an explicit prerequisite."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 16 demo preparation evidence must exist" in text
 
 
 def test_adv_02_partial_phase16() -> None:

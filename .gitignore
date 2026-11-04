@@ -31,6 +31,7 @@ __pycache__/
 venv/
 env/
 node_modules/
+docs/.vitepress/cache/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/

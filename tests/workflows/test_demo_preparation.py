@@ -26,7 +26,6 @@ VERIFICATION_TEMPLATE = ROOT / "templates" / "demo-verification.md"
 EVIDENCE_TEMPLATE = ROOT / "templates" / "demo-evidence.md"
 CHECKPOINT_TEMPLATE = ROOT / "templates" / "demo-checkpoint.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE15_AUDIT = ROOT / "audits" / "phase15-final-report.md"
 
 # Expected Phase 16 resources
 PHASE16_FILES = [
@@ -54,10 +53,10 @@ def count_occurrences(path: Path, pattern: str) -> int:
 # ---------------------------------------------------------------------------
 
 def test_at391_prerequisite_phase15_locked() -> None:
-    """Phase 16 requires Phase 15 to be complete and locked."""
-    assert PHASE15_AUDIT.is_file(), "Phase 15 final audit report missing"
-    audit_text = PHASE15_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 15 audit does not report COMPLETE & LOCKED"
+    """Demo preparation consumes score optimization project evidence."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 15 score optimization evidence must exist" in text
+    assert ".hackathon/project-state.md" in text
 
 
 def test_at392_lifecycle_correctness() -> None:
@@ -338,8 +337,9 @@ def test_at425_primary_next_action() -> None:
 # ---------------------------------------------------------------------------
 
 def test_adv_01_missing_phase15() -> None:
-    """Missing Phase 15 blocks Phase 16."""
-    assert PHASE15_AUDIT.is_file() and "COMPLETE & LOCKED" in PHASE15_AUDIT.read_text(encoding="utf-8")
+    """Missing score evidence remains a Demo Preparation prerequisite."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 15 score optimization evidence must exist" in text
 
 
 def test_adv_02_partial_phase15() -> None:

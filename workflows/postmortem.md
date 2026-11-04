@@ -6,9 +6,9 @@
 ## Prerequisites
 
 1. Read `SKILL.md` and `workflows/lifecycle.md`; require exactly 20 phases with Phase 18 Final Audit, Phase 19 Submission, Phase 20 Post-Mortem. Never extend or renumber.
-2. Read `audits/phase19-final-report.md`; require `PHASE 19 COMPLETE & LOCKED`, 35/35 acceptance, 30/30 adversarial, regression, scope and evidence integrity PASS. If not, stop with the exact blocker.
-3. Inspect Phase 19 rules, workflow, templates, harness and audit. Preserve every locked prior-phase artifact and behavior.
-4. Read `.hackathon/project-state.md` if present. If absent, record no live project state. Do not write project state into this framework repository.
+2. Read `.hackathon/project-state.md`, `.hackathon/submission-plan.md`, and relevant files under `.hackathon/submission/` when present. If these do not establish a completed submission-readiness review, scope the result as `CONDITIONAL — FRAMEWORK VALIDATION ONLY`; do not treat framework test output as project history.
+3. Inspect Phase 19 rules, workflow, and templates alongside the available project records. Preserve prior project artifacts and behavior.
+4. If project state is absent, record that no live project state was inspected. Never write project state into this framework repository.
 
 ## Procedure
 
@@ -57,7 +57,7 @@ Do not insert these values into the skill repository or overwrite prior state.
 
 ## Required report sections
 
-Use `templates/postmortem.md` and include all 35 numbered sections listed there. Keep actual project claims UNKNOWN where evidence is missing. The framework audit belongs at `audits/phase20-final-report.md`; the post-mortem artifact for a real project belongs under that project's `.hackathon/` directory.
+Use `templates/postmortem.md` and include all 35 numbered sections listed there. Keep actual project claims UNKNOWN where evidence is missing. The post-mortem artifact for a real project belongs under that project's `.hackathon/` directory. Contract harnesses report to stdout and do not create repository audit reports.
 
 ## Boundaries
 

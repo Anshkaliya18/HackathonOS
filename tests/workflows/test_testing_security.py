@@ -25,7 +25,6 @@ RESULT_TEMPLATE = ROOT / "templates" / "test-result.md"
 REVIEW_TEMPLATE = ROOT / "templates" / "security-review.md"
 FINDING_TEMPLATE = ROOT / "templates" / "security-finding.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE10_AUDIT = ROOT / "audits" / "phase10-final-report.md"
 
 # Expected Phase 11 resources (already exist from legacy Phase 5 numbering,
 # but lifecycle.md identifies Testing + Security as Phase 11)
@@ -84,13 +83,10 @@ def test_at217_resources_resolve() -> None:
 
 
 def test_at218_phase10_lock_required() -> None:
-    """Phase 11 requires Phase 10 to be complete and locked."""
-    assert PHASE10_AUDIT.is_file(), "Phase 10 final audit report missing"
-    audit_text = PHASE10_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 10 audit does not report COMPLETE & LOCKED"
-    # Workflow should reference implementation evidence (Phase 10 output)
+    """The workflow checks actual project implementation evidence."""
     workflow_text = WORKFLOW.read_text(encoding="utf-8")
-    assert "implementation" in workflow_text.lower(), "Workflow does not reference implementation evidence"
+    assert ".hackathon/project-state.md" in workflow_text
+    assert "implementation status" in workflow_text.lower()
 
 
 def test_at219_lifecycle_integrity() -> None:
@@ -391,15 +387,15 @@ def test_at250_exactly_one_primary_next_action() -> None:
 # ---------------------------------------------------------------------------
 
 def test_adv_01_missing_phase10() -> None:
-    """Missing Phase 10 blocks Phase 11."""
-    assert not PHASE10_AUDIT.is_file() or "COMPLETE & LOCKED" in PHASE10_AUDIT.read_text(encoding="utf-8"), \
-        "Phase 10 audit must exist and report COMPLETE & LOCKED"
+    """Missing implementation blocks substantive testing."""
+    workflow_text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Testing blocked until implementation exists." in workflow_text
 
 
 def test_adv_02_phase10_unlocked() -> None:
-    """Phase 10 unlocked prevents Phase 11 execution."""
-    audit_text = PHASE10_AUDIT.read_text(encoding="utf-8")
-    assert "LOCKED" in audit_text, "Phase 10 must be locked before Phase 11"
+    """Testing preserves the implementation workflow boundary."""
+    workflow_text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 4 files are frozen" in workflow_text
 
 
 def test_adv_03_missing_project() -> None:

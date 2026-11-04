@@ -23,7 +23,6 @@ PLAN_TEMPLATE = ROOT / "templates" / "score-optimization-plan.md"
 GAP_TEMPLATE = ROOT / "templates" / "gap-analysis.md"
 CANDIDATE_TEMPLATE = ROOT / "templates" / "improvement-candidate.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE14_AUDIT = ROOT / "audits" / "phase14-final-report.md"
 
 # Expected Phase 15 resources (already exist from legacy Phase 10 numbering,
 # but lifecycle.md identifies Score Optimization as Phase 15)
@@ -49,10 +48,10 @@ def count_occurrences(path: Path, pattern: str) -> int:
 # ---------------------------------------------------------------------------
 
 def test_at356_prerequisite_phase14_locked() -> None:
-    """Phase 15 requires Phase 14 to be complete and locked."""
-    assert PHASE14_AUDIT.is_file(), "Phase 14 final audit report missing"
-    audit_text = PHASE14_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 14 audit does not report COMPLETE & LOCKED"
+    """Score optimization consumes the project's judge simulation report."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert ".hackathon/judge-simulation.md" in text
+    assert "UNKNOWN" in text
 
 
 def test_at357_lifecycle_correctness() -> None:
@@ -348,8 +347,9 @@ def test_at390_primary_next_action() -> None:
 # ---------------------------------------------------------------------------
 
 def test_adv_01_missing_phase14() -> None:
-    """Missing Phase 14 blocks Phase 15."""
-    assert PHASE14_AUDIT.is_file() and "COMPLETE & LOCKED" in PHASE14_AUDIT.read_text(encoding="utf-8")
+    """Missing judge evidence is not replaced with a framework report."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert ".hackathon/judge-simulation.md" in text
 
 
 def test_adv_02_partial_phase14() -> None:

@@ -21,7 +21,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from verification import (  # noqa: E402
@@ -130,7 +130,7 @@ def main() -> int:
     check(
         "irrelevant semantic evidence",
         "HackathonOS reduces development time by 50%.",
-        "HackathonOS top-level directories: adapters, audits, commands, core, docs.",
+        "HackathonOS top-level directories: adapters, commands, core, docs.",
         UNSUPPORTED,
     )
 

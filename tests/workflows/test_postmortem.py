@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 FILES = {
     "skill": ROOT / "SKILL.md", "lifecycle": ROOT / "workflows/lifecycle.md",
-    "phase19": ROOT / "audits/phase19-final-report.md",
+    "submission_workflow": ROOT / "workflows/submission.md",
     "workflow": ROOT / "workflows/postmortem.md", "rules": ROOT / "rules/postmortem-rules.md",
     "report_template": ROOT / "templates/postmortem.md", "timeline": ROOT / "templates/timeline.md",
     "decision": ROOT / "templates/decision-log.md", "incident": ROOT / "templates/incident.md",
@@ -37,9 +37,9 @@ def guarded(record: dict) -> bool:
     return not any(record.get(key, False) for key in forbidden)
 
 checks = [
-("Prerequisite validation", lambda: check("PHASE 19 COMPLETE & LOCKED" in T["phase19"], "Phase 19 lock absent")),
+("Prerequisite validation", lambda: check(".hackathon/project-state.md" in T["workflow"] and ".hackathon/submission-plan.md" in T["workflow"] and "CONDITIONAL — FRAMEWORK VALIDATION ONLY" in T["workflow"], "project-scoped evidence gate absent")),
 ("Lifecycle exactly 20", lambda: check(sum(1 for x in PHASE_NAMES if re.search(rf'^\\| {re.escape(x)} \\|', T["lifecycle"], re.M)) == 20, "phase count")),
-("Phase 19 lock verification", lambda: check("Acceptance: 35/35 PASS" in T["phase19"] and "Adversarial: 30/30 PASS" in T["phase19"] and "Regression: PASS" in T["phase19"], "lock evidence incomplete")),
+("Submission source contract", lambda: check(".hackathon/final-audit.md" in T["submission_workflow"] and "Audit status: COMPLETE" in T["submission_workflow"], "project audit prerequisite missing")),
 ("Evidence labels", lambda: check(all(x in T["rules"] for x in ("FACT", "INFERENCE", "ASSUMPTION", "UNKNOWN")), "evidence model")),
 ("Outcome and causality separation", lambda: check("Correlation is not causation" in T["rules"] and "Causality states" in T["rules"], "causality contract")),
 ("Plan vs actual model", lambda: check("plan-vs-actual" in T["workflow"].lower() and "Plan vs Actual" in T["report_template"], "comparison missing")),
@@ -92,7 +92,7 @@ results=[]
 for idx,(name,fn) in enumerate(checks,531):
     try: fn(); status="PASS"; observed="PASS: contract assertion satisfied from repository evidence"
     except Exception as exc: status="FAIL"; observed=f"FAIL: {type(exc).__name__}: {exc}"
-    results.append({"id":f"AT-{idx}","description":name,"setup":"Read current Phase 20 contract and required Phase 19 evidence.","expected_result":"Contract is evidence-based and preserves historical and human authority.","observed_result":observed,"status":status,"evidence":f"Executed assertion tests/phase20/run_phase20.py::{name}"})
+    results.append({"id":f"AT-{idx}","description":name,"setup":"Read current postmortem contract and project-scoped submission workflow.","expected_result":"Contract is evidence-based and preserves historical and human authority.","observed_result":observed,"status":status,"evidence":f"Executed assertion tests/workflows/test_postmortem.py::{name}"})
 for idx,(name,key) in enumerate(adversarial_names,1):
     try:
         with tempfile.TemporaryDirectory(prefix="hackathonos-phase20-") as directory:
@@ -100,7 +100,7 @@ for idx,(name,key) in enumerate(adversarial_names,1):
             record=json.loads(fixture.read_text(encoding="utf-8")); assert not guarded(record), "unsafe fixture accepted"
         status="PASS"; observed="PASS: unsafe synthetic fixture rejected; no historical or project files changed"
     except Exception as exc: status="FAIL"; observed=f"FAIL: {type(exc).__name__}: {exc}"
-    results.append({"id":f"ADV-{idx:02d}","description":name,"setup":f"Disposable synthetic fixture with {key}=true.","expected_result":"Unsafe claim or mutation is rejected / remains UNKNOWN.","observed_result":observed,"status":status,"evidence":f"Executed assertion tests/phase20/run_phase20.py::ADV-{idx:02d}; temporary fixture only"})
+    results.append({"id":f"ADV-{idx:02d}","description":name,"setup":f"Disposable synthetic fixture with {key}=true.","expected_result":"Unsafe claim or mutation is rejected / remains UNKNOWN.","observed_result":observed,"status":status,"evidence":f"Executed assertion tests/workflows/test_postmortem.py::ADV-{idx:02d}; temporary fixture only"})
 
 passed=sum(r["status"]=="PASS" for r in results); at=results[:35]; adv=results[35:]
 print(json.dumps({"suite":"Phase 20 Post-Mortem Intelligence contract validation","scope":"repository contract assertions and disposable synthetic adversarial fixtures; no live project runtime","results":results,"summary":{"total":len(results),"passed":passed,"failed":len(results)-passed,"acceptance_total":len(at),"acceptance_passed":sum(r["status"]=="PASS" for r in at),"adversarial_total":len(adv),"adversarial_passed":sum(r["status"]=="PASS" for r in adv)}},indent=2))

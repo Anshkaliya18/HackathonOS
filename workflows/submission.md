@@ -6,8 +6,8 @@
 ## Hard prerequisites
 
 1. Read `workflows/lifecycle.md`; require exactly 20 phases in order: Phase 18 Final Audit, Phase 19 Submission, Phase 20 Post-Mortem. Do not renumber or repair.
-2. Read `audits/phase18-final-report.md`; require explicit `PHASE 18 COMPLETE & LOCKED`. If absent, stop and report the blocker.
-3. Inspect Phase 18 implementation, report, and applicable Phase 1–18 contracts. Preserve all locked behavior.
+2. Read `.hackathon/final-audit.md`; require `Audit status: COMPLETE`. If the artifact is absent or incomplete, stop and report the blocker. Never substitute a framework test report for project audit evidence.
+3. Inspect the Phase 18 project evidence and applicable Phase 1–18 contracts. Preserve prior project decisions and artifacts.
 4. Do not perform an actual competition submission or begin Phase 20.
 
 ## Procedure
@@ -31,7 +31,7 @@
 
 ## Required outputs
 
-Use the Phase 19 templates for requirement records, inventory, field mapping, links, risks, checklist, snapshot, and verification. Produce `.hackathon/submission-plan.md` and detailed evidence under `.hackathon/submission/` only in the actual project repository. Framework validation evidence belongs in `audits/phase19-final-report.md`. Keep `.hackathon/project-state.md` compact and add only the Phase 19 fields specified below; do not overwrite prior phase state.
+Use the Phase 19 templates for requirement records, inventory, field mapping, links, risks, checklist, snapshot, and verification. Produce `.hackathon/submission-plan.md` and detailed evidence under `.hackathon/submission/` only in the actual project repository. Contract harnesses report to stdout and do not create repository audit reports. Keep `.hackathon/project-state.md` compact and add only the Phase 19 fields specified below; do not overwrite prior phase state.
 
 ### Additive project-state fields only
 

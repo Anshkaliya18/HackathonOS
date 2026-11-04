@@ -12,7 +12,7 @@ FILES = {
     "rules": ROOT / "rules/submission-rules.md",
     "skill": ROOT / "SKILL.md",
     "lifecycle": ROOT / "workflows/lifecycle.md",
-    "phase18": ROOT / "audits/phase18-final-report.md",
+    "final_audit_workflow": ROOT / "workflows/final-audit.md",
     "plan": ROOT / "templates/submission-plan.md",
     "requirement": ROOT / "templates/submission-requirement.md",
     "artifact": ROOT / "templates/submission-artifact.md",
@@ -42,7 +42,7 @@ def ready(c: dict) -> bool:
 
 # Exact 35 acceptance assertions.
 checks = [
-("Phase 18 prerequisite", lambda: must("PHASE 18 COMPLETE & LOCKED" in T["phase18"] and "Phase 19: NOT STARTED" in T["phase18"], "lock evidence")),
+("Phase 18 prerequisite", lambda: must(".hackathon/final-audit.md" in T["workflow"] and "Audit status: COMPLETE" in T["workflow"] and ".hackathon/final-audit.md" in T["final_audit_workflow"], "project audit evidence")),
 ("Lifecycle phase count and identity", lambda: must(sum(line.startswith("| ") and line.endswith(" |") and line.split("|")[1].strip() in ("Understand Rules", "Analyze Problem", "Generate Ideas", "Validate Ideas", "Research Market", "Select Idea", "Design Product/MVP", "Architecture", "Development Plan", "Implementation", "Testing + Security", "UX Review", "Red Team", "Judge Simulation", "Score Optimization", "Demo Preparation", "PPT / Presentation", "Final Audit", "Submission", "Post-Mortem") for line in T["lifecycle"].splitlines()) == 20 and all(x in T["lifecycle"] for x in ("| Final Audit |", "| Submission |", "| Post-Mortem |")), "20 phases/order")),
 ("SUBMISSION-PREPARE router", lambda: must("SUBMISSION-PREPARE" in T["skill"] and "workflows/submission.md" in T["skill"], "route")),
 ("Phase 19 resources resolve", lambda: must(all(p.is_file() for p in FILES.values()), "resource missing")),
@@ -108,7 +108,7 @@ for i, (description, fn) in enumerate(checks, 496):
     results.append({"id": f"AT-{i}", "description": description, "setup": "Inspect actual Phase 19 contract files.",
                     "expected_result": "Required submission contract is explicit, bounded, and evidence-based.",
                     "observed_result": observed, "status": status,
-                    "evidence": f"Executed assertion in tests/phase19/run_phase19.py:AT-{i}"})
+                    "evidence": f"Executed assertion in tests/workflows/test_submission.py:AT-{i}"})
 for i, (description, key) in enumerate(adversarial, 1):
     try:
         candidate = {key: True}
@@ -119,7 +119,7 @@ for i, (description, key) in enumerate(adversarial, 1):
     results.append({"id": f"ADV-{i:02d}", "description": description,
                     "setup": f"Disposable synthetic fixture {key}=true", "expected_result": "Unsafe condition rejected or blocked.",
                     "observed_result": observed, "status": status,
-                    "evidence": f"Executed assertion in tests/phase19/run_phase19.py:ADV-{i:02d}; fixture only"})
+                    "evidence": f"Executed assertion in tests/workflows/test_submission.py:ADV-{i:02d}; fixture only"})
 
 with tempfile.TemporaryDirectory(prefix="hackathonos-phase19-") as d:
     fixture = Path(d) / "candidate.json"

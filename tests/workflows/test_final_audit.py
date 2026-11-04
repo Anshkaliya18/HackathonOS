@@ -28,7 +28,6 @@ SUBMISSION_TEMPLATE = ROOT / "templates" / "submission-readiness.md"
 RISK_TEMPLATE = ROOT / "templates" / "final-risk.md"
 VERIFICATION_TEMPLATE = ROOT / "templates" / "final-verification.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE17_AUDIT = ROOT / "audits" / "phase17-final-report.md"
 
 # Expected Phase 18 resources
 PHASE18_FILES = [
@@ -58,10 +57,10 @@ def count_occurrences(path: Path, pattern: str) -> int:
 # ---------------------------------------------------------------------------
 
 def test_at496_prerequisite_phase17_locked() -> None:
-    """Phase 18 requires Phase 17 to be complete and locked."""
-    assert PHASE17_AUDIT.is_file(), "Phase 17 final audit report missing"
-    audit_text = PHASE17_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 17 audit does not report COMPLETE & LOCKED"
+    """Final audit uses current-project state and presentation evidence."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert ".hackathon/project-state.md" in text
+    assert "Phase 17 presentation evidence must exist" in text
 
 
 def test_at497_lifecycle_correctness() -> None:
@@ -651,7 +650,7 @@ def main() -> int:
                 "expected_result": expected,
                 "observed_result": f"PASS: {test.__doc__ or description}",
                 "status": "PASS",
-                "evidence": f"Executed assertion: tests/phase18/run_phase18.py::{test.__name__}.",
+                "evidence": f"Executed assertion: tests/workflows/test_final_audit.py::{test.__name__}.",
             })
         except Exception as exc:
             results.append({
@@ -661,7 +660,7 @@ def main() -> int:
                 "expected_result": expected,
                 "observed_result": f"Assertion failed: {type(exc).__name__}: {exc}",
                 "status": "FAIL",
-                "evidence": f"Executed assertion: tests/phase18/run_phase18.py::{test.__name__}.",
+                "evidence": f"Executed assertion: tests/workflows/test_final_audit.py::{test.__name__}.",
             })
 
     passed = sum(1 for r in results if r["status"] == "PASS")

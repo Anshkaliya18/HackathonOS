@@ -3,7 +3,7 @@
 Run from the repository root:
 
 ```powershell
-python tests/phase6/run_smoke.py
+python tests/smoke/test_workflow_contracts.py
 ```
 
 ## Environment

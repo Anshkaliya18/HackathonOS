@@ -24,7 +24,6 @@ FINDING_TEMPLATE = ROOT / "templates" / "red-team-finding.md"
 SCENARIO_TEMPLATE = ROOT / "templates" / "red-team-scenario.md"
 VERIFICATION_TEMPLATE = ROOT / "templates" / "red-team-verification.md"
 LIFECYCLE = ROOT / "workflows" / "lifecycle.md"
-PHASE12_AUDIT = ROOT / "audits" / "phase12-final-report.md"
 
 # Expected Phase 13 resources (already exist from legacy Phase 8 numbering,
 # but lifecycle.md identifies Red Team as Phase 13)
@@ -47,10 +46,10 @@ def file_contains(path: Path, pattern: str) -> bool:
 # ---------------------------------------------------------------------------
 
 def test_at286_prerequisite_phase12_locked() -> None:
-    """Phase 13 requires Phase 12 to be complete and locked."""
-    assert PHASE12_AUDIT.is_file(), "Phase 12 final audit report missing"
-    audit_text = PHASE12_AUDIT.read_text(encoding="utf-8")
-    assert "COMPLETE & LOCKED" in audit_text, "Phase 12 audit does not report COMPLETE & LOCKED"
+    """Red Team consumes the project's UX evidence."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 7 UX evidence" in text
+    assert ".hackathon/project-state.md" in text
 
 
 def test_at287_lifecycle_correctness() -> None:
@@ -341,8 +340,10 @@ def test_at320_scope_audit() -> None:
 # ---------------------------------------------------------------------------
 
 def test_adv_01_missing_phase12() -> None:
-    """Missing Phase 12 blocks Phase 13."""
-    assert PHASE12_AUDIT.is_file() and "COMPLETE & LOCKED" in PHASE12_AUDIT.read_text(encoding="utf-8")
+    """Missing UX evidence remains an explicit Red Team prerequisite."""
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "Phase 7 UX evidence" in text
+    assert "Prerequisite" in text
 
 
 def test_adv_02_partial_phase12() -> None:
