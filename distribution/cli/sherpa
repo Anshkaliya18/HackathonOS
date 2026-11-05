@@ -51,7 +51,7 @@ CLI_NAME = "sherpa"
 
 # Embedded fallback version. Overridden by a VERSION file next to this script
 # when one is shipped by the installer/release.
-DEFAULT_CLI_VERSION = "2.0.6"
+DEFAULT_CLI_VERSION = "2.0.7"
 
 # Default release manifest URL. Users publishing their own releases override
 # this with SHERPA_RELEASE_MANIFEST_URL.

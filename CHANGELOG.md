@@ -1,5 +1,18 @@
 # Sherpa Changelog
 
+## [2.0.7] — 2026-11-06
+
+### Added
+
+- A shared Agent Skill entry for `.agents/skills/`, alongside native Codex, Gemini CLI, and Qwen Code plugin/extension manifests.
+- Claude Code marketplace metadata and package layouts for Claude, Codex, Gemini CLI, and Qwen Code.
+- Agent installation and release documentation that uses the public, unscoped npm package name.
+
+### Changed
+
+- The release archive and npm package now include skill and plugin files with the workflows they reference.
+- Runtime status remains explicitly unverified for new and updated agent adapters until each host is tested.
+
 ## [2.0.6] — 2026-11-06
 
 ### Fixed

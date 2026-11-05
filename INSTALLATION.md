@@ -5,38 +5,38 @@
 Windows PowerShell:
 
 ```powershell
-irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.6/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.7/install.ps1 | iex
 ```
 
 Linux/macOS:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.6/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.7/install.sh | bash
 ```
 
-These pinned commands use the Sherpa v2.0.6 release, which publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/Sherpa/releases).
+These pinned commands use the Sherpa v2.0.7 release, which publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/Sherpa/releases).
 
 ## npm installer
 
-The public npm package is `sherpa-skill` at version `2.0.6`:
+The public npm package is `sherpa-skill` at version `2.0.7`:
 
 ```powershell
-npm install --global sherpa-skill@2.0.6
+npm install --global sherpa-skill@2.0.7
 sherpa install --dry-run
-npx sherpa-skill@2.0.6 install --dry-run
-npx sherpa-skill@2.0.6 install --uninstall
+npx sherpa-skill@2.0.7 install --dry-run
+npx sherpa-skill@2.0.7 install --uninstall
 ```
 
-If you installed it locally with `npm install sherpa-skill@2.0.6`, run commands with `npx` because a local install does not add `sherpa` to your system `PATH`:
+If you installed it locally with `npm install sherpa-skill@2.0.7`, run commands with `npx` because a local install does not add `sherpa` to your system `PATH`:
 
 ```powershell
-npx sherpa-skill@2.0.6 --version
-npx sherpa-skill@2.0.6 doctor
-npx sherpa-skill@2.0.6 audit
-npx sherpa-skill@2.0.6 clean --dry-run
+npx sherpa-skill@2.0.7 --version
+npx sherpa-skill@2.0.7 doctor
+npx sherpa-skill@2.0.7 audit
+npx sherpa-skill@2.0.7 clean --dry-run
 ```
 
-The GitHub Packages mirror is `@anshkaliya18/sherpa-skill@2.0.6`. It requires a GitHub personal access token with `read:packages`; configure the `@anshkaliya18` scope to use `https://npm.pkg.github.com` before installing it. `install` reuses the platform installer and targets both Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--no-cli` skips the optional Python CLI, and `--uninstall` removes managed global skill and CLI files while preserving project data. See [npm publishing](docs/deployment/npm.md).
+For the normal public npm registry, use the unscoped `sherpa-skill` package shown above. The separate GitHub Packages mirror is scoped because GitHub requires scoped package names; see [npm publishing](docs/deployment/npm.md) only if you specifically use that registry. `install` targets Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--no-cli` skips the optional Python CLI, and `--uninstall` removes managed global skill and CLI files while preserving project data.
 
 ## Local/source use
 

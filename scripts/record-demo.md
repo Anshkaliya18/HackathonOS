@@ -4,7 +4,7 @@ Save the finished GIF as `docs/public/sherpa.gif`, replacing the clearly labeled
 
 ## Before recording
 
-1. Use a disposable demo project opened in Claude Code or OpenCode. Install sherpa first with the pinned command in [INSTALLATION.md](../INSTALLATION.md); npmjs.org currently publishes `sherpa-skill@2.0.6`.
+1. Use a disposable demo project opened in Claude Code or OpenCode. Install sherpa first with the pinned command in [INSTALLATION.md](../INSTALLATION.md); npmjs.org currently publishes `sherpa-skill@2.0.7`.
 2. Give the demo project one small, inspectable feature and run its actual test command. Keep the source, test, and terminal result visible in the project so the agent can refer to them.
 3. Close unrelated windows and hide secrets, personal paths, and notifications. Set the terminal font large enough to read at 1280×720 or larger.
 4. Start a screen recorder (OBS, Kap, or another recorder) and capture the agent terminal and the demo project. VHS is not included because the interactive agent session requires a signed-in host and produces variable output; a scripted tape would not reliably show a genuine recommendation.

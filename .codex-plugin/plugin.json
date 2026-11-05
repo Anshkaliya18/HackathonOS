@@ -1,0 +1,13 @@
+{
+  "name": "sherpa",
+  "version": "2.0.7",
+  "description": "AI hackathon mentor for idea selection, planning, implementation, testing, demos, and submission.",
+  "author": {
+    "name": "Anshkaliya18",
+    "url": "https://github.com/Anshkaliya18"
+  },
+  "homepage": "https://anshkaliya18.github.io/Sherpa/",
+  "repository": "https://github.com/Anshkaliya18/Sherpa",
+  "license": "MIT",
+  "skills": "./skills/"
+}

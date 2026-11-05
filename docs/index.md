@@ -20,7 +20,7 @@ hero:
 
 <InstallCopy />
 
-<p class="home-install-note">Install Sherpa v2.0.6 from the release assets. Windows PowerShell instructions are in the <a href="/sherpa/installation/">installation guide</a>.</p>
+<p class="home-install-note">Install Sherpa v2.0.7 from the release assets. Windows PowerShell instructions are in the <a href="/sherpa/installation/">installation guide</a>.</p>
 
 <div class="home-fieldnote">A good guide helps you choose a route, checks the weather, and leaves the decisions with you. Sherpa brings that rhythm to a hackathon build.</div>
 
@@ -60,4 +60,4 @@ See the full [agent compatibility notes](/agents/) for scope and evidence.
 - [Command reference](/reference/commands) — manifest-backed command and CLI details.
 - [Architecture](/architecture/) — how the skill, core, workflows, and project state fit together.
 
-<div class="home-fieldnote"><a href="https://github.com/Anshkaliya18/Sherpa">GitHub repository</a> · MIT License · version 2.0.6</div>
+<div class="home-fieldnote"><a href="https://github.com/Anshkaliya18/Sherpa">GitHub repository</a> · MIT License · version 2.0.7</div>

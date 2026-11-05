@@ -19,8 +19,8 @@ def tracked_files() -> list[Path]:
     result = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, check=True, capture_output=True)
     entries = result.stdout.decode().split("\0")
     excluded = {".git", ".claude", ".opencode", ".kilo", ".sherpa", "node_modules", "tests", "distribution", "package.json", "package-lock.json"}
-    allowed_directories = {"commands", "core", "workflows", "rules", "templates", "src", "scripts", "adapters", "docs"}
-    allowed_root_files = {"SKILL.md", "README.md", "LICENSE", ".env.sherpa.example"}
+    allowed_directories = {".agents", ".claude-plugin", ".codex-plugin", "skills", "commands", "core", "workflows", "rules", "templates", "src", "scripts", "adapters", "docs"}
+    allowed_root_files = {"SKILL.md", "README.md", "LICENSE", "plugin.json", "gemini-extension.json", "qwen-extension.json", "GEMINI.md", ".env.sherpa.example"}
     paths = []
     for name in entries:
         if not name:
@@ -43,7 +43,7 @@ def digest(path: Path) -> str:
 
 
 def main() -> int:
-    tag = os.environ.get("GITHUB_REF_NAME", "v2.0.6")
+    tag = os.environ.get("GITHUB_REF_NAME", "v2.0.7")
     version = tag[1:] if tag.startswith("v") else tag
     output = Path(sys.argv[1] if len(sys.argv) > 1 else ROOT / "release-assets").resolve()
     output.mkdir(parents=True, exist_ok=True)
@@ -81,7 +81,7 @@ def main() -> int:
         (output / filename).write_bytes(source.read_bytes())
     manifest = {
         "schema_version": 1, "project": "Sherpa",
-        "description": "AI agent skill that mentors hackathon teams for Claude Code and OpenCode",
+        "description": "AI hackathon mentor skill for Claude Code, Codex, Gemini CLI, Qwen Code, OpenCode, and Kilo Code",
         "latest": {"version": version, "channel": "stable"}, "archives": archives,
         "cli": {"name": "sherpa", "url": f"https://github.com/Anshkaliya18/Sherpa/releases/download/{tag}/{cli_name}",
                 "checksum": digest(cli_path), "size": cli_path.stat().st_size},

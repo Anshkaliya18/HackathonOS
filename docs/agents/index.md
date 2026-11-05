@@ -4,31 +4,31 @@ Before you set out, check the integration files and the host’s runtime behavio
 
 | Agent | Repository integration files | Global installer | Runtime status |
 |---|---|---:|---|
-| Claude Code | `.claude/skills/` | Yes | VERIFIED |
-| OpenCode | `.opencode/commands/` and package metadata | Yes | VERIFIED |
-| Kilo Code | `.kilo/commands/` | No | NOT VERIFIED |
-| Codex CLI | No verified native adapter | No | Not supported |
-| Qwen Code | No verified native adapter | No | Not supported |
-| Gemini CLI | No verified native adapter | No | Not supported |
+| Claude Code | Claude plugin marketplace and Agent Skill | npm installer | NOT VERIFIED |
+| Codex CLI / Codex app | Codex plugin manifest and Agent Skill | shared skill directory | NOT VERIFIED |
+| Gemini CLI | Gemini extension and Agent Skill | shared skill directory | NOT VERIFIED |
+| Qwen Code | Qwen extension and Agent Skill | shared skill directory | NOT VERIFIED |
+| OpenCode | Agent Skill and legacy commands | npm installer | NOT VERIFIED |
+| Kilo Code | Agent Skill and project commands | shared skill directory | NOT VERIFIED |
 | Generic host | Root `SKILL.md`, only when manually supported | No | Host-dependent |
 
-The status values follow [`commands/manifest.json`](https://github.com/Anshkaliya18/Sherpa/blob/main/commands/manifest.json). The global installer targets Claude Code and OpenCode. Kilo files are repository-local. Do not infer runtime support from adapter files or installer success.
+Sherpa packages a shared Agent Skill in `.agents/skills/sherpa/` plus plugin/extension manifests for Claude Code, Codex, Gemini CLI, and Qwen Code. Current host documentation recognizes these skill or extension formats, which establishes format compatibility only. Runtime loading and slash-command behavior must be verified independently. The global CLI installer currently targets Claude Code and OpenCode.
 
 ## Claude Code
 
-Files are checked in under `.claude/skills/`, and the installer targets `~/.claude/skills/sherpa/`. After installation, open a project and try `/sherpa help` if the host exposes the skill. Runtime discovery has been verified.
+Install through the repository marketplace with `/plugin marketplace add Anshkaliya18/Sherpa`, then `/plugin install sherpa@sherpa`. The npm installer is also available with `npm install --global sherpa-skill`; it copies the skill into Claude Code and OpenCode's personal skill folders. Start a new session after plugin installation. The plugin runtime is not yet verified.
 
 ## OpenCode
 
-Command files and package metadata are checked in under `.opencode/`; the installer targets `~/.config/opencode/skills/sherpa/`. Runtime loading is verified.
+The repository includes the shared Agent Skill and legacy `.opencode/` command files. The npm installer targets `~/.config/opencode/skills/sherpa/`. Runtime loading of the new shared entry remains unverified.
 
 ## Kilo Code
 
-`kilo.jsonc` loads the project's `.kilo/rules/sherpa-project.md`; slash commands are in `.kilo/commands/`, and the Sherpa entry point for Kilo's Skills list is `.kilo/skills/sherpa-skill/SKILL.md`. They are available when Kilo opens this repository. No global installer is provided, and runtime loading remains unverified. See the [Kilo adapter notes](https://github.com/Anshkaliya18/Sherpa/blob/main/adapters/kilo/README.md). Validate in a disposable project before relying on them.
+Kilo Code can load `.agents/skills/sherpa/` as an Open Agent Skill; the repository's `.kilo/` commands and rules remain available for project use. Runtime loading remains unverified. See the [Kilo adapter notes](https://github.com/Anshkaliya18/Sherpa/blob/main/adapters/kilo/README.md).
 
-## Other agents
+## Codex, Gemini CLI, and Qwen Code
 
-No verified native adapter or installer target is provided for Codex CLI, Qwen Code, or Gemini CLI. A generic host may accept the root `SKILL.md`, but behavior depends on that host.
+All three can use `.agents/skills/sherpa/`. Codex also has `.codex-plugin/plugin.json` and a repository-local marketplace; add the repository with `codex plugin marketplace add Anshkaliya18/Sherpa`, then add the `sherpa@sherpa` plugin from that marketplace. Gemini CLI has `gemini-extension.json`; install it with `gemini extensions install https://github.com/Anshkaliya18/Sherpa`. Qwen Code has `qwen-extension.json`; install with `qwen extensions install https://github.com/Anshkaliya18/Sherpa`. Qwen also supports the Claude marketplace. These registration flows are not yet verified in live host runtimes. See upstream [Codex plugin documentation](https://developers.openai.com/plugins/build/plugins), [Gemini extension documentation](https://geminicli.com/docs/extensions/), and [Qwen extension documentation](https://github.com/QwenLM/qwen-code/blob/main/docs/users/extension/introduction.md).
 
 ## Updating a compatibility claim
 

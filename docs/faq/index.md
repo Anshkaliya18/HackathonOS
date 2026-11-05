@@ -18,7 +18,7 @@ No. It prepares and verifies materials without submitting them.
 
 ## Which agents are supported?
 
-Integration files exist for Claude Code, OpenCode, and Kilo Code, but runtime loading is marked `NOT VERIFIED`. The global installer targets Claude Code and OpenCode. Codex CLI, Qwen Code, and Gemini CLI have no verified native adapter.
+Sherpa ships a shared Agent Skill and host manifests for Claude Code, Codex, Gemini CLI, Qwen Code, OpenCode, and Kilo Code. Runtime loading remains `NOT VERIFIED` for the updated adapters. The global installer currently targets Claude Code and OpenCode; other hosts use their shared skill directory or plugin/extension flow described in the [agent guide](/agents/).
 
 ## Is `/sherpa audit` the same as `sherpa audit`?
 

@@ -4,14 +4,14 @@ Before you pack, choose an install method that fits your machine. Sherpa is a gl
 
 ## Release status
 
-Sherpa v2.0.6 is available from GitHub Releases. From a checkout, the Windows PowerShell installer uses a filtered local source tree. Runtime loading by Claude Code and OpenCode remains **NOT VERIFIED**.
+Sherpa v2.0.7 is available from GitHub Releases and npm. The package includes the shared Agent Skill and native plugin/extension manifests. Manifest presence does not itself verify runtime loading.
 
 ## Windows PowerShell
 
 After release, use the version-pinned installer:
 
 ```powershell
-irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.6/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.7/install.ps1 | iex
 ```
 
 From a checkout, run `./distribution/install.ps1 -Both`. To install the agent skill without the optional Python CLI, run `./distribution/install.ps1 -Both -NoCli` or set `$env:SHERPA_INSTALL_CLI = '0'`. The CLI requires Python 3; its Windows launcher supports either `python` or the `py` launcher. Install paths are `~/.claude/skills/sherpa/`, `~/.config/opencode/skills/sherpa/`, and `%USERPROFILE%\AppData\Local\Sherpa\bin` for the CLI.
@@ -21,7 +21,7 @@ From a checkout, run `./distribution/install.ps1 -Both`. To install the agent sk
 After release:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.6/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.7/install.sh | bash
 ```
 
 From a checkout, use `bash distribution/install.sh --both`. Skill directories are `~/.claude/skills/sherpa/` and `~/.config/opencode/skills/sherpa/`; the CLI is installed under `~/.local/bin/`.
@@ -32,7 +32,7 @@ The shell installer accepts `--claude`, `--opencode`, `--both`, `--version VERSI
 
 Use uppercase `SHERPA_RELEASE_MANIFEST_URL`, `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`. Former `sherpa_*` variables are accepted for one release. See [migration notes](/migration).
 
-The public npm package is `sherpa-skill@2.0.6`. Install it with `npm install --global sherpa-skill@2.0.6`, then preview the install using `sherpa install --dry-run`. If you install locally with `npm install sherpa-skill@2.0.6`, use `npx sherpa-skill@2.0.6 doctor` because local packages do not add commands to the system `PATH`. A scoped mirror is also available through GitHub Packages as `@anshkaliya18/sherpa-skill@2.0.6`; it requires GitHub Packages authentication (`read:packages`).
+The public npm package is `sherpa-skill@2.0.7`. Install it with `npm install --global sherpa-skill@2.0.7`, then preview the install using `sherpa install --dry-run`. If you install locally, run commands with `npx sherpa-skill@2.0.7 doctor`. Public npm commands use the unscoped package name.
 
 ## Verify, migrate, update
 
@@ -45,7 +45,7 @@ sherpa clean --dry-run
 
 The npm launcher forwards `sherpa --version`, `sherpa update`, `sherpa doctor`, `sherpa audit`, and `sherpa clean` to its bundled Python CLI; these commands require Python 3. Use `sherpa update` for a checksummed release update. If a project still has `.hackathon/` but not `.sherpa/`, Sherpa reads the old state with a deprecation notice. Run `sherpa migrate` to copy it without deleting or overwriting existing data.
 
-When the package is installed locally rather than globally, prefix these CLI commands with `npx sherpa-skill@2.0.6`.
+When the package is installed locally rather than globally, prefix these CLI commands with `npx sherpa-skill@2.0.7`.
 
 ## Uninstall
 

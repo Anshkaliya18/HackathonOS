@@ -21,7 +21,7 @@
   <text x="80" y="232" fill="#f4fbfa" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="700">Build the right thing.</text>
   <text x="80" y="300" fill="#f4fbfa" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="700">Prove it works.</text>
   <text x="80" y="368" fill="#f4fbfa" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="700">Show why it matters.</text>
-  <text x="82" y="422" fill="#a9c4ca" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="22">An evidence-led hackathon mentor skill for Claude Code and OpenCode.</text>
+  <text x="82" y="422" fill="#a9c4ca" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="22">An evidence-led hackathon mentor skill for coding agents.</text>
   <g filter="url(#shadow)" transform="translate(80 486)">
     <rect width="492" height="72" rx="14" fill="#071117" stroke="#2dd4bf" stroke-opacity=".35"/>
     <circle cx="25" cy="24" r="5" fill="#ff7e7e"/><circle cx="43" cy="24" r="5" fill="#f8c15c"/><circle cx="61" cy="24" r="5" fill="#53d39b"/>

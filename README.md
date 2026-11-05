@@ -2,7 +2,7 @@
 
 **Build the right thing. Prove it works. Show why it matters.**
 
-In 30 seconds you get an AI hackathon mentor installed in Claude Code or OpenCode that takes your team from a vague idea to a scoped, evidence-backed plan — and a demo you can defend to judges.
+Sherpa is a portable Agent Skill and plugin for Claude Code, Codex, Gemini CLI, Qwen Code, OpenCode, and Kilo Code. It mentors hackathon projects from rules and idea selection through planning, implementation, testing, and submission.
 
 ```bash
 npm install -g sherpa-skill
@@ -26,7 +26,7 @@ Then in your agent:
 [![npm version](https://img.shields.io/npm/v/sherpa-skill)](https://www.npmjs.com/package/sherpa-skill)
 [![MIT License](https://img.shields.io/badge/license-MIT-244d47.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/Anshkaliya18/sherpa)](https://github.com/Anshkaliya18/sherpa/stargazers)
-[![Agent files: Claude Code · OpenCode](https://img.shields.io/badge/agent%20files-Claude%20Code%20%7C%20OpenCode-9a4f2e)](AGENT-COMPATIBILITY.md)
+[![Agent files: Claude · Codex · Gemini · Qwen · OpenCode · Kilo](https://img.shields.io/badge/agent%20files-Claude%20%7C%20Codex%20%7C%20Gemini%20%7C%20Qwen-9a4f2e)](AGENT-COMPATIBILITY.md)
 
 ![sherpa](docs/public/sherpa.gif)
 
@@ -118,14 +118,18 @@ Each operation maps to a real workflow in `workflows/` (e.g. `idea-intelligence.
 
 | Agent | Integration files | Global installer | Runtime status |
 |---|---|---:|---|
-| Claude Code | `.claude/skills/` skill and command files | Yes | VERIFIED |
-| OpenCode | `.opencode/commands/` and package metadata | Yes | VERIFIED |
-| Kilo Code | `kilo.jsonc`, `.kilo/rules/`, `.kilo/commands/`, `.kilo/skills/` | No | NOT VERIFIED |
-| Codex CLI, Qwen Code, Gemini CLI | No verified native adapter | No | Not supported |
+| Claude Code | Claude plugin marketplace and Agent Skill | npm installer | NOT VERIFIED |
+| Codex CLI / Codex app | Codex plugin manifest and Agent Skill | shared skill | NOT VERIFIED |
+| Gemini CLI | Gemini extension and Agent Skill | shared skill | NOT VERIFIED |
+| Qwen Code | Qwen extension and Agent Skill | shared skill | NOT VERIFIED |
+| OpenCode | Agent Skill and legacy commands | npm installer | NOT VERIFIED |
+| Kilo Code | Agent Skill and project commands | shared skill | NOT VERIFIED |
 
 Details and evidence: [agent compatibility](AGENT-COMPATIBILITY.md).
 
-Verified status is updated only after runtime testing. The table above reflects integration-file coverage, not confirmed runtime loading.
+Sherpa keeps one shared skill and packages host-specific manifests around it. These manifests establish install formats, not runtime support. Compatibility claims remain NOT VERIFIED until the current host discovers and runs Sherpa.
+
+Install from Claude Code with `/plugin marketplace add Anshkaliya18/Sherpa` and `/plugin install sherpa@sherpa`. Gemini CLI and Qwen Code can install this repository with `gemini extensions install https://github.com/Anshkaliya18/Sherpa` and `qwen extensions install https://github.com/Anshkaliya18/Sherpa`. Codex, Gemini CLI, Qwen Code, Kilo Code, and OpenCode can also load `.agents/skills/sherpa/` through the shared Agent Skills directory. See the [agent guide](docs/agents/index.md) for Codex setup and verification limits.
 
 Help us verify: install Sherpa on your agent, run `/sherpa status` and `/sherpa next`, and open an issue with your results.
 

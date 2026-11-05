@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repository="Anshkaliya18/sherpa"
-description="Globally installed AI agent skill and hackathon mentor for Claude Code and OpenCode."
+description="A portable AI hackathon mentor skill and plugin for multiple coding agents."
 homepage="https://anshkaliya18.github.io/sherpa/"
 
 gh auth status
