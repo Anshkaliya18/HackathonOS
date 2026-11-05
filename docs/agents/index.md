@@ -24,7 +24,7 @@ Command files and package metadata are checked in under `.opencode/`; the instal
 
 ## Kilo Code
 
-`kilo.jsonc` loads the project's `.kilo/rules/sherpa-project.md`; slash commands are in `.kilo/commands/`. They are available when Kilo opens this repository. No global installer is provided, and runtime loading remains unverified. See the [Kilo adapter notes](https://github.com/Anshkaliya18/Sherpa/blob/main/adapters/kilo/README.md). Validate in a disposable project before relying on them.
+`kilo.jsonc` loads the project's `.kilo/rules/sherpa-project.md`; slash commands are in `.kilo/commands/`, and the Sherpa entry point for Kilo's Skills list is `.kilo/skills/sherpa-skill/SKILL.md`. They are available when Kilo opens this repository. No global installer is provided, and runtime loading remains unverified. See the [Kilo adapter notes](https://github.com/Anshkaliya18/Sherpa/blob/main/adapters/kilo/README.md). Validate in a disposable project before relying on them.
 
 ## Other agents
 

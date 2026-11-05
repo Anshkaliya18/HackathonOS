@@ -6,7 +6,7 @@ Compatibility means integration files exist; runtime loading is a separate verif
 |---|---|---|---|
 | Claude Code | `.claude/skills/` skill and command files | Repo; global installer targets `~/.claude/skills/sherpa/` | NOT VERIFIED |
 | OpenCode | `.opencode/commands/` and package metadata | Repo; global installer targets `~/.config/opencode/skills/sherpa/` | NOT VERIFIED |
-| Kilo Code | `kilo.jsonc`, `.kilo/rules/`, `.kilo/commands/` | Repository project configuration | NOT VERIFIED |
+| Kilo Code | `kilo.jsonc`, `.kilo/rules/`, `.kilo/commands/`, `.kilo/skills/` | Repository project configuration | NOT VERIFIED |
 | Codex CLI | No verified native adapter | Not supported by installer | Not verified |
 | Qwen Code | No verified native adapter | Not supported | Not verified |
 | Gemini CLI | No verified native adapter | Not supported | Not verified |

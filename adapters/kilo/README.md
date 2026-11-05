@@ -4,6 +4,7 @@ This repository is configured for project-local Kilo Code workflows.
 
 - `kilo.jsonc` loads `.kilo/rules/sherpa-project.md` as project instructions.
 - `.kilo/commands/` contains the slash commands. Kilo derives each command name from its filename, for example `sherpa-status.md` becomes `/sherpa-status`.
+- `.kilo/skills/sherpa-skill/SKILL.md` registers Sherpa in Kilo's Skills list and points back to the canonical root `SKILL.md`.
 - The command files are thin entry points. `SKILL.md`, `commands/manifest.json`, `core/commands/router.py`, and the referenced workflow remain canonical.
 - No Kilo global install is performed; the commands are available when Kilo opens this repository.
 

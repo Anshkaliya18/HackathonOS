@@ -118,7 +118,7 @@ Each operation maps to a real workflow in `workflows/` (e.g. `idea-intelligence.
 |---|---|---:|---|
 | Claude Code | `.claude/skills/` skill and command files | Yes | VERIFIED |
 | OpenCode | `.opencode/commands/` and package metadata | Yes | VERIFIED |
-| Kilo Code | `kilo.jsonc`, `.kilo/rules/`, `.kilo/commands/` | No | NOT VERIFIED |
+| Kilo Code | `kilo.jsonc`, `.kilo/rules/`, `.kilo/commands/`, `.kilo/skills/` | No | NOT VERIFIED |
 | Codex CLI, Qwen Code, Gemini CLI | No verified native adapter | No | Not supported |
 
 Details and evidence: [agent compatibility](AGENT-COMPATIBILITY.md).
