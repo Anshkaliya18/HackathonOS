@@ -2,68 +2,130 @@
 
 **Build the right thing. Prove it works. Show why it matters.**
 
-Sherpa is a globally installed AI agent skill that mentors hackathon teams across projects, from idea selection through verification, demo preparation, and submission.
+Sherpa is an AI hackathon mentor skill for Claude Code and OpenCode. It stays with a project from idea selection through verification, demo preparation, and submission — optimizing for judging impact per unit time, not feature count. It challenges weak decisions, flags unsupported claims, and never silently picks an idea or writes code without a human gate.
 
+[![npm version](https://img.shields.io/npm/v/sherpa-skill)](https://www.npmjs.com/package/sherpa-skill)
 [![MIT License](https://img.shields.io/badge/license-MIT-244d47.svg)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/Anshkaliya18/Sherpa)](https://github.com/Anshkaliya18/Sherpa/releases)
-[![Stars](https://img.shields.io/github/stars/Anshkaliya18/Sherpa)](https://github.com/Anshkaliya18/Sherpa/stargazers)
-[![Claude Code · OpenCode](https://img.shields.io/badge/agent%20files-Claude%20Code%20%7C%20OpenCode-9a4f2e)](AGENT-COMPATIBILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/Anshkaliya18/sherpa)](https://github.com/Anshkaliya18/sherpa/stargazers)
+[![Agent files: Claude Code · OpenCode](https://img.shields.io/badge/agent%20files-Claude%20Code%20%7C%20OpenCode-9a4f2e)](AGENT-COMPATIBILITY.md)
 
 ![sherpa](docs/public/sherpa.gif)
 
-## Install once
+## What is Sherpa?
 
-Install from the version-pinned Sherpa v2.0.1 release asset:
+Sherpa is a reusable skill that installs once per agent (Claude Code and OpenCode) and mentors a hackathon team across the whole lifecycle. It surfaces what's actually known versus assumed, forces human approval before consequential work, and keeps project state in `.sherpa/` so it survives restarts and context switches. Use it to move from a vague idea to a scoped, evidence-backed plan — and a demo you can defend to judges.
+
+## Install
+
+The npm package is published as `sherpa-skill` (the name `sherpa` is already taken on npm).
+
+### Option 1: npm (recommended)
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.sh | bash
+npm install -g sherpa-skill
+sherpa install
 ```
 
-The same release contains `install.ps1` for Windows PowerShell. The npm package name is `sherpa-skill` (`sherpa` is already taken on npm); its first publication is still pending.
+This installs the Sherpa skill for both Claude Code and OpenCode, plus the `sherpa` distribution CLI. To preview without writing files:
 
-## Try it now
+```bash
+sherpa install --dry-run
+```
+
+To install only the skill (skip the CLI):
+
+```bash
+sherpa install --no-cli
+```
+
+To remove:
+
+```bash
+sherpa uninstall
+```
+
+The npm wrapper commands are `install`, `migrate`, and `uninstall`. (The separate `sherpa` CLI installed by the release script below supports `update`, `doctor`, `audit`, `clean`, and `help`.)
+
+Node.js is required to run the npm package. `package.json` does not declare an `engines` field, so no specific Node version is pinned — use a current LTS release.
+
+### Option 2: Other install methods (release installers)
+
+The release installers download a versioned GitHub Releases archive, verify its SHA-256 checksum, and install the skill and CLI:
+
+macOS / Linux:
+```bash
+curl -fsSL https://github.com/Anshkaliya18/sherpa/releases/latest/download/install.sh | bash
+```
+
+Windows PowerShell:
+```powershell
+irm https://github.com/Anshkaliya18/sherpa/releases/latest/download/install.ps1 | iex
+```
+
+Both installers target `~/.claude/skills/sherpa/` (Claude Code) and `~/.config/opencode/skills/sherpa/` (OpenCode) by default and never touch your project data or `.sherpa/` directories.
+
+## See it in action
+
+The following is an illustrative example, not a guaranteed transcript. It shows how a vague team idea becomes a scoped plan using real `/sherpa` operations.
+
+**Before** — a vague team idea:
+> "We should build something for campus accessibility. Maybe an app?"
+
+**After** — walking the idea through Sherpa operations:
 
 ```text
-/sherpa help
-/sherpa suggest
-/sherpa next
+/sherpa suggest ideas for campus accessibility
+# -> Surfaces candidate ideas with pros/cons, risks, and judging-impact notes.
+#    Human picks one; Sherpa never auto-selects.
+
+/sherpa evaluate the chosen idea
+# -> Compares candidates against evidence and criteria, then recommends.
+
+/sherpa plan
+# -> Writes an implementation-ready engineering plan to .sherpa/.
+#    Architecture is not auto-approved and no code is written yet.
+
+/sherpa demo
+# -> Produces a judge-oriented demo preparation plan from validated evidence.
+
+/sherpa submission
+# -> Verifies and freezes submission materials without submitting.
+
+/sherpa status
+# -> Shows where you are, what's complete, what's broken, and the risks.
 ```
 
-The host's runtime command loading has not been verified; see the [supported agents table](AGENT-COMPATIBILITY.md).
-
-## How Sherpa guides the work
-
-- **Evidence-led:** keep facts, assumptions, and unknowns distinct.
-- **Human approval gates:** recommendations do not silently choose ideas or approve consequential work.
-- **Project-local notes:** project context and generated records live in `.sherpa/`.
-- **Plain compatibility status:** integration files, installer coverage, and runtime checks are tracked separately.
+Each operation maps to a real workflow in `workflows/` (e.g. `idea-intelligence.md`, `project-planning.md`, `demo-preparation.md`, `submission.md`) and is registered in `commands/manifest.json`. Invoke as `/sherpa <operation> [focus]`.
 
 ## Supported agents
 
 | Agent | Integration files | Global installer | Runtime status |
 |---|---|---:|---|
-| Claude Code | `.claude/skills/` | Yes | NOT VERIFIED |
+| Claude Code | `.claude/skills/` skill and command files | Yes | NOT VERIFIED |
 | OpenCode | `.opencode/commands/` and package metadata | Yes | NOT VERIFIED |
 | Kilo Code | `.kilo/commands/` | No | NOT VERIFIED |
 | Codex CLI, Qwen Code, Gemini CLI | No verified native adapter | No | Not supported |
 
 Details and evidence: [agent compatibility](AGENT-COMPATIBILITY.md).
 
+Verified status is updated only after runtime testing. The table above reflects integration-file coverage, not confirmed runtime loading.
+
+Help us verify: install Sherpa on your agent, run `/sherpa status` and `/sherpa next`, and open an issue with your results.
+
+## Why Sherpa
+
+- **Evidence-led:** facts, assumptions, and unknowns are kept distinct; `UNKNOWN` is used when information is unavailable.
+- **Human approval gates:** recommendations never silently choose ideas or approve consequential work — you confirm each step.
+- **Project-local notes:** project context and generated records live in `.sherpa/` inside your repo, not in the skill directory.
+- **Full lifecycle coverage:** idea selection → planning → implementation → testing/security → demo prep → submission → postmortem.
+
+## Contributing / Community
+
+- [Contributing guide](CONTRIBUTING.md) — pull requests welcome.
+- Look for issues labeled **good first issue**.
+- [Open an issue](https://github.com/Anshkaliya18/sherpa/issues) for bugs or verification reports.
+- [GitHub Discussions](https://github.com/Anshkaliya18/sherpa/discussions) for questions and ideas.
+
 ## Documentation
 
-The [Sherpa field guide](https://anshkaliya18.github.io/Sherpa/) includes installation, a first-ascent tutorial, lifecycle guides, and a searchable command explorer.
-
-Useful project references: [installation](INSTALLATION.md) · [commands](COMMANDS.md) · [workflows](WORKFLOWS.md) · [configuration](CONFIGURATION.md) · [architecture](ARCHITECTURE.md) · [security](SECURITY.md) · [migration](MIGRATION.md) · [contributing](CONTRIBUTING.md) · [changelog](CHANGELOG.md).
-
-## Repository map
-
-| Path | Purpose |
-|---|---|
-| `SKILL.md` | Mentoring behavior and routing |
-| `commands/` | Command definitions and compatibility metadata |
-| `core/`, `workflows/`, `rules/` | Shared logic, lifecycle guides, and safety rules |
-| `templates/` | Reusable project artifacts |
-| `adapters/`, `.claude/`, `.opencode/`, `.kilo/` | Agent integration files |
-| `distribution/` | Installers, CLI, and release tooling |
-| `docs/` | VitePress field guide |
-| `tests/` | Command, workflow, regression, and installer checks |
+Field guide: https://anshkaliya18.github.io/Sherpa/ · Project references: [installation](INSTALLATION.md) · [commands](COMMANDS.md) · [workflows](WORKFLOWS.md) · [configuration](CONFIGURATION.md) · [architecture](ARCHITECTURE.md) · [security](SECURITY.md) · [migration](MIGRATION.md) · [contributing](CONTRIBUTING.md) · [changelog](CHANGELOG.md).

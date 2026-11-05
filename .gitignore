@@ -49,6 +49,7 @@ tmp/
 temp/
 *.tmp
 *.bak
+*.tgz
 
 # OS/editor metadata
 .DS_Store
