@@ -26,6 +26,7 @@
         "skills/",
         ".agents/plugins/marketplace.json",
         ".agents/skills/sherpa/SKILL.md",
+        ".agents/skills/sherpa-*/SKILL.md",
         ".agents/skills/sherpa/commands/",
         ".agents/skills/sherpa/core/**/*.py",
         ".agents/skills/sherpa/workflows/",

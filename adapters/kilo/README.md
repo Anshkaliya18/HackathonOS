@@ -8,7 +8,7 @@ This repository is configured for project-local Kilo Code workflows.
 - The command files are thin entry points. `SKILL.md`, `commands/manifest.json`, `core/commands/router.py`, and the referenced workflow remain canonical.
 - No Kilo global install is performed; the commands are available when Kilo opens this repository.
 
-Use `/sherpa` or a specific command such as `/sherpa-status`. `/sherpa-cmds` lists the available commands through the help operation. Kilo's workflow documentation does not document argument substitution, so the adapters do not depend on trailing-argument substitution. Project state must stay in the consuming project's `.sherpa/` directory, with existing approval gates and safety rules intact.
+Open this repository as the Kilo workspace, start a new session or reload the window after updating, then type `/sherpa-` to filter project workflows in the slash-command picker. Use `/sherpa` or a specific command such as `/sherpa-status`; `/sherpa-cmds` lists the available commands through the help operation. These `.kilo/commands/` files are project-scoped, so they appear only when Kilo has this repository open. Kilo's workflow documentation does not document argument substitution, so the adapters do not depend on trailing-argument substitution. Project state must stay in the consuming project's `.sherpa/` directory, with existing approval gates and safety rules intact.
 
 **Runtime status: NOT VERIFIED.** Configuration and command files do not establish host runtime compatibility. Verify discovery and invocation in the target Kilo Code installation before changing the compatibility status.
 
