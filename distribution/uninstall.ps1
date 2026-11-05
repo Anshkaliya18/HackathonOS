@@ -18,9 +18,6 @@ $CLI_NAME = "sherpa"
 $CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\sherpa\bin"
 $CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\sherpa"
 $OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\sherpa"
-$LEGACY_CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\hackathonos"
-$LEGACY_OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\hackathonos"
-$LEGACY_CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
 
 function Write-Ok { param([string] $M) Write-Host ("  + " + $M) -ForegroundColor Green }
 function Write-Info { param([string] $M) Write-Host ("  > " + $M) }
@@ -40,8 +37,6 @@ if (Test-Path (Join-Path $OPENCODE_SKILL_DIR "SKILL.md")) {
 }
 $cliExe = Join-Path $CLI_BIN_DIR $CLI_NAME
 $cliBat = Join-Path $CLI_BIN_DIR "${CLI_NAME}.bat"
-$legacyShim = Join-Path $CLI_BIN_DIR "hackathonos.bat"
-$oldShim = Join-Path $LEGACY_CLI_BIN_DIR "hackathonos.bat"
 if (Test-Path $cliExe -or Test-Path $cliBat) {
     Write-Host ("  * CLI: {0}" -f $CLI_BIN_DIR) -ForegroundColor Green
     $removed++
@@ -69,11 +64,6 @@ if (Test-Path (Join-Path $OPENCODE_SKILL_DIR "SKILL.md")) {
 }
 if (Test-Path $cliExe) { Remove-Item -Path $cliExe -Force }
 if (Test-Path $cliBat) { Remove-Item -Path $cliBat -Force }
-if (Test-Path $legacyShim) { Remove-Item -Path $legacyShim -Force }
-if (Test-Path $oldShim) { Remove-Item -Path $oldShim -Force }
-foreach ($legacyDir in @($LEGACY_CLAUDE_SKILL_DIR, $LEGACY_OPENCODE_SKILL_DIR)) {
-    if (Test-Path (Join-Path $legacyDir "SKILL.md")) { Remove-Item -LiteralPath $legacyDir -Recurse -Force }
-}
 if ($cliExe -or $cliBat) { Write-Ok "Removed CLI" }
 
 if ($removed -eq 0) {

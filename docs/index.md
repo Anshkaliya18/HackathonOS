@@ -60,4 +60,4 @@ See the full [agent compatibility notes](/agents/) for scope and evidence.
 - [Command reference](/reference/commands) — manifest-backed command and CLI details.
 - [Architecture](/architecture/) — how the skill, core, workflows, and project state fit together.
 
-<div class="home-fieldnote"><a href="https://github.com/Anshkaliya18/HackathonOS">GitHub repository</a> · MIT License · version 2.0.0</div>
+<div class="home-fieldnote"><a href="https://github.com/Anshkaliya18/Sherpa">GitHub repository</a> · MIT License · version 2.0.0</div>

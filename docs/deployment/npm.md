@@ -4,7 +4,7 @@ Sherpa's npm package is named `sherpa-skill`; the shorter `sherpa` name is alrea
 
 ## Before publishing
 
-Publish the matching GitHub release first. The npm installer uses the release manifest at `https://github.com/Anshkaliya18/HackathonOS/releases/latest/download/manifest.json`; without that manifest and its checksummed archives, npm installation cannot complete. Check package availability with `npm view sherpa-skill`; at the time this guide was written, the registry returned 404 for that name. Recheck before publishing because package names can be claimed at any time.
+Publish the matching GitHub release first. The npm installer uses the release manifest at `https://github.com/Anshkaliya18/Sherpa/releases/latest/download/manifest.json`; without that manifest and its checksummed archives, npm installation cannot complete. Check package availability with `npm view sherpa-skill`; at the time this guide was written, the registry returned 404 for that name. Recheck before publishing because package names can be claimed at any time.
 
 From the repository root, inspect exactly what npm will include:
 

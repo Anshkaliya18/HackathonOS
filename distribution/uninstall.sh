@@ -17,12 +17,10 @@ set -euo pipefail
 PROJECT="sherpa"
 CLI_NAME="sherpa"
 CLI_BIN_DIR="${HOME}/.local/bin"
-SHERPA_YES="${SHERPA_YES:-${HACKATHONOS_YES:-${sherpa_YES:-0}}}"
+SHERPA_YES="${SHERPA_YES:-0}"
 
 CLAUDE_SKILL_DIR="${HOME}/.claude/skills/sherpa"
 OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/sherpa"
-LEGACY_CLAUDE_SKILL_DIR="${HOME}/.claude/skills/hackathonos"
-LEGACY_OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/hackathonos"
 
 step() { printf '\n==> %s\n' "$*"; }
 info(){ printf '  > %s\n' "$*"; }
@@ -34,8 +32,6 @@ HAVE_CLAUDE=0
 HAVE_OPENCODE=0
 [[ -f "${CLAUDE_SKILL_DIR}/SKILL.md" ]] && HAVE_CLAUDE=1
 [[ -f "${OPENCODE_SKILL_DIR}/SKILL.md" ]] && HAVE_OPENCODE=1
-[[ -f "${LEGACY_CLAUDE_SKILL_DIR}/SKILL.md" ]] && HAVE_CLAUDE=1
-[[ -f "${LEGACY_OPENCODE_SKILL_DIR}/SKILL.md" ]] && HAVE_OPENCODE=1
 
 confirm=1
 if [[ "${SHERPA_YES:-0}" == "1" ]]; then confirm=0; fi
@@ -81,13 +77,6 @@ if [[ -e "${CLI_BIN_DIR}/${CLI_NAME}" ]]; then
     ok "Removed CLI"
     removed=$((removed+1))
 fi
-for legacy in "${LEGACY_CLAUDE_SKILL_DIR}" "${LEGACY_OPENCODE_SKILL_DIR}"; do
-    if [[ -f "${legacy}/SKILL.md" ]]; then rm -rf "$legacy"; ok "Removed legacy managed skill"; removed=$((removed+1)); fi
-done
-for shim in "${CLI_BIN_DIR}/hackathonos" "${CLI_BIN_DIR}/hackathonos.bat"; do
-    if [[ -e "$shim" ]]; then rm -f "$shim"; ok "Removed deprecated CLI shim"; removed=$((removed+1)); fi
-done
-
 if [[ "$removed" -eq 0 ]]; then
     echo "No sherpa installation found."
 else

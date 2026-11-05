@@ -51,11 +51,11 @@ CLI_NAME = "sherpa"
 DEFAULT_CLI_VERSION = "2.0.0"
 
 # Default release manifest URL. Users publishing their own releases override
-# this with SHERPA_RELEASE_MANIFEST_URL (legacy HACKATHONOS_* also accepted).
+# this with SHERPA_RELEASE_MANIFEST_URL.
 # This is the real GitHub Releases pattern for the project repository; a real
 # release must be published before downloads succeed.
 DEFAULT_MANIFEST_URL = (
-    "https://github.com/Anshkaliya18/HackathonOS"
+    "https://github.com/Anshkaliya18/Sherpa"
     "/releases/latest/download/manifest.json"
 )
 
@@ -122,7 +122,6 @@ def installed_version(skill_dir: Path) -> str | None:
 
 def manifest_url() -> str:
     return (os.environ.get("SHERPA_RELEASE_MANIFEST_URL")
-            or os.environ.get("HACKATHONOS_RELEASE_MANIFEST_URL")
             or DEFAULT_MANIFEST_URL)
 
 
@@ -266,15 +265,6 @@ def detect_installed() -> dict[str, Path]:
         if (directory / "SKILL.md").is_file():
             installed[name] = directory
     return installed
-
-
-def detect_legacy_installed() -> dict[str, Path]:
-    """Return only the two former managed skill paths for safe retirement."""
-    roots = {
-        "claude (legacy)": Path.home() / ".claude" / "skills" / "hackathonos",
-        "opencode (legacy)": Path.home() / ".config" / "opencode" / "skills" / "hackathonos",
-    }
-    return {name: directory for name, directory in roots.items() if (directory / "SKILL.md").is_file()}
 
 
 def platform_archive_name(manifest: dict) -> dict | None:
@@ -471,13 +461,12 @@ def cmd_update(args: argparse.Namespace) -> int:
 
 def cmd_uninstall(args: argparse.Namespace) -> int:
     installed = detect_installed()
-    legacy = detect_legacy_installed()
-    if not installed and not legacy:
+    if not installed:
         print("No Sherpa skill installation found.")
         return 0
 
     print(f"The following will be removed:")
-    for name, directory in {**installed, **legacy}.items():
+    for name, directory in installed.items():
         print(f"  {name} skill: {directory}")
     cli_bin = cli_bin_dir()
     cli_exe = cli_bin / CLI_NAME
@@ -494,7 +483,7 @@ def cmd_uninstall(args: argparse.Namespace) -> int:
             return 0
 
     removed = []
-    for name, directory in {**installed, **legacy}.items():
+    for name, directory in installed.items():
         shutil.rmtree(directory, ignore_errors=True)
         removed.append(str(directory))
         log(f"Removed {name} skill", "ok")
@@ -525,7 +514,7 @@ Usage:
     sherpa help            Show this help
 
 Environment variables:
-    SHERPA_RELEASE_MANIFEST_URL (legacy HACKATHONOS_RELEASE_MANIFEST_URL accepted)
+    SHERPA_RELEASE_MANIFEST_URL
         Override the release manifest URL (default: GitHub Releases).
 
 Installation locations:

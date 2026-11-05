@@ -26,7 +26,7 @@ For the first npm release, follow the [npm publishing guide](/deployment/npm).
 
 The workflow runs on pushes to `main` and manual dispatch. It builds with the current repository name as the Pages base path, uploads the Pages artifact, and deploys it with `actions/deploy-pages@v4`. The workflow-provided `GITHUB_REPOSITORY` value keeps the asset paths correct after a repository rename. Set the Pages source to **GitHub Actions** in repository settings. GitHub Pages must be enabled for deployment creation to succeed.
 
-The current site URL is [anshkaliya18.github.io/HackathonOS](https://anshkaliya18.github.io/HackathonOS/). A local build uses this same path unless `GITHUB_REPOSITORY` or `VITEPRESS_BASE` is set.
+The current site URL is [anshkaliya18.github.io/Sherpa](https://anshkaliya18.github.io/Sherpa/). A local build uses this same path unless `GITHUB_REPOSITORY` or `VITEPRESS_BASE` is set.
 
 ## Search and metadata
 

@@ -69,7 +69,7 @@ def main() -> int:
                     archive.write(ROOT / rel, rel.as_posix())
                 archive.write(ROOT / "distribution/VERSION", "VERSION")
         archives.append({"os": os_name, "arch": arch, "format": fmt, "name": name,
-                         "url": f"https://github.com/Anshkaliya18/HackathonOS/releases/download/{tag}/{name}",
+                         "url": f"https://github.com/Anshkaliya18/Sherpa/releases/download/{tag}/{name}",
                          "size": dest.stat().st_size, "checksum": digest(dest)})
     cli_name = f"sherpa-cli-{version}.zip"
     cli_path = output / cli_name
@@ -83,7 +83,7 @@ def main() -> int:
         "schema_version": 1, "project": "Sherpa",
         "description": "AI agent skill that mentors hackathon teams for Claude Code and OpenCode",
         "latest": {"version": version, "channel": "stable"}, "archives": archives,
-        "cli": {"name": "sherpa", "url": f"https://github.com/Anshkaliya18/HackathonOS/releases/download/{tag}/{cli_name}",
+        "cli": {"name": "sherpa", "url": f"https://github.com/Anshkaliya18/Sherpa/releases/download/{tag}/{cli_name}",
                 "checksum": digest(cli_path), "size": cli_path.stat().st_size},
         "notes": f"Sherpa {version} release. See CHANGELOG.md.",
         "published_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),

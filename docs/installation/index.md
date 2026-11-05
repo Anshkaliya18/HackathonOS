@@ -11,7 +11,7 @@ Sherpa 2.0.0 is merged into `main`, but its GitHub release and npm package have 
 After release, use the version-pinned installer:
 
 ```powershell
-irm https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.ps1 | iex
 ```
 
 From a checkout, run `./distribution/install.ps1 -Both`. To install the agent skill without the optional Python CLI, run `./distribution/install.ps1 -Both -NoCli` or set `$env:SHERPA_INSTALL_CLI = '0'`. The CLI requires Python 3; its Windows launcher supports either `python` or the `py` launcher. Install paths are `~/.claude/skills/sherpa/`, `~/.config/opencode/skills/sherpa/`, and `%USERPROFILE%\AppData\Local\Sherpa\bin` for the CLI.
@@ -21,7 +21,7 @@ From a checkout, run `./distribution/install.ps1 -Both`. To install the agent sk
 After release:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.sh | bash
 ```
 
 From a checkout, use `bash distribution/install.sh --both`. Skill directories are `~/.claude/skills/sherpa/` and `~/.config/opencode/skills/sherpa/`; the CLI is installed under `~/.local/bin/`.
@@ -56,4 +56,4 @@ Run `sherpa uninstall` and confirm, or use `sherpa uninstall --yes`. The uninsta
 - **403/429:** retry later or configure a trusted manifest URL.
 - **CLI not found:** restart the shell and ensure its CLI directory is on `PATH`.
 
-See the [source installation notes](https://github.com/Anshkaliya18/HackathonOS/blob/main/INSTALLATION.md) and [troubleshooting guide](/troubleshooting/).
+See the [source installation notes](https://github.com/Anshkaliya18/Sherpa/blob/main/INSTALLATION.md) and [troubleshooting guide](/troubleshooting/).

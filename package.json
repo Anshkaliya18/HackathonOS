@@ -5,8 +5,7 @@
     "license": "MIT",
     "type": "module",
     "bin": {
-        "sherpa": "distribution/npm/sherpa.mjs",
-        "hackathonos": "distribution/npm/hackathonos.mjs"
+        "sherpa": "distribution/npm/sherpa.mjs"
     },
     "files": [
         "distribution/install.sh",
@@ -15,8 +14,6 @@
         "distribution/uninstall.ps1",
         "distribution/cli/sherpa",
         "distribution/cli/sherpa.bat",
-        "distribution/cli/hackathonos",
-        "distribution/cli/hackathonos.bat",
         "distribution/npm/"
     ],
     "scripts": {

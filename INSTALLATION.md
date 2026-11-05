@@ -5,16 +5,16 @@
 Windows PowerShell:
 
 ```powershell
-irm https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.ps1 | iex
 ```
 
 Linux/macOS:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.sh | bash
 ```
 
-These pinned commands become available after the Sherpa v2.0.0 release publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/HackathonOS/releases).
+These pinned commands become available after the Sherpa v2.0.0 release publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/Sherpa/releases).
 
 ## npm installer
 

@@ -27,28 +27,20 @@ set -euo pipefail
 ###############################################################################
 PROJECT="sherpa"
 CLI_NAME="sherpa"
-DEFAULT_MANIFEST_URL="https://github.com/Anshkaliya18/HackathonOS/releases/latest/download/manifest.json"
+DEFAULT_MANIFEST_URL="https://github.com/Anshkaliya18/Sherpa/releases/latest/download/manifest.json"
 
 CLAUDE_SKILL_DIR="${HOME}/.claude/skills/sherpa"
 OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/sherpa"
-LEGACY_CLAUDE_SKILL_DIR="${HOME}/.claude/skills/hackathonos"
-LEGACY_OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/hackathonos"
 CLI_BIN_DIR="${HOME}/.local/bin"
 
 STEP=0
 STEP_TOTAL=6
 TMP_DIR=""
 BACKUP_DIRS=()
-LEGACY_CLI_SOURCE=""
-
-# Accept old product-prefixed variables for one release while preferring the
-# new uppercase SHERPA_* names.
-SHERPA_RELEASE_MANIFEST_URL="${SHERPA_RELEASE_MANIFEST_URL:-${HACKATHONOS_RELEASE_MANIFEST_URL:-${sherpa_RELEASE_MANIFEST_URL:-}}}"
-SHERPA_INSTALL_CLAUDE="${SHERPA_INSTALL_CLAUDE:-${HACKATHONOS_INSTALL_CLAUDE:-${sherpa_INSTALL_CLAUDE:-1}}}"
-SHERPA_INSTALL_OPENCODE="${SHERPA_INSTALL_OPENCODE:-${HACKATHONOS_INSTALL_OPENCODE:-${sherpa_INSTALL_OPENCODE:-1}}}"
-SHERPA_INSTALL_CLI="${SHERPA_INSTALL_CLI:-${HACKATHONOS_INSTALL_CLI:-${sherpa_INSTALL_CLI:-1}}}"
-SHERPA_VERSION="${SHERPA_VERSION:-${HACKATHONOS_VERSION:-${sherpa_VERSION:-}}}"
-SHERPA_NO_PATH="${SHERPA_NO_PATH:-${HACKATHONOS_NO_PATH:-${sherpa_NO_PATH:-0}}}"
+SHERPA_INSTALL_CLAUDE="${SHERPA_INSTALL_CLAUDE:-1}"
+SHERPA_INSTALL_OPENCODE="${SHERPA_INSTALL_OPENCODE:-1}"
+SHERPA_INSTALL_CLI="${SHERPA_INSTALL_CLI:-1}"
+SHERPA_NO_PATH="${SHERPA_NO_PATH:-0}"
 
 ###############################################################################
 # Helpers
@@ -423,7 +415,6 @@ install_cli() {
             unzip -oq "$cli_archive" -d "$cli_extract" || die "invalid CLI archive"
             cli_source="$(find "$cli_extract" -type f -name sherpa -print -quit)"
             [[ -n "$cli_source" ]] || die "CLI archive missing sherpa executable"
-            LEGACY_CLI_SOURCE="$(find "$cli_extract" -type f -name hackathonos -print -quit)"
             local bat_source
             bat_source="$(find "$cli_extract" -type f -name sherpa.bat -print -quit)"
             [[ -z "$bat_source" ]] || cp "$bat_source" "$CLI_BIN_DIR/$CLI_NAME.bat"
@@ -433,8 +424,6 @@ install_cli() {
     fi
     cp -f "$cli_source" "$CLI_BIN_DIR/$CLI_NAME"
     chmod +x "$CLI_BIN_DIR/$CLI_NAME"
-    local shim_source="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)/cli/hackathonos"
-    if [[ -f "$shim_source" ]]; then LEGACY_CLI_SOURCE="$shim_source"; fi
     ok "CLI installed"
 
     ensure_path
@@ -617,17 +606,6 @@ main() {
 
     step "Validating installation"
     validate_installation
-
-    # Keep the old command as a shim only after the new command validates.
-    if [[ "${SHERPA_INSTALL_CLI:-1}" == "1" && -n "$LEGACY_CLI_SOURCE" && -f "$LEGACY_CLI_SOURCE" ]]; then
-        cp -f "$LEGACY_CLI_SOURCE" "$CLI_BIN_DIR/hackathonos"
-        chmod +x "$CLI_BIN_DIR/hackathonos"
-    fi
-
-    # Legacy managed skill folders are removed only after the new install validates.
-    for legacy in "$LEGACY_CLAUDE_SKILL_DIR" "$LEGACY_OPENCODE_SKILL_DIR"; do
-        if [[ -d "$legacy" ]]; then rm -rf "$legacy"; ok "Removed superseded HackathonOS skill -> $legacy"; fi
-    done
 
     print_success
     cleanup

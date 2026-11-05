@@ -8,4 +8,4 @@ Use the uppercase `SHERPA_*` installer variables. Former `sherpa_*` names remain
 
 The deprecated `sherpa` CLI shim prints “sherpa is now Sherpa” and forwards to `sherpa`. The npm package is `sherpa-skill` because the `sherpa` package name is taken. Runtime support statuses remain as recorded in the [compatibility guide](/agents/).
 
-See the complete [migration reference](https://github.com/Anshkaliya18/HackathonOS/blob/main/MIGRATION.md).
+See the complete [migration reference](https://github.com/Anshkaliya18/Sherpa/blob/main/MIGRATION.md).

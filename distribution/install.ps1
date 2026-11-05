@@ -33,27 +33,13 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 1.0
 
-foreach ($key in @('RELEASE_MANIFEST_URL','VERSION','INSTALL_CLAUDE','INSTALL_OPENCODE','INSTALL_CLI','NO_PATH')) {
-    $newName = "SHERPA_$key"
-    $oldName = "HACKATHONOS_$key"
-    $draftName = "sherpa_$key"
-    if ([string]::IsNullOrEmpty([Environment]::GetEnvironmentVariable($newName))) {
-        $legacy = [Environment]::GetEnvironmentVariable($oldName)
-        if ([string]::IsNullOrEmpty($legacy)) { $legacy = [Environment]::GetEnvironmentVariable($draftName) }
-        if (-not [string]::IsNullOrEmpty($legacy)) { [Environment]::SetEnvironmentVariable($newName, $legacy, 'Process') }
-    }
-}
-
 $PROJECT = "sherpa"
 $CLI_NAME = "sherpa"
-$DEFAULT_MANIFEST_URL = "https://github.com/Anshkaliya18/HackathonOS/releases/latest/download/manifest.json"
+$DEFAULT_MANIFEST_URL = "https://github.com/Anshkaliya18/Sherpa/releases/latest/download/manifest.json"
 
 $CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\sherpa"
 $OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\sherpa"
-$LEGACY_CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\hackathonos"
-$LEGACY_OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\hackathonos"
 $CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\sherpa\bin"
-$LEGACY_CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\HackathonOS\bin"
 
 $script:TMP_DIR = $null
 $script:BACKUP_DIRS = @()
@@ -487,7 +473,7 @@ function Install-Cli {
 
 function Ensure-Path {
     if ($NoPath -or [string]::IsNullOrWhiteSpace($env:SHERPA_NO_PATH) -eq $false -and $env:SHERPA_NO_PATH -eq "1") {
-        Write-Info "Skipping PATH modification (sherpa_NO_PATH=1)"
+        Write-Info "Skipping PATH modification (SHERPA_NO_PATH=1)"
         return
     }
     $currentPath = [Environment]::GetEnvironmentVariable("PATH", "User")
@@ -625,21 +611,6 @@ if ($script:INSTALL_CLI) {
 
 Write-Step "Validating installation"
 Validate-Installation
-
-# Retire old managed skill folders only after the new installation is validated.
-foreach ($legacyDir in @($LEGACY_CLAUDE_SKILL_DIR, $LEGACY_OPENCODE_SKILL_DIR)) {
-    if (Test-Path (Join-Path $legacyDir "SKILL.md")) { Remove-Item -LiteralPath $legacyDir -Recurse -Force; Write-Ok "Removed superseded HackathonOS skill -> $legacyDir" }
-}
-if ($script:INSTALL_CLI -and (Test-Path (Join-Path $LEGACY_CLI_BIN_DIR "hackathonos.bat"))) {
-    $legacyBat = Join-Path $LEGACY_CLI_BIN_DIR "hackathonos.bat"
-    $shim = "@echo off`r`necho HackathonOS is now Sherpa. The 'hackathonos' command is deprecated; use 'sherpa'. 1>&2`r`n`"$CLI_BIN_DIR\sherpa.bat`" %*`r`n"
-    Set-Content -LiteralPath $legacyBat -Value $shim -Encoding ASCII
-}
-if ($script:INSTALL_CLI) {
-    $newShim = Join-Path $CLI_BIN_DIR "hackathonos.bat"
-    $shim = "@echo off`r`necho HackathonOS is now Sherpa. The 'hackathonos' command is deprecated; use 'sherpa'. 1>&2`r`n`"$CLI_BIN_DIR\sherpa.bat`" %*`r`n"
-    Set-Content -LiteralPath $newShim -Value $shim -Encoding ASCII
-}
 
 Print-Success
 Cleanup

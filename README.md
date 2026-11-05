@@ -5,8 +5,8 @@
 Sherpa is a globally installed AI agent skill that mentors hackathon teams across projects, from idea selection through verification, demo preparation, and submission.
 
 [![MIT License](https://img.shields.io/badge/license-MIT-244d47.svg)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/Anshkaliya18/HackathonOS)](https://github.com/Anshkaliya18/HackathonOS/releases)
-[![Stars](https://img.shields.io/github/stars/Anshkaliya18/HackathonOS)](https://github.com/Anshkaliya18/HackathonOS/stargazers)
+[![Release](https://img.shields.io/github/v/release/Anshkaliya18/Sherpa)](https://github.com/Anshkaliya18/Sherpa/releases)
+[![Stars](https://img.shields.io/github/stars/Anshkaliya18/Sherpa)](https://github.com/Anshkaliya18/Sherpa/stargazers)
 [![Claude Code · OpenCode](https://img.shields.io/badge/agent%20files-Claude%20Code%20%7C%20OpenCode-9a4f2e)](AGENT-COMPATIBILITY.md)
 
 ![sherpa](docs/public/sherpa.gif)
@@ -16,7 +16,7 @@ Sherpa is a globally installed AI agent skill that mentors hackathon teams acros
 After the first Sherpa release is published, install from its version-pinned release asset:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/HackathonOS/releases/download/v2.0.0/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.sh | bash
 ```
 
 The same release contains `install.ps1` for Windows PowerShell. The npm package name is `sherpa-skill` (`sherpa` is already taken on npm); its first publication is still pending.
@@ -51,7 +51,7 @@ Details and evidence: [agent compatibility](AGENT-COMPATIBILITY.md).
 
 ## Documentation
 
-The [Sherpa field guide](https://anshkaliya18.github.io/HackathonOS/) includes installation, a first-ascent tutorial, lifecycle guides, and a searchable command explorer.
+The [Sherpa field guide](https://anshkaliya18.github.io/Sherpa/) includes installation, a first-ascent tutorial, lifecycle guides, and a searchable command explorer.
 
 Useful project references: [installation](INSTALLATION.md) · [commands](COMMANDS.md) · [workflows](WORKFLOWS.md) · [configuration](CONFIGURATION.md) · [architecture](ARCHITECTURE.md) · [security](SECURITY.md) · [migration](MIGRATION.md) · [contributing](CONTRIBUTING.md) · [changelog](CHANGELOG.md).
 

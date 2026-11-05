@@ -103,14 +103,6 @@ def test_migration_refuses_to_overwrite_new_state():
         assert (target / "notes.md").read_text() == "new data\n"
 
 
-def test_deprecated_hackathonos_shim_forwards_to_sherpa():
-    shim = Path(__file__).resolve().parents[2] / "distribution" / "cli" / "hackathonos"
-    result = subprocess.run([sys.executable, str(shim), "--version"], capture_output=True, text=True, check=False)
-    assert result.returncode == 0
-    assert "HackathonOS is now Sherpa" in result.stderr
-    assert "sherpa 2.0.0" in result.stdout.lower()
-
-
 def test_installed_version_reads_file():
     with tempfile.TemporaryDirectory() as tmp:
         skill = make_skill_dir(Path(tmp), version="2.0.0")
@@ -153,12 +145,12 @@ def test_detect_installed_none():
 
 def test_manifest_url_default():
     with mock.patch.dict(os.environ, {}, clear=True):
-        os.environ.pop("sherpa_RELEASE_MANIFEST_URL", None)
+        os.environ.pop("SHERPA_RELEASE_MANIFEST_URL", None)
         assert cli.manifest_url() == cli.DEFAULT_MANIFEST_URL
 
 
 def test_manifest_url_env():
-    with mock.patch.dict(os.environ, {"sherpa_RELEASE_MANIFEST_URL": "https://example.com/manifest.json"}):
+    with mock.patch.dict(os.environ, {"SHERPA_RELEASE_MANIFEST_URL": "https://example.com/manifest.json"}):
         assert cli.manifest_url() == "https://example.com/manifest.json"
 
 

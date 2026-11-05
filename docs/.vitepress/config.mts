@@ -3,7 +3,7 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // GitHub Pages project sites are served from /<repository>/. Derive both this
 // path and repository links from Actions so the site follows a later repo rename.
-const [repositoryOwner, repositoryName] = (process.env.GITHUB_REPOSITORY ?? 'Anshkaliya18/HackathonOS').split('/')
+const [repositoryOwner, repositoryName] = (process.env.GITHUB_REPOSITORY ?? 'Anshkaliya18/Sherpa').split('/')
 const origin = `https://${repositoryOwner.toLowerCase()}.github.io`
 const base = process.env.VITEPRESS_BASE ?? `/${repositoryName}/`
 const repositoryUrl = `https://github.com/${repositoryOwner}/${repositoryName}`

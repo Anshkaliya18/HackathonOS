@@ -24,6 +24,6 @@ The global skill folders are managed under the Claude Code and OpenCode paths. T
 
 ## Cleanup and preservation
 
-Uninstall removes recognized global skill and CLI files, not project `.sherpa/` state. Installer updates back up existing directories and include rollback behavior. For precise inclusion/exclusion rules, consult [`distribution/cli/sherpa`](https://github.com/Anshkaliya18/HackathonOS/blob/main/distribution/cli/sherpa) and [`SECURITY.md`](https://github.com/Anshkaliya18/HackathonOS/blob/main/SECURITY.md).
+Uninstall removes recognized global skill and CLI files, not project `.sherpa/` state. Installer updates back up existing directories and include rollback behavior. For precise inclusion/exclusion rules, consult [`distribution/cli/sherpa`](https://github.com/Anshkaliya18/Sherpa/blob/main/distribution/cli/sherpa) and [`SECURITY.md`](https://github.com/Anshkaliya18/Sherpa/blob/main/SECURITY.md).
 
 The CLI's diagnostic output varies by installed files. Run `sherpa audit` or `sherpa clean --dry-run` to get a report for your own machine; sample output should not be mistaken for a guaranteed transcript.

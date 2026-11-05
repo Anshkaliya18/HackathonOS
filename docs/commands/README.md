@@ -1,6 +1,6 @@
 # Sherpa Native Commands
 
-[`commands/manifest.json`](https://github.com/Anshkaliya18/HackathonOS/blob/main/commands/manifest.json) is the single authoritative registry. It lists only commands mapped to an existing workflow as implemented. Planned commands are not registered in host adapters or advertised as usable.
+[`commands/manifest.json`](https://github.com/Anshkaliya18/Sherpa/blob/main/commands/manifest.json) is the single authoritative registry. It lists only commands mapped to an existing workflow as implemented. Planned commands are not registered in host adapters or advertised as usable.
 
 ## Preferred syntax
 
@@ -86,7 +86,7 @@ Runtime attempt evidence recorded in the manifest:
 - OpenCode: `NOT VERIFIED` — `opencode run --pure --log-level DEBUG --command sherpa-status` from an isolated temporary project produced no output after 15 seconds and was interrupted; the earlier project-root attempt also waited without workflow output.
 - Kilo: `NOT VERIFIED` — `kilo run --pure --command sherpa-status` from an isolated temporary project resolved the global adapter and read the global SKILL.md, manifest, router, and status workflow; the permission gate auto-rejected a read-only Test-Path call before a report was produced.
 
-Runtime status is also recorded in `commands/manifest.json`. A file or static test proves registration structure, not that a host discovers or executes it. The existing master router has historical host-specific verification recorded in [`commands/README.md`](https://github.com/Anshkaliya18/HackathonOS/blob/main/commands/README.md); those results do not verify the newly added hyphenated commands.
+Runtime status is also recorded in `commands/manifest.json`. A file or static test proves registration structure, not that a host discovers or executes it. The existing master router has historical host-specific verification recorded in [`commands/README.md`](https://github.com/Anshkaliya18/Sherpa/blob/main/commands/README.md); those results do not verify the newly added hyphenated commands.
 
 Official host references: [Claude Code skills](https://code.claude.com/docs/en/skills), [OpenCode commands](https://opencode.ai/docs/commands), and [Kilo workflows](https://kilo.ai/docs/customize/workflows).
 
