@@ -2,7 +2,26 @@
 
 **Build the right thing. Prove it works. Show why it matters.**
 
-Sherpa is an AI hackathon mentor skill for Claude Code and OpenCode. It stays with a project from idea selection through verification, demo preparation, and submission — optimizing for judging impact per unit time, not feature count. It challenges weak decisions, flags unsupported claims, and never silently picks an idea or writes code without a human gate.
+In 30 seconds you get an AI hackathon mentor installed in Claude Code or OpenCode that takes your team from a vague idea to a scoped, evidence-backed plan — and a demo you can defend to judges.
+
+```bash
+npm install -g sherpa-skill
+sherpa install
+```
+
+Then in your agent:
+```text
+/sherpa suggest
+/sherpa plan
+/sherpa demo
+/sherpa submission
+```
+
+**What you get right away:**
+- **One install:** works in Claude Code and OpenCode; project state lives in `.sherpa/` and survives restarts and context switches.
+- **Evidence-led:** facts vs assumptions, with `UNKNOWN` when information is missing — no invented details.
+- **Human approval gates:** Sherpa recommends, never silently picks an idea or writes code without you confirming.
+- **Full lifecycle:** idea → plan → build → verify → demo → submission → postmortem.
 
 [![npm version](https://img.shields.io/npm/v/sherpa-skill)](https://www.npmjs.com/package/sherpa-skill)
 [![MIT License](https://img.shields.io/badge/license-MIT-244d47.svg)](LICENSE)
@@ -10,10 +29,6 @@ Sherpa is an AI hackathon mentor skill for Claude Code and OpenCode. It stays wi
 [![Agent files: Claude Code · OpenCode](https://img.shields.io/badge/agent%20files-Claude%20Code%20%7C%20OpenCode-9a4f2e)](AGENT-COMPATIBILITY.md)
 
 ![sherpa](docs/public/sherpa.gif)
-
-## What is Sherpa?
-
-Sherpa is a reusable skill that installs once per agent (Claude Code and OpenCode) and mentors a hackathon team across the whole lifecycle. It surfaces what's actually known versus assumed, forces human approval before consequential work, and keeps project state in `.sherpa/` so it survives restarts and context switches. Use it to move from a vague idea to a scoped, evidence-backed plan — and a demo you can defend to judges.
 
 ## Install
 
