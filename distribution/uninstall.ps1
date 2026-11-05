@@ -37,7 +37,8 @@ if (Test-Path (Join-Path $OPENCODE_SKILL_DIR "SKILL.md")) {
 }
 $cliExe = Join-Path $CLI_BIN_DIR $CLI_NAME
 $cliBat = Join-Path $CLI_BIN_DIR "${CLI_NAME}.bat"
-if (Test-Path $cliExe -or Test-Path $cliBat) {
+$cliExists = (Test-Path $cliExe) -or (Test-Path $cliBat)
+if ($cliExists) {
     Write-Host ("  * CLI: {0}" -f $CLI_BIN_DIR) -ForegroundColor Green
     $removed++
 }
@@ -64,7 +65,7 @@ if (Test-Path (Join-Path $OPENCODE_SKILL_DIR "SKILL.md")) {
 }
 if (Test-Path $cliExe) { Remove-Item -Path $cliExe -Force }
 if (Test-Path $cliBat) { Remove-Item -Path $cliBat -Force }
-if ($cliExe -or $cliBat) { Write-Ok "Removed CLI" }
+if ($cliExists) { Write-Ok "Removed CLI" }
 
 if ($removed -eq 0) {
     Write-Host "No sherpa installation found."

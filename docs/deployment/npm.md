@@ -1,6 +1,6 @@
 # Publish the npm package
 
-Sherpa's package is named `@anshkaliya18/sherpa-skill` and is published to GitHub Packages. The package exposes the `sherpa` command and downloads the versioned skill archive from this repository's GitHub Releases.
+Sherpa's public npmjs.org package is `sherpa-skill`; the GitHub Packages mirror is `@anshkaliya18/sherpa-skill`. Both expose the `sherpa` command and download the versioned skill archive from this repository's GitHub Releases.
 
 ## Before publishing
 
@@ -16,10 +16,20 @@ Check that the package contains the README, npm command wrappers, and platform i
 
 ## Publish a release
 
-Push a matching `vX.Y.Z` tag after merging the version bump to `main`. GitHub Actions creates the release assets and publishes the package using `GITHUB_TOKEN` with `packages: write` permission. For local installation, authenticate to GitHub Packages and set up `@anshkaliya18:registry=https://npm.pkg.github.com` in `.npmrc`. Then verify the registry entry:
+Publish the public npm package after the matching GitHub release is available:
 
 ```bash
-npm view @anshkaliya18/sherpa-skill --registry=https://npm.pkg.github.com
-npm install --global @anshkaliya18/sherpa-skill --registry=https://npm.pkg.github.com
+npm publish --access public
+npm view sherpa-skill version --registry=https://registry.npmjs.org
+npm install --global sherpa-skill --registry=https://registry.npmjs.org
 sherpa --help
 ```
+
+For the GitHub Packages mirror, push a matching `vX.Y.Z` tag after merging the version bump to `main`. The GitHub Actions workflow applies the repository's GitHub owner scope and publishes using `GITHUB_TOKEN` with `packages: write`. Local consumers need a personal access token with `read:packages` and this user-level npm configuration:
+
+```ini
+@anshkaliya18:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+Then install the mirror with `npm install --global @anshkaliya18/sherpa-skill`.

@@ -5,28 +5,29 @@
 Windows PowerShell:
 
 ```powershell
-irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.4/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.5/install.ps1 | iex
 ```
 
 Linux/macOS:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.4/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.5/install.sh | bash
 ```
 
-These pinned commands use the Sherpa v2.0.4 release, which publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/Sherpa/releases).
+These pinned commands use the Sherpa v2.0.5 release, which publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/Sherpa/releases).
 
 ## npm installer
 
-The package name is `sherpa-skill`. Once it is published to npm:
+The public npm package is `sherpa-skill` at version `2.0.5`:
 
-```sh
-npx --registry=https://npm.pkg.github.com @anshkaliya18/sherpa-skill@2.0.4 install
-npx --registry=https://npm.pkg.github.com @anshkaliya18/sherpa-skill@2.0.4 install --dry-run
-npx --registry=https://npm.pkg.github.com @anshkaliya18/sherpa-skill@2.0.4 install --uninstall
+```powershell
+npm install --global sherpa-skill@2.0.5
+sherpa install --dry-run
+npx sherpa-skill@2.0.5 install --dry-run
+npx sherpa-skill@2.0.5 install --uninstall
 ```
 
-`install` reuses the platform installer and targets both Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--no-cli` skips the optional Python CLI, and `--uninstall` removes managed global skill and CLI files while preserving project data. The npm package is not yet published; the npx commands become available after publication. See [npm publishing](docs/deployment/npm.md).
+The GitHub Packages mirror is `@anshkaliya18/sherpa-skill@2.0.5`. It requires a GitHub personal access token with `read:packages`; configure the `@anshkaliya18` scope to use `https://npm.pkg.github.com` before installing it. `install` reuses the platform installer and targets both Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--no-cli` skips the optional Python CLI, and `--uninstall` removes managed global skill and CLI files while preserving project data. See [npm publishing](docs/deployment/npm.md).
 
 ## Local/source use
 

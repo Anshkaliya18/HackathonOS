@@ -137,6 +137,12 @@ def test_uninstall_asks_confirmation():
     assert "Proceed with uninstallation" in ps_text or "Read-Host" in ps_text
 
 
+def test_windows_uninstaller_checks_cli_paths_as_booleans():
+    text = read(UNINSTALL_PS1)
+    assert "$cliExists = (Test-Path $cliExe) -or (Test-Path $cliBat)" in text
+    assert "if ($cliExists) { Write-Ok \"Removed CLI\" }" in text
+
+
 def test_cli_and_wrappers_exist():
     assert (REPO / "distribution" / "cli" / "sherpa").is_file()
     assert (REPO / "distribution" / "cli" / "sherpa.bat").is_file()

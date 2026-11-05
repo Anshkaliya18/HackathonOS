@@ -20,7 +20,7 @@ npm run docs:preview
 
 `docs:build` refreshes the manifest-backed command reference and writes the static site to `docs/.vitepress/dist/`.
 
-For the first npm release, follow the [npm publishing guide](/deployment/npm).
+For npm package publishing and install instructions, follow the [npm publishing guide](/deployment/npm).
 
 ## GitHub Pages
 

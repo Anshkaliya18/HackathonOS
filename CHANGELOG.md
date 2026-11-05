@@ -1,5 +1,12 @@
 # Sherpa Changelog
 
+## [2.0.5] — 2026-11-06
+
+### Fixed
+
+- Windows npm uninstall now correctly checks CLI files before reporting or removing them.
+- The repository package metadata, lockfile, GitHub Packages mirror, and npmjs.org package are aligned at version 2.0.5.
+
 ## [2.0.4] — 2026-11-05
 
 ### Added
