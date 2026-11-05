@@ -20,7 +20,7 @@ hero:
 
 <InstallCopy />
 
-<p class="home-install-note">Install Sherpa v2.0.1 from the release assets. Windows PowerShell instructions are in the <a href="/installation/">installation guide</a>.</p>
+<p class="home-install-note">Install Sherpa v2.0.1 from the release assets. Windows PowerShell instructions are in the <a href="/sherpa/installation/">installation guide</a>.</p>
 
 <div class="home-fieldnote">A good guide helps you choose a route, checks the weather, and leaves the decisions with you. Sherpa brings that rhythm to a hackathon build.</div>
 
