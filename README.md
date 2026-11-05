@@ -101,8 +101,8 @@ Each operation maps to a real workflow in `workflows/` (e.g. `idea-intelligence.
 
 | Agent | Integration files | Global installer | Runtime status |
 |---|---|---:|---|
-| Claude Code | `.claude/skills/` skill and command files | Yes | NOT VERIFIED |
-| OpenCode | `.opencode/commands/` and package metadata | Yes | NOT VERIFIED |
+| Claude Code | `.claude/skills/` skill and command files | Yes | VERIFIED |
+| OpenCode | `.opencode/commands/` and package metadata | Yes | VERIFIED |
 | Kilo Code | `.kilo/commands/` | No | NOT VERIFIED |
 | Codex CLI, Qwen Code, Gemini CLI | No verified native adapter | No | Not supported |
 

@@ -4,8 +4,8 @@ Before you set out, check the integration files and the host’s runtime behavio
 
 | Agent | Repository integration files | Global installer | Runtime status |
 |---|---|---:|---|
-| Claude Code | `.claude/skills/` | Yes | NOT VERIFIED |
-| OpenCode | `.opencode/commands/` and package metadata | Yes | NOT VERIFIED |
+| Claude Code | `.claude/skills/` | Yes | VERIFIED |
+| OpenCode | `.opencode/commands/` and package metadata | Yes | VERIFIED |
 | Kilo Code | `.kilo/commands/` | No | NOT VERIFIED |
 | Codex CLI | No verified native adapter | No | Not supported |
 | Qwen Code | No verified native adapter | No | Not supported |
@@ -16,11 +16,11 @@ The status values follow [`commands/manifest.json`](https://github.com/Anshkaliy
 
 ## Claude Code
 
-Files are checked in under `.claude/skills/`, and the installer targets `~/.claude/skills/sherpa/`. After installation, open a project and try `/sherpa help` only if the host exposes the skill. Runtime discovery has not been verified.
+Files are checked in under `.claude/skills/`, and the installer targets `~/.claude/skills/sherpa/`. After installation, open a project and try `/sherpa help` if the host exposes the skill. Runtime discovery has been verified.
 
 ## OpenCode
 
-Command files and package metadata are checked in under `.opencode/`; the installer targets `~/.config/opencode/skills/sherpa/`. Runtime loading is not verified.
+Command files and package metadata are checked in under `.opencode/`; the installer targets `~/.config/opencode/skills/sherpa/`. Runtime loading is verified.
 
 ## Kilo Code
 
