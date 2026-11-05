@@ -27,7 +27,7 @@ set -euo pipefail
 ###############################################################################
 PROJECT="sherpa"
 CLI_NAME="sherpa"
-DEFAULT_MANIFEST_URL="https://github.com/Anshkaliya18/Sherpa/releases/latest/download/manifest.json"
+DEFAULT_MANIFEST_URL="https://github.com/Anshkaliya18/sherpa/releases/latest/download/manifest.json"
 
 CLAUDE_SKILL_DIR="${HOME}/.claude/skills/sherpa"
 OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/sherpa"
@@ -212,7 +212,7 @@ select_archive() {
     local project major
     project="$(manifest_field "$MANIFEST_FILE" "data.get('project','')")"
     major="${latest%%.*}"
-    if [[ "$project" != "Sherpa" || ! "$major" =~ ^[0-9]+$ || "$major" -lt 2 ]]; then
+    if [[ "$project" != "Sherpa" && "$project" != "sherpa" || ! "$major" =~ ^[0-9]+$ || "$major" -lt 2 ]]; then
         die "release manifest is for '$project' version '$latest', not Sherpa 2.0.0 or newer; publish the Sherpa release first"
     fi
     if [[ -n "$version" && "$version" != "$latest" ]]; then

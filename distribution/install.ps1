@@ -35,7 +35,7 @@ Set-StrictMode -Version 1.0
 
 $PROJECT = "sherpa"
 $CLI_NAME = "sherpa"
-$DEFAULT_MANIFEST_URL = "https://github.com/Anshkaliya18/Sherpa/releases/latest/download/manifest.json"
+$DEFAULT_MANIFEST_URL = "https://github.com/Anshkaliya18/sherpa/releases/latest/download/manifest.json"
 
 $CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\sherpa"
 $OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\sherpa"
@@ -121,8 +121,11 @@ function Get-WindowsArchitecture {
     }
 
     # Win32_Processor reports 9 for x64 and 12 for ARM64.
-    $wmiArchitecture = (Get-WmiObject Win32_Processor -ErrorAction SilentlyContinue | Select-Object -First 1).Architecture
-    if ($wmiArchitecture -eq 12) { return 'arm64' }
+    $wmiProcessor = Get-WmiObject Win32_Processor -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -ne $wmiProcessor) {
+        $wmiArchitecture = $wmiProcessor.Architecture
+        if ($wmiArchitecture -eq 12) { return 'arm64' }
+    }
     return 'amd64'
 }
 

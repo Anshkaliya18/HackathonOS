@@ -43,7 +43,7 @@ for _stream in (sys.stdout, sys.stderr):
         except Exception:
             pass
 
-PROJECT = "Sherpa"
+PROJECT = "sherpa"
 CLI_NAME = "sherpa"
 
 # Embedded fallback version. Overridden by a VERSION file next to this script
@@ -55,7 +55,7 @@ DEFAULT_CLI_VERSION = "2.0.0"
 # This is the real GitHub Releases pattern for the project repository; a real
 # release must be published before downloads succeed.
 DEFAULT_MANIFEST_URL = (
-    "https://github.com/Anshkaliya18/Sherpa"
+    "https://github.com/Anshkaliya18/sherpa"
     "/releases/latest/download/manifest.json"
 )
 

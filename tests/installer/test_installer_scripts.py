@@ -90,7 +90,7 @@ def test_install_preshell_path_traversal():
 
 def test_windows_installer_uses_live_repo_and_guards_old_release():
     text = read(INSTALL_PS1)
-    assert "github.com/Anshkaliya18/Sherpa/releases/latest/download/manifest.json" in text
+    assert "github.com/Anshkaliya18/sherpa/releases/latest/download/manifest.json" in text
     assert "The configured release manifest is for" in text
     assert "Use-LocalCheckout" in text
     assert "Copy-LocalSkillTree" in text

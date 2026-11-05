@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "project": "Sherpa",
+  "project": "sherpa",
   "description": "AI agent skill that mentors hackathon teams for Claude Code and OpenCode",
   "latest": { "version": "2.0.0", "channel": "stable" },
   "archives": [],
