@@ -72,7 +72,7 @@ def make_zipball(path: Path, files: dict[str, bytes]) -> None:
 # ---------------------------------------------------------------------------
 
 def test_cli_version():
-    assert cli.cli_version() == "2.0.1"
+    assert cli.cli_version() == "2.0.4"
 
 
 def test_migration_copies_state_and_preserves_legacy_source():

@@ -12,7 +12,7 @@ The builder excludes `.git/`, `.claude/`, `.opencode/`, `.kilo/`, `.sherpa/`, ca
 
 1. Review the branch and run the documented Python test suite and `npm run docs:build`.
 2. Confirm `distribution/VERSION`, `package.json`, and `CHANGELOG.md` agree on the version.
-3. Merge the reviewed branch, then create and push a version tag, for example `git tag v2.0.1 && git push origin v2.0.1`.
+3. Merge the reviewed branch, then create and push a matching version tag, for example `git tag v2.0.4 && git push origin v2.0.4`. This triggers both the GitHub Release and GitHub Packages publication workflows.
 4. The release workflow builds and uploads the archives and manifest. Verify the attached checksums and release page before sharing the installer.
 
 Repository metadata changes are maintained separately from this release workflow; see `scripts/finish-rename.sh` for the metadata helper.
@@ -22,11 +22,11 @@ Repository metadata changes are maintained separately from this release workflow
 Pin install commands to the selected release tag. The canonical repository is `Anshkaliya18/Sherpa`.
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.4/install.sh | bash
 ```
 
 ```powershell
-irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.4/install.ps1 | iex
 ```
 
 Avoid `latest` in public setup snippets when reproducible installs matter.

@@ -4,14 +4,14 @@ Before you pack, choose an install method that fits your machine. Sherpa is a gl
 
 ## Release status
 
-Sherpa v2.0.1 is available from GitHub Releases. From a checkout, the Windows PowerShell installer uses a filtered local source tree. The npm package remains unpublished. Runtime loading by Claude Code and OpenCode remains **NOT VERIFIED**.
+Sherpa v2.0.4 is available from GitHub Releases. From a checkout, the Windows PowerShell installer uses a filtered local source tree. Runtime loading by Claude Code and OpenCode remains **NOT VERIFIED**.
 
 ## Windows PowerShell
 
 After release, use the version-pinned installer:
 
 ```powershell
-irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.4/install.ps1 | iex
 ```
 
 From a checkout, run `./distribution/install.ps1 -Both`. To install the agent skill without the optional Python CLI, run `./distribution/install.ps1 -Both -NoCli` or set `$env:SHERPA_INSTALL_CLI = '0'`. The CLI requires Python 3; its Windows launcher supports either `python` or the `py` launcher. Install paths are `~/.claude/skills/sherpa/`, `~/.config/opencode/skills/sherpa/`, and `%USERPROFILE%\AppData\Local\Sherpa\bin` for the CLI.
@@ -21,7 +21,7 @@ From a checkout, run `./distribution/install.ps1 -Both`. To install the agent sk
 After release:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.4/install.sh | bash
 ```
 
 From a checkout, use `bash distribution/install.sh --both`. Skill directories are `~/.claude/skills/sherpa/` and `~/.config/opencode/skills/sherpa/`; the CLI is installed under `~/.local/bin/`.
@@ -32,7 +32,7 @@ The shell installer accepts `--claude`, `--opencode`, `--both`, `--version VERSI
 
 Use uppercase `SHERPA_RELEASE_MANIFEST_URL`, `SHERPA_VERSION`, `SHERPA_INSTALL_CLAUDE`, `SHERPA_INSTALL_OPENCODE`, `SHERPA_INSTALL_CLI`, and `SHERPA_NO_PATH`. Former `sherpa_*` variables are accepted for one release. See [migration notes](/migration).
 
-The `sherpa-skill` npm package is prepared but not yet published. Its `sherpa install --dry-run` wrapper previews target paths; the post-publication form will be `npx sherpa-skill@2.0.1 install --dry-run`.
+The `@anshkaliya18/sherpa-skill` package is published through GitHub Packages. Its `sherpa install --dry-run` wrapper previews target paths; run it with `npx --registry=https://npm.pkg.github.com @anshkaliya18/sherpa-skill@2.0.4 install --dry-run`.
 
 ## Verify, migrate, update
 

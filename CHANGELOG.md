@@ -1,5 +1,11 @@
 # Sherpa Changelog
 
+## [2.0.4] — 2026-11-05
+
+### Added
+
+- GitHub Actions publishing for the scoped npm package to GitHub Packages, tied to matching version tags.
+
 ## [2.0.1] — 2026-11-05
 
 ### Fixed
