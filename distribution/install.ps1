@@ -94,11 +94,19 @@ function Test-Command {
 function Get-WindowsArchitecture {
     $runtimeInfoType = 'System.Runtime.InteropServices.RuntimeInformation' -as [type]
     if ($runtimeInfoType) {
-        $runtimeArch = $runtimeInfoType::OSArchitecture.ToString().ToLowerInvariant()
-        switch ($runtimeArch) {
-            'x64'   { return 'amd64' }
-            'arm64' { return 'arm64' }
-            'x86'   { return 'x86' }
+        try {
+            $runtimeArch = $runtimeInfoType::OSArchitecture
+            if ($null -ne $runtimeArch) {
+                switch ($runtimeArch.ToString().ToLowerInvariant()) {
+                    'x64'   { return 'amd64' }
+                    'arm64' { return 'arm64' }
+                    'x86'   { return 'x86' }
+                }
+            }
+        } catch {
+            # Older Windows PowerShell/.NET combinations may expose the type
+            # without a usable OSArchitecture property; use the environment
+            # and WMI fallbacks below.
         }
     }
 
