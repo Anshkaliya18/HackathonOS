@@ -5,25 +5,25 @@
 Windows PowerShell:
 
 ```powershell
-irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.ps1 | iex
+irm https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.ps1 | iex
 ```
 
 Linux/macOS:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.sh | bash
 ```
 
-These pinned commands become available after the Sherpa v2.0.0 release publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/Sherpa/releases).
+These pinned commands use the Sherpa v2.0.1 release, which publishes the scripts, checksummed archives, and manifest. Review the scripts before running them. Current release assets are listed at [GitHub Releases](https://github.com/Anshkaliya18/Sherpa/releases).
 
 ## npm installer
 
 The package name is `sherpa-skill`. Once it is published to npm:
 
 ```sh
-npx sherpa-skill@2.0.0 install
-npx sherpa-skill@2.0.0 install --dry-run
-npx sherpa-skill@2.0.0 install --uninstall
+npx sherpa-skill@2.0.1 install
+npx sherpa-skill@2.0.1 install --dry-run
+npx sherpa-skill@2.0.1 install --uninstall
 ```
 
 `install` reuses the platform installer and targets both Claude Code and OpenCode. `--dry-run` prints both destination paths and makes no changes. `--no-cli` skips the optional Python CLI, and `--uninstall` removes managed global skill and CLI files while preserving project data. The npm package is not yet published; the npx commands become available after publication. See [npm publishing](docs/deployment/npm.md).

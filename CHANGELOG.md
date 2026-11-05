@@ -1,10 +1,11 @@
 # Sherpa Changelog
 
-## Unreleased
+## [2.0.1] — 2026-11-05
 
 ### Fixed
 
-- PowerShell installer now passes the parsed manifest object correctly, handles the empty `$PSCommandPath` produced by `irm | iex`, reports the underlying failure, and rolls back partial skill installs.
+- PowerShell architecture detection now handles a null `.NET` architecture value and safely falls back to Windows environment/WMI data.
+- PowerShell installation supports the `irm | iex` entry point, passes parsed release metadata correctly, reports the underlying failure, and rolls back partial skill installs.
 
 ## [2.0.0] — 2026-11-04
 

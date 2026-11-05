@@ -33,6 +33,6 @@ npm install --global sherpa-skill
 sherpa --help
 ```
 
-Version `2.0.0` is the prepared first Sherpa package version. npm does not allow reusing a package version: if `2.0.0` has already been published, increment `version` in `package.json` and `package-lock.json` before publishing again.
+Version `2.0.1` is the prepared Sherpa package version. npm does not allow reusing a package version: if `2.0.1` has already been published, increment `version` in `package.json` and `package-lock.json` before publishing again.
 
 For automated releases, configure npm trusted publishing for this GitHub repository and workflow instead of storing a long-lived token. See the [npm trusted publishing guide](https://docs.npmjs.com/trusted-publishers/).

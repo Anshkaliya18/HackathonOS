@@ -13,10 +13,10 @@ Sherpa is a globally installed AI agent skill that mentors hackathon teams acros
 
 ## Install once
 
-After the first Sherpa release is published, install from its version-pinned release asset:
+Install from the version-pinned Sherpa v2.0.1 release asset:
 
 ```bash
-curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.0/install.sh | bash
+curl -fsSL https://github.com/Anshkaliya18/Sherpa/releases/download/v2.0.1/install.sh | bash
 ```
 
 The same release contains `install.ps1` for Windows PowerShell. The npm package name is `sherpa-skill` (`sherpa` is already taken on npm); its first publication is still pending.
