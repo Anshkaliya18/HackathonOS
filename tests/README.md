@@ -1,31 +1,45 @@
-# Test suite map
+# Test phases
 
-Tests are grouped by the behavior they cover. Workflow contract suites use descriptive `test_*.py` names; their internal lifecycle references remain where they describe sherpa behavior.
+Run checks from fastest and most focused to broader coverage. Each phase maps to the existing topic folders, so tests stay grouped by what they verify while the run order is visible and selectable.
 
-| Area | Location | Purpose |
-|---|---|---|
-| Workflow contracts | `tests/workflows/` | Acceptance and adversarial contract checks for each workflow |
-| Workflow smoke | `tests/smoke/` | Cross-workflow state, routing, scoring, and approval-gate smoke checks |
-| Commands | `tests/commands/` | Command registry and routing behavior |
-| Configuration | `tests/configuration/` | Configuration manager and validation behavior |
-| Idea engine | `tests/ideas/` | Idea evaluation checks |
-| Installer and CLI | `tests/installer/` | Installer scripts and distribution CLI tests |
-| Regression | `tests/regression/` | Semantic verification and benchmark regressions |
+| Phase | Name | Test folders | Checks |
+|---:|---|---|---|
+| 1 | Smoke | `smoke/` | Cross-workflow state, routing, scoring, and approval gates |
+| 2 | Core | `commands/`, `configuration/`, `ideas/` | Command behavior, configuration, and idea evaluation |
+| 3 | Workflows | `workflows/` | Workflow acceptance and adversarial contracts |
+| 4 | Regression | `regression/` | Release-note, benchmark, and semantic regressions |
+| 5 | Distribution | `installer/` | Installer and CLI behavior, run with pytest |
 
-Run every self-contained Python test file in an isolated process with:
+## Run phases
+
+Run the complete suite in phase order:
 
 ```powershell
 python tests/run_all.py
 ```
 
-The standalone contract harnesses print machine-readable JSON. For example:
+Run one phase while iterating:
+
+```powershell
+python tests/run_all.py --phase smoke
+python tests/run_all.py --phase core
+python tests/run_all.py --phase workflows
+python tests/run_all.py --phase regression
+python tests/run_all.py --phase distribution
+```
+
+The first four phases execute each standalone Python suite in an isolated process. The distribution phase uses pytest so its test functions are actually collected and run.
+
+## Run a single suite
+
+Standalone contract harnesses print machine-readable JSON and exit non-zero on failure:
 
 ```powershell
 python tests/workflows/test_submission.py
 python tests/smoke/test_workflow_contracts.py
 ```
 
-The installer tests use pytest:
+Run installer checks directly with pytest:
 
 ```powershell
 python -m pytest tests/installer

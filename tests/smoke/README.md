@@ -1,4 +1,6 @@
-# Phase 6 Smoke Harness
+# Cross-workflow smoke harness
+
+This is test-run Phase 1. “Phase 6” in the harness filename and product fixtures refers to Sherpa's lifecycle phase, not the test execution order.
 
 Run from the repository root:
 
