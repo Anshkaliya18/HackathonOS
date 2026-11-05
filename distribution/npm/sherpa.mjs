@@ -10,17 +10,20 @@ const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const args = process.argv.slice(2)
 
 function help() {
-  console.log(`sherpa skill installer
+  console.log(`sherpa package launcher
 
 Usage:
   sherpa install [--dry-run]
   sherpa install --no-cli
-  sherpa migrate [--project-root PATH] [--yes]
   sherpa install --uninstall
   sherpa uninstall
+  sherpa migrate [--project-root PATH] [--yes]
+  sherpa --version
+  sherpa update | doctor | audit | clean | help
 
 Install targets: Claude Code and OpenCode. Use --dry-run to print target paths
-without downloading or writing files. Uninstall removes managed global installs.`)
+without downloading or writing files. Management commands use the bundled
+Python CLI. Uninstall removes managed global installs.`)
 }
 
 function run(script, scriptArgs, env = process.env) {
@@ -63,17 +66,21 @@ if (args.includes('--help') || args.includes('-h') || args.length === 0) {
 }
 
 const command = args[0]
+const managementCommands = new Set(['update', 'doctor', 'audit', 'clean', 'help'])
+if (command === '--version' || managementCommands.has(command)) {
+  const script = path.join(packageRoot, 'distribution', 'cli', 'sherpa')
+  runPython(script, args)
+}
 if (command === 'migrate') {
   const script = path.join(packageRoot, 'distribution', 'cli', 'sherpa')
   runPython(script, ['migrate', ...args.slice(1)])
 }
+if (!['install', 'uninstall'].includes(command)) {
+  const script = path.join(packageRoot, 'distribution', 'cli', 'sherpa')
+  runPython(script, args)
+}
 const dryRun = args.includes('--dry-run')
 const uninstall = command === 'uninstall' || args.includes('--uninstall')
-if (!['install', 'uninstall'].includes(command)) {
-  console.error(`Unknown command: ${command}`)
-  help()
-  process.exit(2)
-}
 if (dryRun && uninstall) {
   console.error('--dry-run cannot be combined with --uninstall.')
   process.exit(2)

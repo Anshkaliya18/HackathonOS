@@ -1,5 +1,13 @@
 # Sherpa Changelog
 
+## [2.0.6] — 2026-11-06
+
+### Fixed
+
+- The npm `sherpa` command now forwards management commands to the bundled CLI, including `--version`, `update`, `doctor`, `audit`, `clean`, and `help`.
+- Unknown CLI commands now show the management CLI's usage and error instead of the npm installer's limited command list.
+- `sherpa doctor` now accepts the release manifest's canonical `Sherpa` project name.
+
 ## [2.0.5] — 2026-11-06
 
 ### Fixed

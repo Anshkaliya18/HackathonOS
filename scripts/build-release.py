@@ -43,7 +43,7 @@ def digest(path: Path) -> str:
 
 
 def main() -> int:
-    tag = os.environ.get("GITHUB_REF_NAME", "v2.0.5")
+    tag = os.environ.get("GITHUB_REF_NAME", "v2.0.6")
     version = tag[1:] if tag.startswith("v") else tag
     output = Path(sys.argv[1] if len(sys.argv) > 1 else ROOT / "release-assets").resolve()
     output.mkdir(parents=True, exist_ok=True)

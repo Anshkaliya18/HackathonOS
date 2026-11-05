@@ -59,7 +59,9 @@ To remove:
 sherpa uninstall
 ```
 
-The npm wrapper commands are `install`, `migrate`, and `uninstall`. (The separate `sherpa` CLI installed by the release script below supports `update`, `doctor`, `audit`, `clean`, and `help`.)
+The npm `sherpa` launcher supports `install`, `migrate`, and `uninstall`, and forwards `update`, `doctor`, `audit`, `clean`, `help`, and `--version` to the bundled management CLI. Management commands require Python 3.
+
+Install with `--global` to call `sherpa` directly. For a local install, prefix commands with `npx sherpa-skill`, for example `npx sherpa-skill doctor`.
 
 Node.js is required to run the npm package. `package.json` does not declare an `engines` field, so no specific Node version is pinned — use a current LTS release.
 

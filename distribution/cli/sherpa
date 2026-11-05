@@ -9,6 +9,9 @@ Commands:
     sherpa update
     sherpa uninstall
     sherpa doctor
+    sherpa migrate
+    sherpa audit
+    sherpa clean [--dry-run | --yes]
     sherpa help
 
 The CLI never touches user project data or `.hackathon/` directories.
@@ -48,7 +51,7 @@ CLI_NAME = "sherpa"
 
 # Embedded fallback version. Overridden by a VERSION file next to this script
 # when one is shipped by the installer/release.
-DEFAULT_CLI_VERSION = "2.0.5"
+DEFAULT_CLI_VERSION = "2.0.6"
 
 # Default release manifest URL. Users publishing their own releases override
 # this with SHERPA_RELEASE_MANIFEST_URL.
@@ -155,7 +158,7 @@ def fetch_json(url: str, timeout: int = 30) -> dict:
         supported_major = int(latest.split(".", 1)[0]) >= 2
     except (AttributeError, ValueError):
         supported_major = False
-    if project != PROJECT or not supported_major:
+    if not isinstance(project, str) or project.casefold() != PROJECT.casefold() or not supported_major:
         raise sherpaError(f"release manifest is for {project!r} version {latest!r}, not Sherpa 2.0.0 or newer")
     return manifest
 
@@ -511,6 +514,8 @@ Usage:
     sherpa uninstall       Remove installed skills (preserves user data)
     sherpa doctor          Diagnose the installation environment
     sherpa migrate         Copy legacy .hackathon/ state into .sherpa/
+    sherpa audit           Report files in managed skill installations
+    sherpa clean           Report or remove generated debris in managed installations
     sherpa help            Show this help
 
 Environment variables:
