@@ -31,6 +31,8 @@ DEFAULT_MANIFEST_URL="https://github.com/Anshkaliya18/sherpa/releases/latest/dow
 
 CLAUDE_SKILL_DIR="${HOME}/.claude/skills/sherpa"
 OPENCODE_SKILL_DIR="${HOME}/.config/opencode/skills/sherpa"
+CODEX_SKILL_DIR="${HOME}/.agents/skills/sherpa"
+KILO_SKILL_DIR="${HOME}/.agents/skills/sherpa"
 CLI_BIN_DIR="${HOME}/.local/bin"
 
 STEP=0
@@ -39,6 +41,10 @@ TMP_DIR=""
 BACKUP_DIRS=()
 SHERPA_INSTALL_CLAUDE="${SHERPA_INSTALL_CLAUDE:-1}"
 SHERPA_INSTALL_OPENCODE="${SHERPA_INSTALL_OPENCODE:-1}"
+SHERPA_INSTALL_CODEX="${SHERPA_INSTALL_CODEX:-0}"
+SHERPA_INSTALL_KILO="${SHERPA_INSTALL_KILO:-0}"
+INSTALL_CLAUDE="$SHERPA_INSTALL_CLAUDE"
+INSTALL_OPENCODE="$SHERPA_INSTALL_OPENCODE"
 SHERPA_INSTALL_CLI="${SHERPA_INSTALL_CLI:-1}"
 SHERPA_NO_PATH="${SHERPA_NO_PATH:-0}"
 
@@ -172,10 +178,10 @@ detect_environments() {
     fi
 
     # Decide targets.
-    INSTALL_CLAUDE="${SHERPA_INSTALL_CLAUDE:-1}"
-    INSTALL_OPENCODE="${SHERPA_INSTALL_OPENCODE:-1}"
     if [[ "$INSTALL_CLAUDE" == "1" ]]; then TARGETS+=("claude"); fi
     if [[ "$INSTALL_OPENCODE" == "1" ]]; then TARGETS+=("opencode"); fi
+    if [[ "$SHERPA_INSTALL_CODEX" == "1" ]]; then TARGETS+=("codex"); fi
+    if [[ "$SHERPA_INSTALL_KILO" == "1" ]]; then TARGETS+=("kilo"); fi
     if [[ ${#TARGETS[@]} -eq 0 ]]; then
         die "no target environments selected"
     fi
@@ -346,10 +352,20 @@ backup_skill_dir() {
 
 install_skill() {
     local target_name="$1"
+    local engine="${EXTRACT_SOURCE}/distribution/cli/sherpa"
+    if [[ -f "$engine" ]]; then
+        local engine_args=("$engine" install --client "$target_name" --scope "$INSTALL_SCOPE" --yes)
+        if [[ "$INSTALL_SCOPE" == "project" ]]; then engine_args+=(--project-dir "$PROJECT_DIR"); fi
+        if [[ -n "$DESTINATION" ]]; then engine_args+=(--destination "$DESTINATION"); fi
+        if ! "$PYTHON3" "${engine_args[@]}"; then die "$target_name transactional installation failed"; fi
+        return
+    fi
     local target_dir
     case "$target_name" in
         claude)   target_dir="$CLAUDE_SKILL_DIR" ;;
         opencode) target_dir="$OPENCODE_SKILL_DIR" ;;
+        codex)    target_dir="$CODEX_SKILL_DIR" ;;
+        kilo)     target_dir="$KILO_SKILL_DIR" ;;
         *)        die "unknown target: $target_name" ;;
     esac
 
@@ -462,10 +478,20 @@ ensure_path() {
 # Validation
 ###############################################################################
 validate_installation() {
+    local engine="${EXTRACT_SOURCE}/distribution/cli/sherpa"
+    if [[ -f "$engine" ]]; then
+        for target in "${TARGETS[@]}"; do
+            local verify_args=("$engine" verify-install --client "$target" --scope "$INSTALL_SCOPE")
+            if [[ "$INSTALL_SCOPE" == "project" ]]; then verify_args+=(--project-dir "$PROJECT_DIR"); fi
+            if [[ -n "$DESTINATION" ]]; then verify_args+=(--destination "$DESTINATION"); fi
+            "$PYTHON3" "${verify_args[@]}" || die "$target post-install verification failed"
+        done
+        return
+    fi
     local problems=0
     for target in "${TARGETS[@]}"; do
         local dir
-        case "$target" in claude) dir="$CLAUDE_SKILL_DIR" ;; opencode) dir="$OPENCODE_SKILL_DIR" ;; esac
+        case "$target" in claude) dir="$CLAUDE_SKILL_DIR" ;; opencode) dir="$OPENCODE_SKILL_DIR" ;; codex) dir="$CODEX_SKILL_DIR" ;; kilo) dir="$KILO_SKILL_DIR" ;; esac
         if [[ ! -f "${dir}/SKILL.md" ]]; then err "SKILL.md missing in $dir"; problems=$((problems+1)); fi
         if [[ ! -f "${dir}/commands/manifest.json" ]]; then err "manifest missing in $dir"; problems=$((problems+1)); fi
         if [[ ! -d "${dir}/workflows" ]]; then err "workflows missing in $dir"; problems=$((problems+1)); fi
@@ -487,30 +513,34 @@ print_banner() {
 print_success() {
     printf '\n'
     printf '╔═══════════════════════════════════════╗\n'
-    printf '║  Installation completed successfully! ║\n'
+    printf '║  Installation files validated          ║\n'
     printf '╚═══════════════════════════════════════╝\n'
     printf '\n'
     printf 'sherpa is installed:\n'
     for target in "${TARGETS[@]}"; do
         local dir
-        case "$target" in claude) dir="$CLAUDE_SKILL_DIR" ;; opencode) dir="$OPENCODE_SKILL_DIR" ;; esac
+        case "$target" in claude) dir="$CLAUDE_SKILL_DIR" ;; opencode) dir="$OPENCODE_SKILL_DIR" ;; codex|kilo) dir="$CODEX_SKILL_DIR" ;; esac
+        if [[ -n "$DESTINATION" ]]; then dir="$DESTINATION/skills/sherpa"; fi
+        if [[ "$INSTALL_SCOPE" == "project" && -z "$DESTINATION" ]]; then
+            case "$target" in claude) dir="$PROJECT_DIR/.claude/skills/sherpa" ;; opencode) dir="$PROJECT_DIR/.opencode/skills/sherpa" ;; codex|kilo) dir="$PROJECT_DIR/.agents/skills/sherpa" ;; esac
+        fi
         printf '  • %s: %s\n' "$target" "$dir"
     done
-    if [[ "${SHERPA_INSTALL_CLI:-1}" == "1" ]]; then
+    if [[ "${INSTALL_CLI:-1}" == "1" ]]; then
         printf '  • CLI: %s/%s\n' "$CLI_BIN_DIR" "$CLI_NAME"
     fi
     printf '\n'
-    printf 'Try it in your AI coding agent:\n'
-    printf '  /sherpa status\n'
-    printf '  /sherpa next\n'
-    printf '  /sherpa suggest\n'
+    printf 'Client discovery and runtime execution are NOT VERIFIED by file installation.\n'
+    printf 'Invoke the installed Sherpa skill by name and include the desired operation.\n'
     printf '\n'
-    printf 'CLI commands:\n'
-    printf '  sherpa --version\n'
-    printf '  sherpa update\n'
-    printf '  sherpa doctor\n'
-    printf '  sherpa uninstall\n'
-    printf '\n'
+    if [[ "${INSTALL_CLI:-1}" == "1" ]]; then
+        printf 'CLI commands:\n'
+        printf '  sherpa --version\n'
+        printf '  sherpa update\n'
+        printf '  sherpa doctor\n'
+        printf '  sherpa uninstall\n'
+        printf '\n'
+    fi
     printf 'Release manifest: %s\n' "$MANIFEST_URL_DISPLAY"
     printf 'Docs: INSTALLATION.md README.md SECURITY.md\n'
     printf '\n'
@@ -520,6 +550,9 @@ print_success() {
 # Argument parsing
 ###############################################################################
 TARGETS=()
+INSTALL_SCOPE="global"
+PROJECT_DIR=""
+DESTINATION=""
 MANIFEST_URL_DISPLAY=""
 INSTALL_CLI=1
 
@@ -533,7 +566,10 @@ Options:
   --claude           Install only the Claude Code skill
   --opencode         Install only the OpenCode skill
   --both             Install both Claude Code and OpenCode (default when none detected)
-  --project DIR      Project-level install target (experimental)
+  --codex            Install the Codex Agent Skills bundle
+  --kilo             Install Kilo skills and native workflows
+  --project DIR      Project-level install target
+  --destination DIR  Custom client configuration root (one client only)
   --version VER      Pin a specific release version
   --manifest-url URL Override the release manifest URL
   --no-cli           Do not install the sherpa CLI
@@ -556,10 +592,13 @@ EOF
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --claude)   INSTALL_CLAUDE=1; INSTALL_OPENCODE=0; shift ;;
-        --opencode) INSTALL_OPENCODE=1; INSTALL_CLAUDE=0; shift ;;
+        --claude)   INSTALL_CLAUDE=1; INSTALL_OPENCODE=0; SHERPA_INSTALL_CODEX=0; SHERPA_INSTALL_KILO=0; shift ;;
+        --opencode) INSTALL_OPENCODE=1; INSTALL_CLAUDE=0; SHERPA_INSTALL_CODEX=0; SHERPA_INSTALL_KILO=0; shift ;;
+        --codex)    INSTALL_CLAUDE=0; INSTALL_OPENCODE=0; SHERPA_INSTALL_CODEX=1; SHERPA_INSTALL_KILO=0; shift ;;
+        --kilo)     INSTALL_CLAUDE=0; INSTALL_OPENCODE=0; SHERPA_INSTALL_CODEX=0; SHERPA_INSTALL_KILO=1; shift ;;
         --both)     INSTALL_CLAUDE=1; INSTALL_OPENCODE=1; shift ;;
-        --project)  die "project-level installer mode is not implemented; use the repository-local agent files" ;;
+        --project)  PROJECT_DIR="${2:-}"; [[ -n "$PROJECT_DIR" ]] || die "--project requires a directory"; INSTALL_SCOPE="project"; shift 2 ;;
+        --destination) DESTINATION="${2:-}"; [[ -n "$DESTINATION" ]] || die "--destination requires a path"; shift 2 ;;
         --version)  SHERPA_VERSION="${2:-}"; shift 2 ;;
         --manifest-url) SHERPA_RELEASE_MANIFEST_URL="${2:-}"; shift 2 ;;
         --no-cli)   INSTALL_CLI=0; shift ;;
@@ -584,16 +623,26 @@ main() {
     step "Detecting environment"
     detect_environments
 
-    step "Fetching latest release"
-    fetch_manifest
-    MANIFEST_URL_DISPLAY="${SHERPA_RELEASE_MANIFEST_URL:-$DEFAULT_MANIFEST_URL}"
-    select_archive
+    if [[ -n "$DESTINATION" && ${#TARGETS[@]} -ne 1 ]]; then die "--destination requires exactly one selected client"; fi
+    if [[ "$INSTALL_SCOPE" == "project" && ! -d "$PROJECT_DIR" ]]; then die "project directory does not exist: $PROJECT_DIR"; fi
 
-    step "Downloading package"
-    download_and_verify
-
-    step "Verifying integrity"
-    validate_archive_contents "$ARCHIVE_FILE"
+    local script_dir repo_root
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+    repo_root="$(cd "$script_dir/.." 2>/dev/null && pwd)"
+    if [[ -f "${repo_root}/distribution/generated/shared/sherpa/SKILL.md" && -f "${repo_root}/distribution/cli/installer.py" ]]; then
+        EXTRACT_SOURCE="$repo_root"
+        INSTALL_VERSION="$(cat "${repo_root}/distribution/VERSION")"
+        MANIFEST_URL_DISPLAY="local checkout ($INSTALL_VERSION)"
+    else
+        step "Fetching latest release"
+        fetch_manifest
+        MANIFEST_URL_DISPLAY="${SHERPA_RELEASE_MANIFEST_URL:-$DEFAULT_MANIFEST_URL}"
+        select_archive
+        step "Downloading package"
+        download_and_verify
+        step "Verifying integrity"
+        validate_archive_contents "$ARCHIVE_FILE"
+    fi
 
     step "Installing skill"
     for target in "${TARGETS[@]}"; do

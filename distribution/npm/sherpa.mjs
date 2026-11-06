@@ -13,17 +13,20 @@ function help() {
   console.log(`sherpa package launcher
 
 Usage:
-  sherpa install [--dry-run]
-  sherpa install --no-cli
-  sherpa install --uninstall
-  sherpa uninstall
+  sherpa install [--client auto|claude|opencode|codex|kilo|all] [--scope global|project]
+               [--project-dir PATH] [--destination PATH] [--dry-run]
+  sherpa uninstall [--client claude|opencode|codex|kilo|all] [--scope global|project]
+                 [--project-dir PATH] [--destination PATH] [--yes]
+  Legacy standalone-installer flags: --no-cli, --uninstall
   sherpa migrate [--project-root PATH] [--yes]
   sherpa --version
   sherpa update | doctor | audit | clean | help
 
-Install targets: Claude Code and OpenCode. Use --dry-run to print target paths
-without downloading or writing files. Management commands use the bundled
-Python CLI. Uninstall removes managed global installs.`)
+Install targets are Claude Code, OpenCode, Codex, and Kilo Code. Native
+command registration is generated only for clients that support it. Use
+--dry-run to print the default skill destinations without writing files.
+Client discovery and runtime execution remain unverified until tested in each
+client.`)
 }
 
 function run(script, scriptArgs, env = process.env) {
@@ -66,7 +69,7 @@ if (args.includes('--help') || args.includes('-h') || args.length === 0) {
 }
 
 const command = args[0]
-const managementCommands = new Set(['update', 'doctor', 'audit', 'clean', 'help'])
+const managementCommands = new Set(['update', 'doctor', 'audit', 'clean', 'help', 'verify-install'])
 if (command === '--version' || managementCommands.has(command)) {
   const script = path.join(packageRoot, 'distribution', 'cli', 'sherpa')
   runPython(script, args)
@@ -74,6 +77,15 @@ if (command === '--version' || managementCommands.has(command)) {
 if (command === 'migrate') {
   const script = path.join(packageRoot, 'distribution', 'cli', 'sherpa')
   runPython(script, ['migrate', ...args.slice(1)])
+}
+if (command === 'install') {
+  runPython(path.join(packageRoot, 'distribution', 'cli', 'sherpa'), args)
+}
+if (command === 'uninstall' && args.includes('--client')) {
+  runPython(path.join(packageRoot, 'distribution', 'cli', 'sherpa'), args)
+}
+if (command === 'uninstall') {
+  runPython(path.join(packageRoot, 'distribution', 'cli', 'sherpa'), ['uninstall', '--yes'])
 }
 if (!['install', 'uninstall'].includes(command)) {
   const script = path.join(packageRoot, 'distribution', 'cli', 'sherpa')

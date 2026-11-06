@@ -14,6 +14,41 @@
 
 set -euo pipefail
 
+# Prefer the receipt-aware installer engine when this script is part of a
+# checkout or extracted release. The legacy bootstrap fallback below remains
+# for older remote one-file invocations that have no adjacent engine.
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "${SCRIPT_DIR}/cli/installer.py" && -f "${SCRIPT_DIR}/cli/sherpa" ]]; then
+    PYTHON_BIN=""
+    for candidate in python3 python; do
+        candidate_path="$(command -v "$candidate" || true)"
+        if [[ -n "$candidate_path" ]] && "$candidate_path" -c 'import sys; raise SystemExit(0 if sys.version_info.major == 3 else 1)' >/dev/null 2>&1; then
+            PYTHON_BIN="$candidate_path"
+            break
+        fi
+    done
+    [[ -n "${PYTHON_BIN}" ]] || { echo "Python 3 is required to remove managed Sherpa installs." >&2; exit 1; }
+    CLIENT="all"
+    SCOPE="global"
+    PROJECT_DIR=""
+    DESTINATION=""
+    YES="${SHERPA_YES:-0}"
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --client) CLIENT="$2"; shift 2 ;;
+            --project) SCOPE="project"; PROJECT_DIR="$2"; shift 2 ;;
+            --destination) DESTINATION="$2"; shift 2 ;;
+            --yes|-y) YES=1; shift ;;
+            *) echo "Unknown option: $1" >&2; exit 2 ;;
+        esac
+    done
+    ARGS=(uninstall --client "$CLIENT" --scope "$SCOPE")
+    [[ -z "$PROJECT_DIR" ]] || ARGS+=(--project-dir "$PROJECT_DIR")
+    [[ -z "$DESTINATION" ]] || ARGS+=(--destination "$DESTINATION")
+    [[ "$YES" != "1" ]] || ARGS+=(--yes)
+    exec "$PYTHON_BIN" "${SCRIPT_DIR}/cli/sherpa" "${ARGS[@]}"
+fi
+
 PROJECT="sherpa"
 CLI_NAME="sherpa"
 CLI_BIN_DIR="${HOME}/.local/bin"

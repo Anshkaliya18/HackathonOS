@@ -1,5 +1,15 @@
 # Sherpa Changelog
 
+## [2.0.8] — 2026-11-07
+
+### Fixed
+
+- Rebuilt client skill and command distributions from the canonical workflow and command manifest sources.
+- Added client-aware global, project, and custom-root installation with version checks, rollback, verification, and receipt-based uninstall.
+- Corrected npm and standalone package contents so generated client adapters and supporting resources ship together.
+- Clarified which clients receive skills and which receive native slash/workflow commands; runtime verification remains explicit.
+- Added compatibility, installation, command-registration, architecture, and release validation reports.
+
 ## [2.0.7] — 2026-11-06
 
 ### Added

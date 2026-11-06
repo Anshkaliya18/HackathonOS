@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "sherpa",
   "description": "AI hackathon mentor skill for Claude Code, Codex, Gemini CLI, Qwen Code, OpenCode, and Kilo Code",
-  "latest": { "version": "2.0.7", "channel": "stable" },
+  "latest": { "version": "2.0.8", "channel": "stable" },
   "archives": [],
   "cli": null,
   "notes": "Release manifest template. scripts/build-release.py creates the actual archive URLs, sizes, checksums, and timestamp for each tagged release.",

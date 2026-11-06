@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import shutil
@@ -33,6 +34,14 @@ import tempfile
 import time
 import zipfile
 from pathlib import Path
+_installer_spec = importlib.util.spec_from_file_location(
+    "_sherpa_installer", Path(__file__).resolve().with_name("installer.py")
+)
+if _installer_spec is None or _installer_spec.loader is None:
+    raise RuntimeError("Sherpa installer module is missing beside the CLI.")
+installation_engine = importlib.util.module_from_spec(_installer_spec)
+_installer_spec.loader.exec_module(installation_engine)
+add_installation_parsers = installation_engine.add_parser
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -51,7 +60,7 @@ CLI_NAME = "sherpa"
 
 # Embedded fallback version. Overridden by a VERSION file next to this script
 # when one is shipped by the installer/release.
-DEFAULT_CLI_VERSION = "2.0.7"
+DEFAULT_CLI_VERSION = "2.0.8"
 
 # Default release manifest URL. Users publishing their own releases override
 # this with SHERPA_RELEASE_MANIFEST_URL.
@@ -463,9 +472,38 @@ def cmd_update(args: argparse.Namespace) -> int:
 
 
 def cmd_uninstall(args: argparse.Namespace) -> int:
+    managed_clients = getattr(args, "client", None)
+    if not isinstance(managed_clients, str):
+        managed_clients = None
+    if managed_clients is None:
+        managed_clients = [client for client in installation_engine.CLIENTS
+                           if (installation_engine.default_base(client, "global", None) / installation_engine.MARKER).is_file()]
+    if managed_clients:
+        clients = installation_engine.CLIENTS if managed_clients == "all" else (managed_clients,) if isinstance(managed_clients, str) else managed_clients
+        if args.destination and len(clients) > 1:
+            print("--destination can be used with one --client at a time", file=sys.stderr)
+            return 2
+        print("Managed Sherpa installations to remove:")
+        for client in clients:
+            base = args.destination if args.destination else installation_engine.default_base(client, args.scope, args.project_dir)
+            print(f"  {client}: {base}")
+        if not args.assume_yes:
+            reply = input("Proceed with uninstallation? [y/N]: ").strip().lower()
+            if reply not in ("y", "yes"):
+                print("Uninstallation cancelled.")
+                return 0
+        failures = 0
+        for client in clients:
+            try:
+                removed = installation_engine.uninstall(client, args.scope, args.project_dir, args.destination)
+                print(f"{client}: " + ("\n  ".join(removed) if removed else "uninstalled"))
+            except Exception as exc:
+                failures += 1
+                print(f"{client}: UNINSTALL FAILED: {exc}", file=sys.stderr)
+        return 1 if failures else 0
     installed = detect_installed()
     if not installed:
-        print("No Sherpa skill installation found.")
+        print("No sherpa installation found.")
         return 0
 
     print(f"The following will be removed:")
@@ -643,6 +681,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_uninstall = sub.add_parser("uninstall", help="remove installed skills")
     p_uninstall.add_argument("--yes", "-y", dest="assume_yes", action="store_true",
                              help="skip confirmation prompts")
+    p_uninstall.add_argument("--client", choices=("claude", "opencode", "codex", "kilo", "all"), default=None,
+                             help="remove only files recorded by the generated installer")
+    p_uninstall.add_argument("--scope", choices=("global", "project"), default="global")
+    p_uninstall.add_argument("--project-dir", type=Path)
+    p_uninstall.add_argument("--destination", type=Path)
     p_uninstall.set_defaults(func=cmd_uninstall)
 
     sub.add_parser("doctor", help="diagnose the installation environment").set_defaults(func=cmd_doctor)
@@ -655,6 +698,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_clean.add_argument("--dry-run", action="store_true", help="report only (default)")
     p_clean.add_argument("--yes", "-y", dest="assume_yes", action="store_true", help="authorize removal")
     p_clean.set_defaults(func=cmd_clean)
+    add_installation_parsers(sub)
     sub.add_parser("help", help="show this help message").set_defaults(func=cmd_help)
 
     return parser

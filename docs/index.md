@@ -5,7 +5,7 @@ titleTemplate: false
 hero:
   name: Sherpa
   text: Build the right thing. Prove it works. Show why it matters.
-  tagline: An AI mentor skill you install once for Claude Code and OpenCode, then use in every project to make hackathon work clearer and more evidence-led.
+  tagline: A portable AI mentor with client-specific skill and command integrations for hackathon teams.
   image:
     src: /ascent.svg
     alt: Layered mountain ridges with a winding trail to a small summit flag
@@ -20,7 +20,7 @@ hero:
 
 <InstallCopy />
 
-<p class="home-install-note">Install Sherpa v2.0.7 from the release assets. Windows PowerShell instructions are in the <a href="/sherpa/installation/">installation guide</a>.</p>
+<p class="home-install-note">Sherpa 2.0.8 adds generated client distributions and a managed installer. Check release availability and compatibility notes before installing.</p>
 
 <div class="home-fieldnote">A good guide helps you choose a route, checks the weather, and leaves the decisions with you. Sherpa brings that rhythm to a hackathon build.</div>
 
@@ -60,4 +60,4 @@ See the full [agent compatibility notes](/agents/) for scope and evidence.
 - [Command reference](/reference/commands) — manifest-backed command and CLI details.
 - [Architecture](/architecture/) — how the skill, core, workflows, and project state fit together.
 
-<div class="home-fieldnote"><a href="https://github.com/Anshkaliya18/Sherpa">GitHub repository</a> · MIT License · version 2.0.7</div>
+<div class="home-fieldnote"><a href="https://github.com/Anshkaliya18/Sherpa">GitHub repository</a> · MIT License · version 2.0.8</div>

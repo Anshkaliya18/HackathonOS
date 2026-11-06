@@ -8,10 +8,30 @@
 
 [CmdletBinding()]
 param(
-    [switch] $Yes
+    [switch] $Yes,
+    [ValidateSet('all', 'claude', 'opencode', 'codex', 'kilo')][string] $Client = 'all',
+    [ValidateSet('global', 'project')][string] $Scope = 'global',
+    [string] $ProjectDir,
+    [string] $Destination
 )
 
 $ErrorActionPreference = 'Stop'
+
+# Extracted checkouts/releases contain the receipt-aware engine. Keep the
+# older one-file cleanup below only for legacy remote bootstrap compatibility.
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$engine = Join-Path $scriptDir 'cli\installer.py'
+$cli = Join-Path $scriptDir 'cli\sherpa'
+if ((Test-Path $engine) -and (Test-Path $cli)) {
+    $python = Get-Command python -ErrorAction SilentlyContinue
+    if (-not $python) { throw 'Python 3 is required to remove managed Sherpa installs.' }
+    $arguments = @($cli, 'uninstall', '--client', $Client, '--scope', $Scope)
+    if ($ProjectDir) { $arguments += @('--project-dir', $ProjectDir) }
+    if ($Destination) { $arguments += @('--destination', $Destination) }
+    if ($Yes) { $arguments += '--yes' }
+    & $python.Source @arguments
+    exit $LASTEXITCODE
+}
 
 $PROJECT = "sherpa"
 $CLI_NAME = "sherpa"

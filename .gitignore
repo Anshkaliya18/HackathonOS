@@ -42,6 +42,7 @@ docs/.vitepress/theme/compatibility-data.generated.json
 # Generated output and temporary files
 build/
 dist/
+distribution/generated/
 coverage/
 *.log
 logs/

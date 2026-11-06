@@ -18,4 +18,4 @@ On 2026-11-04, the earlier v1.0.0 Windows package was installed with PowerShell 
 
 Sherpa packages one shared Agent Skill and native manifests for several hosts. The files establish packaging only, not discovery or workflow execution. See `commands/manifest.json` for separate runtime-check evidence. Do not infer runtime compatibility from the presence of Markdown command files or plugin manifests.
 
-The `sherpa install` CLI currently targets Claude Code and OpenCode. Other hosts can read the shared `.agents/skills/sherpa/` layout or install their plugin/extension package as documented in [the agent guide](https://anshkaliya18.github.io/Sherpa/agents/). These newer adapters are NOT VERIFIED until tested in their host applications.
+The generated installer targets Claude Code, OpenCode, Codex, and Kilo Code. It installs Agent Skills separately from native command files and reports filesystem checks separately from client discovery and execution. Gemini CLI and Qwen Code retain repository extension files but are not targets of the universal installer. See [the client compatibility matrix](CLIENT-COMPATIBILITY-MATRIX.md) for host-specific evidence and limits.

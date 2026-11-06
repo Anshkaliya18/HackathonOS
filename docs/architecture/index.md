@@ -48,7 +48,7 @@ sequenceDiagram
   participant Router as Manifest and Python router
   participant Workflow
   participant State as Project .sherpa/
-  User->>Host: /sherpa operation
+  User->>Host: Invoke a client skill or registered native command
   Host->>Skill: Load instructions and invocation
   Skill->>Router: Resolve explicit command or intent
   Router-->>Skill: Registered operation and workflow
@@ -64,7 +64,7 @@ Project state belongs to the hackathon repository in `.sherpa/`. The skill's ins
 
 ## Routing and extension points
 
-The master behavior is in `SKILL.md`; registered native hyphenated commands and runtime evidence are in `commands/manifest.json`. `core/commands/router.py` implements routing. Workflows, rules, and templates are Markdown extension points. Agent integrations are checked-in assets rather than generated from a central schema.
+The master behavior is in `SKILL.md`; canonical operation entries are in `commands/manifest.json`. `scripts/build-distributions.py` generates client-specific skill and command files from those sources. `core/commands/router.py` implements routing. Workflows, rules, and templates are Markdown extension points. Codex receives skills without a native slash-command claim.
 
 ## Configuration and errors
 

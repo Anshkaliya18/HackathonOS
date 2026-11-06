@@ -21,8 +21,11 @@
 param(
     [switch] $Claude,
     [switch] $OpenCode,
+    [switch] $Codex,
+    [switch] $Kilo,
     [switch] $Both,
     [string] $ProjectDir,
+    [string] $Destination,
     [string] $Version,
     [string] $ManifestUrl,
     [switch] $NoCli,
@@ -39,6 +42,8 @@ $DEFAULT_MANIFEST_URL = "https://github.com/Anshkaliya18/sherpa/releases/latest/
 
 $CLAUDE_SKILL_DIR = Join-Path $env:USERPROFILE ".claude\skills\sherpa"
 $OPENCODE_SKILL_DIR = Join-Path $env:USERPROFILE ".config\opencode\skills\sherpa"
+$CODEX_SKILL_DIR = Join-Path $env:USERPROFILE ".agents\skills\sherpa"
+$KILO_SKILL_DIR = Join-Path $env:USERPROFILE ".agents\skills\sherpa"
 $CLI_BIN_DIR = Join-Path $env:USERPROFILE "AppData\Local\sherpa\bin"
 
 $script:TMP_DIR = $null
@@ -168,6 +173,17 @@ function Use-LocalCheckout {
             Copy-LocalSkillTree $source (Join-Path $stage $name) $repositoryRoot
         }
     }
+    $generated = Join-Path $repositoryRoot 'distribution\generated'
+    if (Test-Path $generated) { Copy-LocalSkillTree $generated (Join-Path $stage 'distribution\generated') $repositoryRoot }
+    $cliSource = Join-Path $repositoryRoot 'distribution\cli'
+    if (Test-Path $cliSource) {
+        $cliDest = Join-Path $stage 'distribution\cli'
+        New-Item -ItemType Directory -Path $cliDest -Force | Out-Null
+        foreach ($file in @('sherpa', 'installer.py')) {
+            $source = Join-Path $cliSource $file
+            if (Test-Path $source) { Copy-Item -LiteralPath $source -Destination $cliDest -Force }
+        }
+    }
     $script:EXTRACT_SOURCE = $stage
     $script:INSTALL_VERSION = (Get-Content -LiteralPath (Join-Path $distributionDir 'VERSION') -Raw).Trim()
     $script:MANIFEST_URL_DISPLAY = "local checkout ($script:INSTALL_VERSION)"
@@ -241,15 +257,22 @@ function Detect-Environment {
 
     $script:INSTALL_CLAUDE = [bool]($env:SHERPA_INSTALL_CLAUDE -ne "0")
     $script:INSTALL_OPENCODE = [bool]($env:SHERPA_INSTALL_OPENCODE -ne "0")
+    $script:INSTALL_CODEX = [bool]($env:SHERPA_INSTALL_CODEX -eq "1")
+    $script:INSTALL_KILO = [bool]($env:SHERPA_INSTALL_KILO -eq "1")
     $script:INSTALL_CLI = [bool]($env:SHERPA_INSTALL_CLI -ne "0")
     if ($NoCli) { $script:INSTALL_CLI = $false }
     if ($Claude) { $script:INSTALL_CLAUDE = $true; $script:INSTALL_OPENCODE = $false }
     if ($OpenCode) { $script:INSTALL_OPENCODE = $true; $script:INSTALL_CLAUDE = $false }
+    if ($Codex -or $Kilo) { $script:INSTALL_CLAUDE = $false; $script:INSTALL_OPENCODE = $false }
     if ($Both) { $script:INSTALL_CLAUDE = $true; $script:INSTALL_OPENCODE = $true }
+    if ($Codex) { $script:INSTALL_CODEX = $true }
+    if ($Kilo) { $script:INSTALL_KILO = $true }
 
     $script:TARGETS = New-Object System.Collections.Generic.List[string]
     if ($script:INSTALL_CLAUDE) { $script:TARGETS.Add("claude") }
     if ($script:INSTALL_OPENCODE) { $script:TARGETS.Add("opencode") }
+    if ($script:INSTALL_CODEX) { $script:TARGETS.Add("codex") }
+    if ($script:INSTALL_KILO) { $script:TARGETS.Add("kilo") }
     if ($script:TARGETS.Count -eq 0) {
         throw "No target environments selected."
     }
@@ -416,9 +439,23 @@ function Rollback-Installs {
 
 function Install-Skill {
     param([string] $TargetName)
+    $engine = Join-Path $script:EXTRACT_SOURCE 'distribution\cli\sherpa'
+    if (Test-Path $engine) {
+        $python = if (Test-Command python) { 'python' } elseif (Test-Command py) { 'py' } else { throw 'Python 3 is required by the transactional installer.' }
+        $pythonPrefix = if ($python -eq 'py') { @('-3') } else { @() }
+        $scope = if ([string]::IsNullOrWhiteSpace($ProjectDir)) { 'global' } else { 'project' }
+        $installArgs = @($engine, 'install', '--client', $TargetName, '--scope', $scope, '--yes')
+        if ($scope -eq 'project') { $installArgs += @('--project-dir', $ProjectDir) }
+        if (-not [string]::IsNullOrWhiteSpace($Destination)) { $installArgs += @('--destination', $Destination) }
+        & $python @pythonPrefix @installArgs
+        if ($LASTEXITCODE -ne 0) { throw ("{0} client installation failed with exit code {1}." -f $TargetName, $LASTEXITCODE) }
+        return
+    }
     switch ($TargetName) {
         "claude"   { $targetDir = $CLAUDE_SKILL_DIR }
         "opencode" { $targetDir = $OPENCODE_SKILL_DIR }
+        "codex"    { $targetDir = $CODEX_SKILL_DIR }
+        "kilo"     { $targetDir = $KILO_SKILL_DIR }
         default    { throw "Unknown target: $TargetName" }
     }
 
@@ -505,11 +542,32 @@ function Ensure-Path {
 }
 
 function Validate-Installation {
+    $engine = Join-Path $script:EXTRACT_SOURCE 'distribution\cli\sherpa'
+    if (Test-Path $engine) {
+        $python = if (Test-Command python) { 'python' } elseif (Test-Command py) { 'py' } else { throw 'Python 3 is required for installation verification.' }
+        $prefix = if ($python -eq 'py') { @('-3') } else { @() }
+        $scope = if ([string]::IsNullOrWhiteSpace($ProjectDir)) { 'global' } else { 'project' }
+        foreach ($target in $script:TARGETS) {
+            $verifyArgs = @($engine, 'verify-install', '--client', $target, '--scope', $scope)
+            if ($scope -eq 'project') { $verifyArgs += @('--project-dir', $ProjectDir) }
+            if (-not [string]::IsNullOrWhiteSpace($Destination)) { $verifyArgs += @('--destination', $Destination) }
+            & $python @prefix @verifyArgs
+            if ($LASTEXITCODE -ne 0) { throw ("{0} post-install verification failed." -f $target) }
+        }
+        return
+    }
     $problems = 0
     foreach ($target in $script:TARGETS) {
         switch ($target) {
             "claude"   { $dir = $CLAUDE_SKILL_DIR }
             "opencode" { $dir = $OPENCODE_SKILL_DIR }
+            "codex"    { $dir = $CODEX_SKILL_DIR }
+            "kilo"     { $dir = $KILO_SKILL_DIR }
+        }
+        if (-not [string]::IsNullOrWhiteSpace($Destination)) { $dir = Join-Path $Destination 'skills\sherpa' }
+        if (-not [string]::IsNullOrWhiteSpace($ProjectDir) -and [string]::IsNullOrWhiteSpace($Destination)) {
+            $folder = switch ($target) { 'claude' { '.claude' } 'opencode' { '.opencode' } default { '.agents' } }
+            $dir = Join-Path $ProjectDir (Join-Path $folder 'skills\sherpa')
         }
         if (-not (Test-Path (Join-Path $dir "SKILL.md"))) { Write-Err ("SKILL.md missing in {0}" -f $dir); $problems++ }
         if (-not (Test-Path (Join-Path $dir "commands\manifest.json"))) { Write-Err ("Manifest missing in {0}" -f $dir); $problems++ }
@@ -539,7 +597,7 @@ function Print-Banner {
 function Print-Success {
     Write-Host ""
     Write-Host "=========================================" -ForegroundColor Green
-    Write-Host "|  Installation completed successfully! |" -ForegroundColor Green
+    Write-Host "|  Installation files validated          |" -ForegroundColor Green
     Write-Host "=========================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "sherpa is installed:"
@@ -547,6 +605,13 @@ function Print-Success {
         switch ($target) {
             "claude"   { $dir = $CLAUDE_SKILL_DIR }
             "opencode" { $dir = $OPENCODE_SKILL_DIR }
+            "codex"    { $dir = $CODEX_SKILL_DIR }
+            "kilo"     { $dir = $KILO_SKILL_DIR }
+        }
+        if (-not [string]::IsNullOrWhiteSpace($Destination)) { $dir = Join-Path $Destination 'skills\sherpa' }
+        if (-not [string]::IsNullOrWhiteSpace($ProjectDir) -and [string]::IsNullOrWhiteSpace($Destination)) {
+            $folder = switch ($target) { 'claude' { '.claude' } 'opencode' { '.opencode' } default { '.agents' } }
+            $dir = Join-Path $ProjectDir (Join-Path $folder 'skills\sherpa')
         }
         Write-Host ("  * {0}: {1}" -f $target, $dir) -ForegroundColor Green
     }
@@ -554,10 +619,9 @@ function Print-Success {
         Write-Host ("  * CLI: {0}\{1}" -f $CLI_BIN_DIR, $CLI_NAME) -ForegroundColor Green
     }
     Write-Host ""
-    Write-Host "Try it in your AI coding agent:"
-    Write-Host "  /sherpa status"
-    Write-Host "  /sherpa next"
-    Write-Host "  /sherpa suggest"
+    Write-Host "Client discovery and runtime execution are NOT VERIFIED by file installation."
+    Write-Host "Try the skill in your AI coding agent after restarting or reloading it:"
+    Write-Host "  Invoke the installed Sherpa skill by name and include the desired operation."
     Write-Host ""
     if ($script:INSTALL_CLI) {
         Write-Host "CLI commands:"
@@ -583,8 +647,9 @@ function Print-Success {
 Print-Banner
 
 if (-not [string]::IsNullOrWhiteSpace($ProjectDir)) {
-    throw "Project-level installer mode is not implemented; use the repository-local agent files."
+    if (-not (Test-Path -LiteralPath $ProjectDir -PathType Container)) { throw "Project directory does not exist: $ProjectDir" }
 }
+if (-not [string]::IsNullOrWhiteSpace($Destination) -and $script:TARGETS.Count -ne 1) { throw "-Destination requires exactly one selected client." }
 
 $usingLocalCheckout = Use-LocalCheckout
 if ($usingLocalCheckout) { $script:STEP_TOTAL = 4 }

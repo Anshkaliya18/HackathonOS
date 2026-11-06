@@ -11,14 +11,16 @@ sherpa install
 
 Then in your agent:
 ```text
-/sherpa suggest
-/sherpa plan
-/sherpa demo
-/sherpa submission
+/sherpa-suggest
+/sherpa-plan
+/sherpa-demo
+/sherpa-submission
 ```
 
+The exact invocation depends on the client. OpenCode registers native `/sherpa-*` commands; Claude Code exposes the generated operation skills; Codex discovers Agent Skills without Sherpa slash-command registration. Kilo provides generated workflow commands.
+
 **What you get right away:**
-- **One install:** works in Claude Code and OpenCode; project state lives in `.sherpa/` and survives restarts and context switches.
+- **One install:** generates client-specific skill and command files for Claude Code, OpenCode, Codex, and Kilo; project state lives in `.sherpa/` and survives restarts and context switches.
 - **Evidence-led:** facts vs assumptions, with `UNKNOWN` when information is missing — no invented details.
 - **Human approval gates:** Sherpa recommends, never silently picks an idea or writes code without you confirming.
 - **Full lifecycle:** idea → plan → build → verify → demo → submission → postmortem.
@@ -41,7 +43,7 @@ npm install -g sherpa-skill
 sherpa install
 ```
 
-This installs the Sherpa skill for both Claude Code and OpenCode, plus the `sherpa` distribution CLI. To preview without writing files:
+This detects installed Claude Code, OpenCode, Codex, and Kilo CLIs and installs their generated integrations, plus the `sherpa` distribution CLI. Use `--client` to select one. To preview the actual detected targets without writing files:
 
 ```bash
 sherpa install --dry-run
@@ -79,11 +81,11 @@ Windows PowerShell:
 irm https://github.com/Anshkaliya18/sherpa/releases/latest/download/install.ps1 | iex
 ```
 
-Both installers target `~/.claude/skills/sherpa/` (Claude Code) and `~/.config/opencode/skills/sherpa/` (OpenCode) by default and never touch your project data or `.sherpa/` directories.
+The release installer supports Claude Code, OpenCode, Codex, and Kilo through explicit client options and project-local targets. It records managed files for upgrade and uninstall. Filesystem validation is reported separately from live client discovery and runtime execution.
 
 ## See it in action
 
-The following is an illustrative example, not a guaranteed transcript. It shows how a vague team idea becomes a scoped plan using real `/sherpa` operations.
+The following is illustrative, not a guaranteed transcript. The slash commands shown are native OpenCode/Kilo entries; Claude and Codex use their discovered skills.
 
 **Before** — a vague team idea:
 > "We should build something for campus accessibility. Maybe an app?"
@@ -91,45 +93,45 @@ The following is an illustrative example, not a guaranteed transcript. It shows 
 **After** — walking the idea through Sherpa operations:
 
 ```text
-/sherpa suggest ideas for campus accessibility
+/sherpa-suggest ideas for campus accessibility
 # -> Surfaces candidate ideas with pros/cons, risks, and judging-impact notes.
 #    Human picks one; Sherpa never auto-selects.
 
-/sherpa evaluate the chosen idea
+/sherpa-evaluate the chosen idea
 # -> Compares candidates against evidence and criteria, then recommends.
 
-/sherpa plan
+/sherpa-plan
 # -> Writes an implementation-ready engineering plan to .sherpa/.
 #    Architecture is not auto-approved and no code is written yet.
 
-/sherpa demo
+/sherpa-demo
 # -> Produces a judge-oriented demo preparation plan from validated evidence.
 
-/sherpa submission
+/sherpa-submission
 # -> Verifies and freezes submission materials without submitting.
 
-/sherpa status
+/sherpa-status
 # -> Shows where you are, what's complete, what's broken, and the risks.
 ```
 
-Each operation maps to a real workflow in `workflows/` (e.g. `idea-intelligence.md`, `project-planning.md`, `demo-preparation.md`, `submission.md`) and is registered in `commands/manifest.json`. Invoke as `/sherpa <operation> [focus]`.
+Each operation maps to a workflow in `workflows/` and is registered in `commands/manifest.json`. Native command registration depends on the client; Codex receives skills only. See the client matrix for verified capabilities and runtime limits.
 
 ## Supported agents
 
-| Agent | Integration files | Global installer | Runtime status |
+| Agent | Generated integration | Installer support | Runtime status |
 |---|---|---:|---|
-| Claude Code | Claude plugin marketplace and Agent Skill | npm installer | NOT VERIFIED |
-| Codex CLI / Codex app | Codex plugin manifest and Agent Skill | shared skill | NOT VERIFIED |
-| Gemini CLI | Gemini extension and Agent Skill | shared skill | NOT VERIFIED |
-| Qwen Code | Qwen extension and Agent Skill | shared skill | NOT VERIFIED |
-| OpenCode | Agent Skill and legacy commands | npm installer | NOT VERIFIED |
-| Kilo Code | Agent Skill and project commands | shared skill | NOT VERIFIED |
+| Claude Code | Agent Skills; operation skills are separate from command files | Global, project, custom root | Files verified; invocation NOT RUN |
+| Codex CLI / Codex app | Agent Skills; no native slash command is claimed | Global, project, custom root | Files verified; invocation NOT RUN |
+| OpenCode | Agent Skill plus native commands using `$ARGUMENTS` | Global, project, custom root | Project skill discovery PASS; command execution NOT RUN |
+| Kilo Code | Agent Skills plus native workflows | Global, project, custom root | Windows skill discovery observed; workflow execution NOT RUN |
+| Gemini CLI | Existing extension files; universal installer does not manage them | Manual/repository integration | NOT VERIFIED |
+| Qwen Code | Existing extension files; universal installer does not manage them | Manual/repository integration | NOT VERIFIED |
 
 Details and evidence: [agent compatibility](AGENT-COMPATIBILITY.md).
 
-Sherpa keeps one shared skill and packages host-specific manifests around it. These manifests establish install formats, not runtime support. Compatibility claims remain NOT VERIFIED until the current host discovers and runs Sherpa.
+`scripts/build-distributions.py` builds the shared skill bundle and client-specific entrypoints from root `SKILL.md`, `commands/manifest.json`, and the top-level resource folders. The installer reports filesystem validation separately from actual client discovery and runtime execution. Compatibility claims remain NOT VERIFIED until the current host discovers and runs Sherpa.
 
-Install from Claude Code with `/plugin marketplace add Anshkaliya18/Sherpa` and `/plugin install sherpa@sherpa`. Gemini CLI and Qwen Code can install this repository with `gemini extensions install https://github.com/Anshkaliya18/Sherpa` and `qwen extensions install https://github.com/Anshkaliya18/Sherpa`. Codex, Gemini CLI, Qwen Code, Kilo Code, and OpenCode can also load `.agents/skills/sherpa/` through the shared Agent Skills directory. See the [agent guide](docs/agents/index.md) for Codex setup and verification limits.
+Install supported clients with `sherpa install --client auto`, or select `claude`, `opencode`, `codex`, or `kilo`. Use `--scope project --project-dir PATH` for a project install. Gemini CLI and Qwen Code extension installation remains manual and is not reported as supported by the universal installer.
 
 Help us verify: install Sherpa on your agent, run `/sherpa status` and `/sherpa next`, and open an issue with your results.
 

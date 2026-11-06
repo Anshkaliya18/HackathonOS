@@ -71,7 +71,7 @@ class NpmInstallerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="sherpa-npm-cli-") as profile:
             version = self.run_npm_cli("--version")
             self.assertEqual(version.returncode, 0, version.stderr)
-            self.assertIn("sherpa 2.0.7", version.stdout)
+            self.assertIn("sherpa 2.0.8", version.stdout)
 
             help_result = self.run_npm_cli("help")
             self.assertEqual(help_result.returncode, 0, help_result.stderr)
@@ -92,7 +92,7 @@ class NpmInstallerTests(unittest.TestCase):
     def test_doctor_is_forwarded_and_reads_manifest(self):
         class Handler(BaseHTTPRequestHandler):
             def do_GET(self):
-                body = json.dumps({"project": "Sherpa", "latest": {"version": "2.0.7"}}).encode()
+                body = json.dumps({"project": "Sherpa", "latest": {"version": "2.0.8"}}).encode()
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")
                 self.send_header("Content-Length", str(len(body)))
@@ -119,7 +119,7 @@ class NpmInstallerTests(unittest.TestCase):
                 server.server_close()
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("=== sherpa doctor ===", result.stdout)
-            self.assertIn("Manifest reachable: yes (latest 2.0.7)", result.stdout)
+            self.assertIn("Manifest reachable: yes (latest 2.0.8)", result.stdout)
 
     def test_migrate_is_forwarded_and_preserves_legacy_state(self):
         with tempfile.TemporaryDirectory(prefix="sherpa-npm-migrate-") as project:
