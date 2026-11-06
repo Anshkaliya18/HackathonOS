@@ -18,13 +18,14 @@
 | Client-aware npm dry-run | PASS | Direct CLI regression test confirmed generated target paths are printed and no destination files are created. |
 | OpenCode live skill discovery | PASS | `opencode debug skill --pure` in an isolated project listed Sherpa. |
 | Codex live skill discovery | PASS | `codex debug prompt-input` emitted valid JSON containing the installed Sherpa skill in an isolated project. |
-| Kilo live skill discovery | PASS, teardown issue | CLI exited successfully and output contained Sherpa. On Windows the test's temporary project remained locked after process exit. Automated test now skips this OS-specific case; no claim of Windows Kilo workflow execution. |
-| Claude live invocation | NOT VERIFIED | `claude -p /sherpa-status` in an isolated project did not return within 60 seconds; no success inferred. |
+| OpenCode command registration | PASS | `opencode debug config --pure` in an isolated project included the generated `sherpa-*` command entries. |
+| Kilo skill and command discovery | PASS, teardown issue | `kilo debug skill --pure` listed Sherpa, and `kilo debug config --pure` included the generated `sherpa-*` workflows. Kilo retained a handle on its Windows project directory after process exit. |
+| Claude skill invocation | BLOCKED by model endpoint | `claude -p /sherpa-help` reached the configured custom provider, which returned HTTP 400: the selected free model is unavailable. A paid model was suggested; it was not used. |
 | PowerShell installer | PASS (filesystem) | Project-local Codex files/resources validated; CLI/runtime labels remained `NOT RUN`. |
 | Shell installer syntax and local install | PASS (syntax/filesystem) | `bash -n`; Git Bash project install into path with spaces succeeded. |
 | Receipt-aware uninstaller wrappers | PASS | PowerShell and Git Bash each removed a temporary Codex install with a path containing spaces. |
 | Linux install/uninstall | NOT RUN | No Linux runtime available. |
-| Claude/Codex live invocation; OpenCode/Kilo command execution | NOT RUN | Requires interactive host behavior; discovery tests are not invocation tests. |
+| Claude/Codex model invocation; OpenCode/Kilo command execution | NOT VERIFIED | Codex model invocation was not run; Claude is blocked by the configured model endpoint. OpenCode/Kilo command files are registered, but their workflow execution was not tested. |
 
 ## Suites
 

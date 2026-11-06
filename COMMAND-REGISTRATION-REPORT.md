@@ -20,8 +20,9 @@ The generated manifest distinguishes workflow implementation, agent skill entryp
 - Generated Codex distribution contains no `commands/*.md` native-command claim.
 - Every generated skill has valid basic Agent Skill metadata and references resources that exist in the packaged shared skill.
 - OpenCode and Kilo CLI skill discovery were attempted independently. This confirms skill discovery only, not command registration.
+- `opencode debug config --pure` and `kilo debug config --pure` loaded the generated command definitions from an isolated project. Kilo's process retained a handle on its project directory after exit on Windows.
 - Clean npm package test executed the packaged CLI installer and verified its generated Codex skills.
 
 ## Known limitations
 
-No interactive command picker or end-to-end command workflow was exercised. The generator currently uses client-specific templates but does not launch a command and inspect its loaded supporting resources in the target application. Kilo argument substitution remains unspecified. Treat command visibility/execution as unverified until client-level acceptance automation covers it.
+No interactive command picker or end-to-end command workflow was exercised. OpenCode/Kilo config inspection establishes loaded command definitions, but not picker rendering or workflow execution. Kilo argument substitution remains unspecified. Treat command execution as unverified until client-level acceptance automation covers it.

@@ -14,6 +14,7 @@
 - Built the 2.0.8 release artifact set twice into isolated temporary directories; all 11 artifact names and SHA-256 hashes matched exactly.
 - `npm run docs:check` passed for 32 Markdown pages and 28 manifest commands; `npm run docs:build` completed successfully.
 - `python tests/run_all.py` passed all five phases (23 test files); installer phase passed with one documented Windows Kilo skip.
+- OpenCode and Kilo CLI config inspection loaded generated native command entries; Codex prompt-input inspection found the generated skills. Claude invocation is blocked by the configured provider returning HTTP 400 for the selected free model. Command execution is not yet accepted.
 - Generated outputs are ignored build products and can be checked with `python scripts/build-distributions.py --check`.
 - Old manually maintained client trees are excluded from generated release archive staging to avoid shipping a second stale distribution source.
 
@@ -26,4 +27,4 @@
 
 ## Gate
 
-Do not publish based on this report alone. Before release, build archives twice from the same revision and compare hashes; extract each supported archive; run installer and uninstall tests on Linux, macOS, and Windows; validate npm tarball contents; and verify release metadata/checksums match the exact tag. Native command invocation still needs client-level acceptance tests.
+Do not publish until the remaining acceptance checks pass. Claude needs a working allowed model endpoint; OpenCode and Kilo workflow execution, Codex model invocation, and Linux/macOS archive/install checks remain unverified. npmjs and GitHub Packages authentication must also be available for publication. After the gate clears, verify the release tag metadata and checksums against the built artifacts.
